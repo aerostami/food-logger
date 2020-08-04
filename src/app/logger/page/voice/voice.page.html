@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>voice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item>
+      <ion-label>Food Name</ion-label>
+    </ion-item> 
+    <div class="form-group">
+
+      <input name="searchTerm" class="form-control"  [(ngModel)]="text"
+      type="text" />
+      
+    </div>
+  
+
+  <ion-button (click)="searchForText()" expand="block" full>Select</ion-button>
+</ion-content>

@@ -1,0 +1,31 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img [src]="r['photo']['thumb']" class="mr-1" style="width: 45px">
+  <ngb-highlight [result]="r.food_name" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="padding-left: 5px">Log using text</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="width: 94%;left:3%;">
+        <ion-item>
+          <ion-label>Food Name</ion-label>
+        </ion-item>
+        <div class="form-group">
+
+          <input placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
+                 [resultTemplate]="rt" [inputFormatter]="formatter" />
+
+        </div>
+
+
+      <ion-button (click)="addItem(newitem.value)" expand="block" full>Next</ion-button>
+
+</ion-content>
+
+

@@ -1,0 +1,8 @@
+{
+  "name": "food-logger",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

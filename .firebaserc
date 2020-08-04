@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "uci-food-logger": {
+      "hosting": {
+        "app": [
+          "uci-food-logger"
+        ]
+      }
+    }
+  }
+}

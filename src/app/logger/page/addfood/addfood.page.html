@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Log food item</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card id="log-card" *ngFor="let food of foods">
+      <div class="img_wrp">
+        <div
+                 *ngFor="let photo of photoService.photos; index as position" >
+          <ion-img *ngIf="food.localPhoto && photo.filepath==food.localPhoto" src="{{ photo.base64 ? photo.base64 : photo.webviewPath }}" style="height: 180px">
+          </ion-img>
+        </div>
+        <img *ngIf="!food.localPhoto" style="display: block; margin: auto" [src]="food.photo.thumb" alt=""/>
+        <ion-fab horizontal="start" vertical="bottom" slot="fixed">
+          <ion-fab-button color="dark" (click)="takePicture(food)">
+            <ion-icon name="camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <ion-fab *ngIf="food.localPhoto" horizontal="start" vertical="top" slot="fixed" style="left:20px;opacity: 80%;">
+          <ion-fab-button color="dark" (click)="removePhoto(food)" style="width: 35px;height: 35px;">
+            <ion-icon name="close"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+
+      <ion-card-header>
+        <ion-card-subtitle>
+          <ion-icon name="pin"></ion-icon>At home</ion-card-subtitle>
+        <ion-card-title>{{ food.food_name }}</ion-card-title>
+      </ion-card-header>
+      <ion-range  [(ngModel)]="food.amount"  min="1" max="10" pin color="secondary">
+        <ion-label slot="start" size="small">Amount</ion-label>
+        <ion-label slot="end" size="small">x2.5</ion-label>
+      </ion-range>
+      <ion-range [(ngModel)]="food.rating" value="{{food.rating}}" (ionChange)="ratingChange(food)" min="1" max="5" pin color="secondary">
+        <ion-label slot="start" size="small">Rating</ion-label>
+        <ion-icon slot="end" name="{{food.ratingEmoji}}" style="color:{{food.ratingColor}};"></ion-icon>
+      </ion-range>
+    <ion-list>
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime [(ngModel)]="food.logDate" display-format="DD, MMMM, YY" picker-format="DD, MMMM, YY"  value="{{food.logDate}}"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Start Time</ion-label>
+        <ion-datetime [(ngModel)]="food.logTime" display-format="h:mm A" picker-format="h:mm A" value="{{food.logTime}}"></ion-datetime>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="add-btn" style="display: none;" (click)="logFood(food, food.amount, food.rating)" expand="block" full >Add</ion-button>
+
+
+  </ion-card>
+  <ion-card-content>
+    <ion-button (click)="closeModalSuccess()" expand="block" full>Add</ion-button>
+  </ion-card-content>
+
+</ion-content>
