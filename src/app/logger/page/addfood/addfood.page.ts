@@ -52,16 +52,16 @@ export class AddfoodPage implements OnInit {
       this.photos = this.photoService.photos;
     });
     this.ratingEmoji = "happy";
-    this.ratingColor ="#ffe234";
+    this.ratingColor ="#b7dd29";
     this.logDate = this.currentDate.toISOString();
     this.logTime = this.currentDate.toISOString();
     for(let i=0; i<this.foods.length; i++){
-      //console.log(this.foods[i]);
+      console.log(this.foods[i]);
       this.foods[i].logDate = this.currentDate.toISOString();
       this.foods[i].logTime = this.currentDate.toISOString();
       this.foods[i].amount = 1;
       this.foods[i].rating = 3;
-      this.foods[i].ratingColor = "#ffe234";
+      this.foods[i].ratingColor = "#b7dd29";
       this.foods[i].ratingEmoji = "happy";
 
     }
@@ -69,7 +69,7 @@ export class AddfoodPage implements OnInit {
 
   public removePhoto(food){
     this.photoService.deletePhoto(food.localPhoto);
-    food.localPhoto = undefined;
+    food.localPhoto = "";
   }
 
   public takePicture(food: any){
@@ -112,13 +112,13 @@ export class AddfoodPage implements OnInit {
       f.ratingColor="#ffa534";
     }else if(f.rating==3){
       f.ratingEmoji="happy";
-      f.ratingColor="#ffe234";
+      f.ratingColor="#b7dd29";
     } else if(f.rating==4){
       f.ratingEmoji="thumbs-up";
-      f.ratingColor="#b7dd29";
+      f.ratingColor="#57e32c";
     } else if(f.rating==5){
       f.ratingEmoji="heart";
-      f.ratingColor="#57e32c";
+      f.ratingColor="#00bd09";
     }
 
   }

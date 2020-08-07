@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'logger/voice',
     loadChildren: () => import('./logger/page/voice/voice.module').then( m => m.VoicePageModule)
   },
+  {
+    path: 'food-edit',
+    loadChildren: () => import('./food-edit/food-edit.module').then( m => m.FoodEditPageModule)
+  },
   
   
 ];

@@ -12,7 +12,7 @@
 
     <ion-item-sliding *ngFor="let food of foods | async">
 
-        <ion-item>
+        <ion-item (click)="openFoodEditModal(food)">
           <ion-avatar slot="start">
             <img [src]="food.food.photo.thumb">
           </ion-avatar>
@@ -58,9 +58,9 @@
         <ion-fab-button color="light" [routerLink]="['/','logger','text']">
           <ion-icon name="text-outline"></ion-icon>
         </ion-fab-button>
-        <!-- <ion-fab-button  color="light">
+        <ion-fab-button  color="light" (click)="barcodescan()">
           <ion-icon name="barcode-outline"></ion-icon>
-        </ion-fab-button> -->
+        </ion-fab-button>
         <ion-fab-button color="light" [routerLink]="['/','logger','voice']">
           <ion-icon name="mic-outline"></ion-icon>
         </ion-fab-button>
