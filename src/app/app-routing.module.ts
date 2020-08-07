@@ -32,8 +32,10 @@ const routes: Routes = [
     path: 'logger/voice',
     loadChildren: () => import('./logger/page/voice/voice.module').then( m => m.VoicePageModule)
   },
-  
-  
+  {
+    path: 'logger/barcode',
+    loadChildren: () => import('./logger/page/barcode/barcode.module').then( m => m.BarcodePageModule)
+  },
 ];
 
 @NgModule({
