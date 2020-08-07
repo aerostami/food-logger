@@ -35,6 +35,9 @@
     "angular-calendar": "^0.28.16",
     "angularx-flatpickr": "^6.3.1",
     "bootstrap": "^4.4.0",
+    "cordova-android": "8.1.0",
+    "cordova-browser": "6.0.0",
+    "cordova-ios": "5.1.1",
     "cordova-plugin-speechrecognition": "^1.2.0",
     "date-fns": "^2.14.0",
     "firebase": "^7.13.1",
@@ -47,6 +50,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+    "@angular-devkit/architect": ">= 0.900 < 0.1100",
     "@angular-devkit/build-angular": "~0.901.5",
     "@angular/cli": "~9.1.5",
     "@angular/compiler": "~9.1.6",
@@ -54,10 +58,21 @@
     "@angular/language-service": "~9.1.6",
     "@capacitor/cli": "2.4.0",
     "@ionic/angular-toolkit": "^2.1.1",
+    "@ionic/lab": "3.1.7",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-ionic-keyboard": "^2.2.0",
+    "cordova-plugin-ionic-webview": "^4.2.1",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "firebase-tools": "^8.7.0",
+    "fuzzy": "^0.1.3",
+    "inquirer": "^6.2.2",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~5.0.0",
@@ -65,22 +80,28 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "open": "^7.0.3",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.8.3",
-    "@angular-devkit/architect": ">= 0.900 < 0.1100",
-    "firebase-tools": "^8.0.0",
-    "fuzzy": "^0.1.3",
-    "inquirer": "^6.2.2",
-    "inquirer-autocomplete-prompt": "^1.0.1",
-    "open": "^7.0.3"
+    "typescript": "~3.8.3"
   },
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
       "phonegap-plugin-barcodescanner": {},
-      "cordova-plugin-speechrecognition": {}
-    }
+      "cordova-plugin-speechrecognition": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-keyboard": {}
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "browser"
+    ]
   }
 }
