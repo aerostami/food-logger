@@ -12,7 +12,7 @@
 
     <ion-item-sliding *ngFor="let food of foods | async">
 
-        <ion-item>
+        <ion-item (click)="openFoodEditModal(food)">
           <ion-avatar slot="start">
             <img [src]="food.food.photo.thumb">
           </ion-avatar>
