@@ -1,28 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Component, OnInit } from "@angular/core";
+import { BarcodeScanner } from "@ionic-native/barcode-scanner/ngx";
 import { HttpRestService } from "../../service/http-rest.service";
-import { FsService } from '../../service/fs.service';
+import { FsService } from "../../service/fs.service";
 
 @Component({
-  selector: 'app-barcode',
-  templateUrl: './barcode.page.html',
-  styleUrls: ['./barcode.page.scss'],
+  selector: "app-barcode",
+  templateUrl: "./barcode.page.html",
+  styleUrls: ["./barcode.page.scss"],
 })
 export class BarcodePage implements OnInit {
   barcodeText: String;
 
-  constructor(private barcodeScanner: BarcodeScanner) {
-    this.barcodeScanner.scan().then(barcodeData => {
-      this.barcodeText = barcodeData.text;
-      // For debugging purposes
-      alert(barcodeData);
-      console.log(barcodeData);
-     }).catch(err => {
-         alert('Error: ' + err + '. Please try it again later.');
-     });
+  constructor(
+    private barcodeScanner: BarcodeScanner,
+    private rest: HttpRestService,
+    private fsService: FsService
+  ) {
+    this.startScanner();
   }
 
-  ngOnInit() {
+  startScanner() {
+    this.barcodeScanner
+      .scan()
+      .then((barcodeData) => {
+        this.barcodeText = barcodeData.text;
+        this.searchForText(this.barcodeText);
+        // For debugging purposes
+        console.log(barcodeData);
+      })
+      .catch((err) => {
+        alert("Error: " + err + ". Please try it again later.");
+      });
   }
 
+  searchForText(barcodeText: String) {
+    console.log(this.rest.getRestNutritionix());
+    this.rest.getRestNutritionix().one('/v2/search/item?upc=' + barcodeText).get('', {
+    }).subscribe(response => {
+      let foods = response.foods;
+
+      foods.forEach(food => {
+        this.fsService.addItem(food);
+      });
+      localStorage.setItem('foods', JSON.stringify(foods));
+    });
+  }
+
+  ngOnInit() {}
 }
