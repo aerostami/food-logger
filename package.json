@@ -34,7 +34,6 @@
     "angular-calendar": "^0.28.16",
     "angularx-flatpickr": "^6.3.1",
     "bootstrap": "^4.4.0",
-    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-speechrecognition": "^1.2.0",
@@ -99,7 +98,6 @@
     },
     "platforms": [
       "ios",
-      "android",
       "browser"
     ]
   }
