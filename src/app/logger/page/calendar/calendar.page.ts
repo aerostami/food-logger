@@ -50,7 +50,7 @@ export class CalendarPage implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
+        this.events = this.events.filter((iEvent) => iEvent.start.getDate() !== event.start.getDate());
         this.fsService.deleteItem(event.id, event.start);
         this.handleEvent('Deleted', event);
 

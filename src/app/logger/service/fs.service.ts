@@ -71,8 +71,8 @@ export class FsService {
       var temp_foods = temp_foodsCollection.valueChanges();
 
       temp_foods.forEach(item => item.forEach(v => {
-            var time = new firestore.Timestamp(v.date.seconds, v.date.nanoseconds);
-            this.FoodStream.next({'food_name': v.food.food_name, 'date': time.toDate(), 'id': v.id});
+            var time = v.date.toDate();
+            this.FoodStream.next({'food_name': v.food.food_name, 'date': time, 'id': v.id});
           })
       );
 
