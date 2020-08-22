@@ -80,10 +80,10 @@ export class FsService {
 
   }
 
+
   public deleteItem(id: any, date: Date) {
     const date_s = formatDate(date, 'yyyyMMdd', 'en');
     const itemDoc = this.fs.doc('users/'+ this.username + '/' + date_s + '/' + id);
-    console.log('users/'+ this.username + '/' + date_s + '/' + id);
     itemDoc.delete();
   }
 
@@ -92,11 +92,21 @@ export class FsService {
     //this.dateCollection.add(data);
   }
 
+  public updateItem(oldid: any, data: any, oldDate: Date, newDate: Date) {
+    const date_s = formatDate(oldDate, 'yyyyMMdd', 'en');
+    const itemDoc = this.fs.doc('users/'+ this.username + '/' + date_s + '/' + oldid);
+
+    itemDoc.delete();
+    this.logfood(data, newDate);
+
+  }
+
   public logfood(data: any, date: Date) {
     var date_s = formatDate(date, 'yyyyMMdd', 'en');
     var dateCollection = this.fs.collection<User>('users/'+ this.username + '/' + date_s);
-    const id = this.fs.createId();
-    const item = { 'id': id, ...data };
+    var id = this.fs.createId();
+
+    var item = { ...data, 'id': id };
     dateCollection.doc(id).set(item);
   }
 

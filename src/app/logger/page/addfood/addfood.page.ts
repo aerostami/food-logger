@@ -23,6 +23,8 @@ export class AddfoodPage implements OnInit {
   public logTime = "";
   public logDate = "";
 
+  public logfoods = [];
+
 
 
   public currentDate = new Date();
@@ -56,13 +58,15 @@ export class AddfoodPage implements OnInit {
     this.logDate = this.currentDate.toISOString();
     this.logTime = this.currentDate.toISOString();
     for(let i=0; i<this.foods.length; i++){
-      console.log(this.foods[i]);
-      this.foods[i].logDate = this.currentDate.toISOString();
-      this.foods[i].logTime = this.currentDate.toISOString();
-      this.foods[i].amount = 1;
-      this.foods[i].rating = 3;
-      this.foods[i].ratingColor = "#b7dd29";
-      this.foods[i].ratingEmoji = "happy";
+      this.logfoods.push({'food': this.foods[i]});
+      
+      this.logfoods[i].logDate = this.currentDate.toISOString();
+      this.logfoods[i].logTime = this.currentDate.toISOString();
+      this.logfoods[i].amount = 5;
+      this.logfoods[i].rating = 3;
+      this.logfoods[i].ratingEmoji = this.ratingEmoji;
+      this.logfoods[i].ratingColor = this.ratingColor;
+      
 
     }
   }
@@ -82,20 +86,16 @@ export class AddfoodPage implements OnInit {
 
   public logFood(food: any, serving: Number, rating: Number) {
     this.timeDate = new Date(food.logTime);
-    this.dateDate = new Date(food.logDate);
-    this.hour = this.timeDate.getHours();
-    this.minute = this.timeDate.getMinutes();
-    this.dateDate.hours = this.hour;
-    this.dateDate.setMinutes(this.minute);
-    this.dateDate.setHours(this.hour);
-    this.time = {hour: this.hour, minute: this.minute};
-    var data = {'food':{...food}, 'amount': serving, 'rating': rating, 'date': this.dateDate, 'time': this.time};
-    const index = this.foods.indexOf(food);
-    console.log(data);
+    var hour = this.timeDate.getHours();
+    var minute = this.timeDate.getMinutes();
+
+    this.time = {hour: hour, minute: minute};
+    var data = {...food,  'date': this.timeDate, 'time': this.time };
+    const index = this.logfoods.indexOf(food);
     this.fsService.logfood(data, this.currentDate);
-    this.foods.splice(index, 1);
-    localStorage.setItem("foods",JSON.stringify(this.foods));
-    if (this.foods.length == 0) {
+    this.logfoods.splice(index, 1);
+    localStorage.setItem("foods",JSON.stringify(this.logfoods));
+    if (this.logfoods.length == 0) {
       this.router.navigate(['/logger/home']);
     }
 

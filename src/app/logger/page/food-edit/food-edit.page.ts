@@ -5,7 +5,10 @@ import {
   NavParams
 } from '@ionic/angular';
 
-import { PhotoService } from '../services/photo.service';
+
+import { PhotoService } from '../../../services/photo.service';
+import { FsService } from '../../service/fs.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-food-edit',
@@ -13,31 +16,43 @@ import { PhotoService } from '../services/photo.service';
   styleUrls: ['./food-edit.page.scss'],
 })
 export class FoodEditPage implements OnInit {
-  public amount: number = 2;
-  public enjoyment: number = 3;
+
+
+  public amount: number;
+  public enjoyment: number;
   ratingEmoji: string;
   ratingColor: string;
   myToastController: ToastController;
+
+  public oldDate: Date;
   public logTime = "";
   public logDate = "";
-  date: Date;
-  food: any;
-  constructor(private modalController: ModalController, private toastController: ToastController,
-              private navParams: NavParams, public photoService: PhotoService) {
+  public date: Date;
+  public food: any;
+
+  constructor(
+    private modalController: ModalController, 
+    private toastController: ToastController,
+    private navParams: NavParams,
+    private fsService: FsService, 
+    public photoService: PhotoService,
+    ) {
     this.myToastController = toastController;
   }
 
   ngOnInit() {
     this.food = this.navParams.data.food;
-    console.table(this.food);
-    console.log(this.food.date);
+
     this.photoService.loadSaved().then( _ => {
       // this.photos = this.photoService.photos;
     });
     this.ratingEmoji = this.food.ratingEmoji;
     this.ratingChange(this.food);
-    this.date = this.food.date;
-    // this.date = new Date();
+    this.date = this.food.date.toDate();
+    this.oldDate = this.food.date.toDate()
+    
+
+
     this.logDate = this.date.toISOString();
     this.logTime = this.date.toISOString();
   }
@@ -89,7 +104,19 @@ export class FoodEditPage implements OnInit {
   }
 
 
-  async  save(food, amount, rating){
+  async  save(){
+    const id = this.food.id;
+
+    var timeDate = new Date(this.logTime);
+    var dateDate = new Date(this.logDate);
+    var hour = timeDate.getHours();
+    var minute = timeDate.getMinutes();
+    dateDate.setMinutes(minute);
+    dateDate.setHours(hour);
+    var time = {'hour': hour, 'minute': minute};
+
+    var data = {...this.food,'date': dateDate, 'time': time};
+    this.fsService.updateItem(id, data, this.oldDate, dateDate);
     // const onClosedData: string = "success";
     await this.modalController.dismiss();
     this.startToast();

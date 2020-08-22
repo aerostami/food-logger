@@ -36,6 +36,10 @@ const routes: Routes = [
     path: 'logger/barcode',
     loadChildren: () => import('./logger/page/barcode/barcode.module').then( m => m.BarcodePageModule)
   },
+  {
+    path: 'food-edit',
+    loadChildren: () => import('./logger/page/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
+  },
 ];
 
 @NgModule({

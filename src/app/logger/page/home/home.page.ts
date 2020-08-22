@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FsService } from '../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import {FoodEditPage} from '../../../food-edit/food-edit.page';
+import {FoodEditPage} from '../food-edit/food-edit.page';
 
 @Component({
   selector: 'app-home',

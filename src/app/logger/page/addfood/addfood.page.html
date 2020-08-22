@@ -9,14 +9,14 @@
 
 <ion-content>
 
-  <ion-card id="log-card" *ngFor="let food of foods">
+  <ion-card id="log-card" *ngFor="let food of logfoods">
       <div class="img_wrp">
         <div
                  *ngFor="let photo of photoService.photos; index as position" >
           <ion-img *ngIf="food.localPhoto && photo.filepath==food.localPhoto" src="{{ photo.base64 ? photo.base64 : photo.webviewPath }}" style="height: 180px">
           </ion-img>
         </div>
-        <img *ngIf="!food.localPhoto" style="display: block; margin: auto" [src]="food.photo.thumb" alt=""/>
+        <img *ngIf="!food.localPhoto" style="display: block; margin: auto" [src]="food.food.photo.thumb" alt=""/>
         <ion-fab horizontal="start" vertical="bottom" slot="fixed">
           <ion-fab-button color="dark" (click)="takePicture(food)">
             <ion-icon name="camera"></ion-icon>
@@ -32,7 +32,7 @@
       <ion-card-header>
         <ion-card-subtitle>
           <ion-icon name="pin"></ion-icon>At home</ion-card-subtitle>
-        <ion-card-title>{{ food.food_name }}</ion-card-title>
+        <ion-card-title>{{ food.food.food_name }}</ion-card-title>
       </ion-card-header>
       <ion-range  [(ngModel)]="food.amount"  min="1" max="10" pin color="secondary">
         <ion-label slot="start" size="small">Amount</ion-label>
