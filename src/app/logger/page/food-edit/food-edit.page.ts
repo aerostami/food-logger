@@ -8,7 +8,6 @@ import {
 
 import { PhotoService } from '../../../services/photo.service';
 import { FsService } from '../../service/fs.service';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-food-edit',

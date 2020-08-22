@@ -64,5 +64,9 @@ export class HomePage implements OnInit {
     console.log(username)
     this.router.navigate(['/','auth','login'])
   }
+  deletefood(id: any, date: any) {
+    var formatted_date = date.toDate();
+    this.fsService.deleteItem(id, formatted_date);
+  }
 
 }

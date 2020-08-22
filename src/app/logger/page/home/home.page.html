@@ -31,8 +31,8 @@
       </ion-item-options>
 
       <ion-item-options side="end">
-        <ion-item-option expandable color="danger">
-          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp"></ion-icon>
+        <ion-item-option expandable color="danger" (click)="deletefood(food.id, food.date)">
+          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
         </ion-item-option>
       </ion-item-options>
       <script></script>
