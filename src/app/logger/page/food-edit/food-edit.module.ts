@@ -17,4 +17,5 @@ import { FoodEditPage } from './food-edit.page';
   ],
   declarations: [FoodEditPage]
 })
-export class FoodEditPageModule {}
+export class FoodEditPageModule {
+}

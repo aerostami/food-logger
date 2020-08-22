@@ -62,8 +62,9 @@ export class AddfoodPage implements OnInit {
       
       this.logfoods[i].logDate = this.currentDate.toISOString();
       this.logfoods[i].logTime = this.currentDate.toISOString();
-      this.logfoods[i].amount = 5;
+      this.logfoods[i].amount = '1.0';
       this.logfoods[i].rating = 3;
+      this.logfoods[i].badgeColor = 'Secondary';
       this.logfoods[i].ratingEmoji = this.ratingEmoji;
       this.logfoods[i].ratingColor = this.ratingColor;
       
@@ -101,7 +102,32 @@ export class AddfoodPage implements OnInit {
 
   }
 
-
+  amountChanged(f){
+    if(f.amount===0.5){
+      f.badgeColor="Warning-tint";
+    }else if(f.amount===1.0){
+      f.badgeColor="Secondary-tint";
+    }else if(f.amount===1.5){
+      f.badgeColor="Secondary";
+    }else if(f.amount===2.0){
+      f.badgeColor="Secondary-shade";
+    }else if(f.amount===2.5){
+      f.badgeColor="Primary";
+    }else if(f.amount===3.0){
+      f.badgeColor="Primary-tint";
+    }else if(f.amount===3.5){
+      f.badgeColor="Primary-shade";
+    }else if(f.amount===4.0){
+      f.badgeColor="Tertiary-tint";
+    }else if(f.amount===4.5){
+      f.badgeColor="Tertiary";
+    }else if(f.amount===5.0){
+      f.badgeColor="Tertiary-shade";
+    }
+    if (f.amount === Math.floor(f.amount)){
+      f.amount = f.amount + '.0';
+    }
+  }
 
   ratingChange(f){
     if(f.rating==1){
