@@ -72,7 +72,8 @@ export class FsService {
 
       temp_foods.forEach(item => item.forEach(v => {
             var time = v.date.toDate();
-            this.FoodStream.next({'food_name': v.food.food_name, 'date': time, 'id': v.id});
+            console.log(v);
+            this.FoodStream.next({'food': v.food.food_name, 'date': time, 'id': v.id});
           })
       );
 

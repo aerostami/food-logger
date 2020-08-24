@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.foods);
+    
     this.foods.subscribe(event => this.foodNum = event.length);
 
   }

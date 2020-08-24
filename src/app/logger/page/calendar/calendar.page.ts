@@ -79,11 +79,13 @@ export class CalendarPage implements OnInit {
         var time = v.date.getHours() + ":" + v.date.getMinutes();
         var event = {
           start: v.date,
-          title: v.food_name + "   " + time,
+          title: v.food + "   " + time,
+          food: v,
           color: colors.blue,
           actions: this.actions,
           id: v.id,
         }
+        console.log(event);
         this.events.push(event);
         
         this.refresh.next();
