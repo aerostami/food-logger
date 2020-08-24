@@ -59,9 +59,7 @@ export class HomePage implements OnInit {
 
   }
   logout() {
-    localStorage.setItem('username', null);
-    const username = localStorage.getItem('username');
-    console.log(username)
+    localStorage.removeItem('username');
     this.router.navigate(['/','auth','login'])
   }
   deletefood(id: any, date: any) {
