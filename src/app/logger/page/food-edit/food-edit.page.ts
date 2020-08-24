@@ -48,9 +48,7 @@ export class FoodEditPage implements OnInit {
     this.ratingEmoji = this.food.ratingEmoji;
     this.ratingChange(this.food);
     this.date = this.food.date.toDate();
-    this.oldDate = this.food.date.toDate()
-    
-
+    this.oldDate = this.food.date.toDate();
 
     this.logDate = this.date.toISOString();
     this.logTime = this.date.toISOString();
@@ -58,6 +56,33 @@ export class FoodEditPage implements OnInit {
   async closeModal() {
     // const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss();
+  }
+
+  amountChanged(f){
+    if(f.amount===0.5){
+      f.badgeColor="Warning-tint";
+    }else if(f.amount===1.0){
+      f.badgeColor="Secondary-tint";
+    }else if(f.amount===1.5){
+      f.badgeColor="Secondary";
+    }else if(f.amount===2.0){
+      f.badgeColor="Secondary-shade";
+    }else if(f.amount===2.5){
+      f.badgeColor="Primary";
+    }else if(f.amount===3.0){
+      f.badgeColor="Primary-tint";
+    }else if(f.amount===3.5){
+      f.badgeColor="Primary-shade";
+    }else if(f.amount===4.0){
+      f.badgeColor="Tertiary-tint";
+    }else if(f.amount===4.5){
+      f.badgeColor="Tertiary";
+    }else if(f.amount===5.0){
+      f.badgeColor="Tertiary-shade";
+    }
+    if (f.amount === Math.floor(f.amount)){
+      f.amount = f.amount + '.0';
+    }
   }
 
   ratingChange(f){
