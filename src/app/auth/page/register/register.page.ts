@@ -25,8 +25,10 @@ export class RegisterPage implements OnInit {
 
 
   public onSubmit() {
+    console.log('test')
     var username = this.username;
     var password = this.password;
+    console.log(username);
     this.as.register(username, password);
 
 
