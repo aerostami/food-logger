@@ -34,6 +34,7 @@ export class FsService {
           this.currentDate = new Date();
           this.dateCollection = this.fs.collection<User>('users/'+ this.username + '/' + this.myDate);
           this.foods = this.dateCollection.valueChanges(['added']);
+          console.log('username: ', this.username)
 
         }
 

@@ -23,8 +23,8 @@ export class AppComponent {
   ) {
     this.initializeApp();
     const username = localStorage.getItem('username');
-    console.log(username);
-    if (username == null) {
+    
+    if (username == null || username == 'null') {
       this.router.navigate(['/auth/login']);
 
     } else {

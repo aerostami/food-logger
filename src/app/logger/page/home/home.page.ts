@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
       private router: Router,
       public modalController: ModalController
   ) {
-    this.foods = this.fsService.getTodayFood();
+    
 
   }
 
@@ -55,13 +55,21 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     
-    this.foods.subscribe(event => this.foodNum = event.length);
 
+  }
+  ionViewDidEnter() {
+    this.foods = this.fsService.getTodayFood();
+    var username = localStorage.getItem('username');
+    console.log('username: ', username)
+    
+    this.foods.subscribe(event => this.foodNum = event.length);
   }
   logout() {
     localStorage.removeItem('username');
     this.router.navigate(['/','auth','login'])
+    
   }
+  
   deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);

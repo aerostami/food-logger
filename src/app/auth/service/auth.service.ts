@@ -33,8 +33,8 @@ export class AuthService {
     this.items.forEach(item => item.forEach(v => {
       if (v.id === username) {
         if(v.password === password) {
-          this.UserLoginStream.next(username);
           localStorage.setItem('username', username);
+          this.UserLoginStream.next(username);
           this.router.navigate(['/logger/home']);
           return true;
         }
@@ -49,5 +49,11 @@ export class AuthService {
   public register (username: string, password: string) {
     const id = username;
     this.usersCollection.doc(id).set({'password': password});
+  }
+
+  public logout () {
+
+    localStorage.removeItem('usermame');
+    this.UserLoginStream.next
   }
 }

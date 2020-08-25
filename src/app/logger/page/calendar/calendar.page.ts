@@ -50,7 +50,7 @@ export class CalendarPage implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent.start.getDate() !== event.start.getDate());
+        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.fsService.deleteItem(event.id, event.start);
         this.handleEvent('Deleted', event);
 
@@ -66,7 +66,11 @@ export class CalendarPage implements OnInit {
   events$: Observable<CalendarEvent<any>[]>;
   test: any;
 
+
+
   public monthFoods = [];
+
+  private ids = [];
 
   constructor(
     private modal: NgbModal,
@@ -76,19 +80,25 @@ export class CalendarPage implements OnInit {
       this.events$ = this.fsService.getFoodStream();
       this.fsService.getFoodStream().subscribe(v => {
         
-        var time = v.date.getHours() + ":" + v.date.getMinutes();
-        var event = {
-          start: v.date,
-          title: v.food + "   " + time,
-          food: v,
-          color: colors.blue,
-          actions: this.actions,
-          id: v.id,
-        }
-        console.log(event);
-        this.events.push(event);
+
+        if (!( this.ids.includes(v.id))) {
         
-        this.refresh.next();
+          this.ids.push(v.id);
+          var time = v.date.getHours() + ":" + v.date.getMinutes();
+          var event = {
+            start: v.date,
+            title: v.food + "   " + time,
+            food: v,
+            color: colors.blue,
+            actions: this.actions,
+            id: v.id,
+          }
+          
+          this.events.push(event);
+          
+          this.refresh.next();
+        }
+        
       })
 
 
