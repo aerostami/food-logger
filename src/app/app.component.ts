@@ -22,16 +22,7 @@ export class AppComponent {
       private router: Router,
   ) {
     this.initializeApp();
-    const username = localStorage.getItem('username');
-    
-    if (username == null || username == 'null') {
-      this.router.navigate(['/auth/login']);
-
-    } else {
-
-      this.router.navigate(['/logger/home']);
-      this.as.pushUser();
-    }
+  
   }
 
   initializeApp() {

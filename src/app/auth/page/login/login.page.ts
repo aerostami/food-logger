@@ -28,6 +28,15 @@ export class LoginPage implements OnInit {
 
     ) { }
   ngOnInit() {
+    const username = localStorage.getItem('username');
+    
+    if (username === null || username === 'null') {
+      this.router.navigate(['/auth/login']);
+
+    } else {
+      this.as.pushUser();
+      
+    }
 
   }
 
@@ -40,7 +49,7 @@ export class LoginPage implements OnInit {
    
     var username = this.username;
     var password = this.password;
-    console.log(username)
+
     this.as.login(username, password);
 
 

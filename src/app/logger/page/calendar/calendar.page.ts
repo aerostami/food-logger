@@ -76,7 +76,16 @@ export class CalendarPage implements OnInit {
     private modal: NgbModal,
     private fsService: FsService,
     ) {
-      this.fsService.getMonthFoods();
+      
+
+
+    }
+
+  ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    this.fsService.getMonthFoods();
       this.events$ = this.fsService.getFoodStream();
       this.fsService.getFoodStream().subscribe(v => {
         
@@ -100,11 +109,6 @@ export class CalendarPage implements OnInit {
         }
         
       })
-
-
-    }
-
-  ngOnInit() {
   }
 
   getEventStream() {
@@ -180,7 +184,7 @@ export class CalendarPage implements OnInit {
   }
 
   public edit(v) {
-    console.log(v);
+
   }
 
 }

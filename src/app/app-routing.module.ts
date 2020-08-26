@@ -40,6 +40,10 @@ const routes: Routes = [
     path: 'food-edit',
     loadChildren: () => import('./logger/page/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
   },
+  {
+    path: 'lazyloading',
+    loadChildren: () => import('./logger/page/lazyloading/lazyloading.module').then( m => m.LazyloadingPageModule)
+  },
 ];
 
 @NgModule({

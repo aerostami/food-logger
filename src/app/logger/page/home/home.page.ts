@@ -3,6 +3,7 @@ import { FsService } from '../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import {FoodEditPage} from '../food-edit/food-edit.page';
+import { AuthService } from 'src/app/auth/service/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ export class HomePage implements OnInit {
   constructor(
       private fsService: FsService,
       private router: Router,
+      private as: AuthService,
       public modalController: ModalController
   ) {
     
@@ -57,16 +59,15 @@ export class HomePage implements OnInit {
     
 
   }
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
-    console.log('username: ', username)
     
     this.foods.subscribe(event => this.foodNum = event.length);
   }
+  
   logout() {
-    localStorage.removeItem('username');
-    this.router.navigate(['/','auth','login'])
+    this.as.logout();
     
   }
   

@@ -42,8 +42,11 @@ export class AuthService {
     }));
   }
   public pushUser () {
+    
     var username = localStorage.getItem('username');
     this.UserLoginStream.next(username);
+    this.router.navigate(['/logger/home']);
+    
   }
 
   public register (username: string, password: string) {
@@ -53,7 +56,7 @@ export class AuthService {
 
   public logout () {
 
-    localStorage.removeItem('usermame');
-    this.UserLoginStream.next
+    localStorage.removeItem('username');
+    this.router.navigate(['/','auth','login'])
   }
 }
