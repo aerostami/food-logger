@@ -31,7 +31,7 @@
 
       <ion-card-header>
         <ion-card-subtitle>
-          <ion-icon name="pin"></ion-icon>At home</ion-card-subtitle>
+          <ion-icon name="pin"></ion-icon>At {{address}}</ion-card-subtitle>
         <ion-card-title>{{ food.food.food_name }}</ion-card-title>
       </ion-card-header>
       <ion-range  [(ngModel)]="food.amount" (ionChange)="amountChanged(food)" min="0.5" max="5.0" step="0.5" color="secondary">

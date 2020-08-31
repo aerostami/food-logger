@@ -41,7 +41,10 @@ export class TextPage implements OnInit {
                 });
 
   }
-
+  selectedItem(item){
+      console.log(item.item.food_name);
+      this.addItem(item.item.food_name);
+  }
   search = (text$: Observable<string>) =>
       text$.pipe(
           debounceTime(300),
