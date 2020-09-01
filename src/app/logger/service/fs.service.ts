@@ -32,15 +32,17 @@ export class FsService {
     this.as.getUserLoginStream().subscribe(v => {
           this.username = v;
           this.currentDate = new Date();
+          this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
           this.dateCollection = this.fs.collection<User>('users/'+ this.username + '/' + this.myDate);
           this.foods = this.dateCollection.valueChanges(['added']);
-          console.log('username: ', this.username)
+          
+
 
         }
 
     );
 
-    this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
+    
 
   }
   public getFoodStream() {
