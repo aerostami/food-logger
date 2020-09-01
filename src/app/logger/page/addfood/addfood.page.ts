@@ -7,6 +7,8 @@ import {
 } from '@ionic/angular';
 
 import { PhotoService } from '../../../services/photo.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 @Component({
   selector: 'app-addfood',
@@ -34,25 +36,57 @@ export class AddfoodPage implements OnInit {
   public foods = [];
   public time = {hour: this.hour, minute: this.minute};
   private timeDate;
+  private lat;
+  private long;
+  private coords;
+  private address;
   private dateDate;
   photos = this.photoService.photos;
   constructor(
     private fsService: FsService,
     private router: Router,
     private toastController: ToastController,
-    public photoService: PhotoService
+    public photoService: PhotoService,
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder
     ) {
     this.foods = JSON.parse(localStorage.getItem("foods"));
     this.myToastController = toastController;
 
   }
 
-
+  updateLocation(){
+    this.geolocation.getCurrentPosition({timeout: 10000, enableHighAccuracy: true}).then((resp) => {
+      this.coords = JSON.parse(JSON.stringify(resp.coords));
+      this.lat = resp.coords.latitude;
+      this.long = resp.coords.longitude;
+      for ( let i = 0; i < this.foods.length; i++){
+        this.logfoods[i].coord = this.coords;
+      }
+      const options: NativeGeocoderOptions = {
+        useLocale: true,
+        maxResults: 5
+      };
+      this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
+          .then((result: NativeGeocoderResult[]) => {
+            // alert(JSON.stringify(result[0]));
+            this.address = JSON.stringify(result[0].thoroughfare + ', ' + result[0].locality + ', ' + result[0].administrativeArea);
+            for ( let i = 0; i < this.foods.length; i++){
+              this.logfoods[i].address = this.address;
+            }
+          } )
+          .catch((error: any) => console.log(error));
+    }).catch((error) => {
+      console.log('Error getting location', error);
+      alert(error);
+    });
+  }
 
   ngOnInit() {
     this.photoService.loadSaved().then( _ => {
       this.photos = this.photoService.photos;
     });
+    this.updateLocation();
     this.ratingEmoji = "happy";
     this.ratingColor ="#b7dd29";
     this.logDate = this.currentDate.toISOString();

@@ -18,7 +18,7 @@
         </ion-item>
         <div class="form-group">
 
-          <input placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
+          <input (selectItem)="selectedItem($event)" placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
                  [resultTemplate]="rt" [inputFormatter]="formatter" />
 
         </div>

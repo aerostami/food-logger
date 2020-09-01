@@ -10,14 +10,16 @@
 <ion-content>
     <ion-item>
       <ion-label>Food Name</ion-label>
-    </ion-item> 
+    </ion-item>
     <div class="form-group">
 
       <input name="searchTerm" class="form-control"  [(ngModel)]="text"
       type="text" />
-      
+
+
     </div>
-  
+    <ion-button (click)="checkPermission()" color="primary"><ion-icon name="mic-outline"></ion-icon></ion-button>
+    {{msg}}
 
   <ion-button (click)="searchForText()" expand="block" full>Select</ion-button>
 </ion-content>

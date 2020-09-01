@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpRestService } from "../../service/http-rest.service";
 import { FsService } from '../../service/fs.service';
+import {SpeechRecognition} from '@ionic-native/speech-recognition/ngx';
+import {subscribeOn} from "rxjs/operators";
 
 @Component({
   selector: 'app-voice',
@@ -12,14 +14,52 @@ export class VoicePage implements OnInit {
   text: string;
   foods: any;
   hasPermission: boolean;
+  msg: string;
 
   constructor(
       private rest: HttpRestService,
       private fsService: FsService,
+      private speechRecognition: SpeechRecognition
   ) {
   }
 
+  checkPermission(){
+    this.speechRecognition.hasPermission().then((permission) => {
+      if (permission){
+        // alert('already have permission!');
+        this.StartListening();
+      }else{
+        // alert('not have permission of speech recognition!');
+        this.requestPermission();
+        this.msg = 'Please provide the permission for speech recognition feature to work.';
+      }
+    }, (err) => {
+        alert(JSON.stringify(err));
+        this.msg = 'Speech recognition is not available.';
+    });
+  }
+
+  requestPermission(){
+    this.speechRecognition.requestPermission().then((data) => {
+      // alert(JSON.stringify(data));
+        this.StartListening();
+    }, (err) => {
+      // alert(JSON.stringify(err));
+    });
+  }
+
+  StartListening(){
+    this.speechRecognition.startListening().subscribe((speeches) => {
+      this.text = speeches[0];
+      this.searchForText();
+    }, (err) => {
+      alert(JSON.stringify(err));
+    });
+  }
+
   ngOnInit() {
+    this.checkPermission();
+    this.msg = '';
     /*
     this.hasPermission = false;
     this.speechRecognition.isRecognitionAvailable()
