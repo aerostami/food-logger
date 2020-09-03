@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsService } from '../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import {FoodEditPage} from '../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
+
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,12 @@ import { AuthService } from 'src/app/auth/service/auth.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild('barChart') barChart;
 
+  bars: any;
+  colorArray: any;
+
+  
   public logtime;
   public foods;
   public foodNum: number;
@@ -64,6 +71,8 @@ export class HomePage implements OnInit {
     var username = localStorage.getItem('username');
     
     this.foods.subscribe(event => this.foodNum = event.length);
+    this.createBarChart();
+    
   }
   
   logout() {
@@ -74,6 +83,31 @@ export class HomePage implements OnInit {
   deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);
+  }
+
+  createBarChart() {
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['calories', 'salt', 'suger'],
+        datasets: [{
+          label: 'g',
+          data: [100, 50, 30],
+          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
   }
 
 }

@@ -10,7 +10,15 @@
 
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
+  <ion-card>
+    
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
+  
   <ion-list>
     <ion-list-header>
       Today's Food Log
@@ -55,6 +63,7 @@
       {{foods.length}}
     </ion-label>
   </div>
+  
 
     <ion-fab horizontal="end" vertical="bottom" slot="fixed">
       <ion-fab-button>

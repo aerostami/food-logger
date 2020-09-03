@@ -30,10 +30,10 @@ export class TextPage implements OnInit {
   }
 
   addItem(term: string) {
-    this.rest.getRestNutritionix().all('/v2/search/')
-                  .get('instant', {query: term}).subscribe(response => {
-
-                    this.data = response['common'][0];
+    this.rest.getRestNutritionix().all('/v2/natural/').one('nutrients')
+                  .post('', {query: term}).subscribe(response => {
+                    console.log(response);
+                    this.data = response.foods[0];
                     this.fsService.addItem(this.data);
                     var foodArray = [];
                     foodArray.push({...this.data});
