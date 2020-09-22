@@ -22,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,6 +41,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,

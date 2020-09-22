@@ -8,6 +8,9 @@ import {
 
 import { PhotoService } from '../../../services/photo.service';
 import { FsService } from '../../service/fs.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { MapboxServiceService, Feature } from '../../../services/mapbox-service.service';
 
 @Component({
   selector: 'app-food-edit',
@@ -28,6 +31,9 @@ export class FoodEditPage implements OnInit {
   public logDate = "";
   public date: Date;
   public food: any;
+  addresses: string[] = [];
+  selectedAddress = null;
+  private justSelectedAddress = false;
 
   constructor(
     private modalController: ModalController, 
@@ -35,13 +41,16 @@ export class FoodEditPage implements OnInit {
     private navParams: NavParams,
     private fsService: FsService, 
     public photoService: PhotoService,
+    private geolocation: Geolocation,
+    private nativeGeocoder: NativeGeocoder,
+    private mapboxService: MapboxServiceService
     ) {
     this.myToastController = toastController;
   }
 
   ngOnInit() {
     this.food = this.navParams.data.food;
-
+    this.selectedAddress = this.food.address;
     this.photoService.loadSaved().then( _ => {
       // this.photos = this.photoService.photos;
     });
@@ -57,6 +66,29 @@ export class FoodEditPage implements OnInit {
     // const onClosedData: string = "Wrapped Up!";
     await this.modalController.dismiss();
   }
+  search(event: any) {
+    if (this.justSelectedAddress){
+      this.justSelectedAddress = false;
+      return;
+    }
+    const searchTerm = event.target.value.toLowerCase();
+    if (searchTerm && searchTerm.length > 0) {
+      this.mapboxService
+          .search_word(searchTerm)
+          .subscribe((features: Feature[]) => {
+            this.addresses = features.map(feat => feat.place_name);
+          });
+    } else {
+      this.addresses = [];
+    }
+  }
+  onSelect(address: string, food) {
+    this.selectedAddress = address;
+    food.address = address;
+    this.justSelectedAddress=true;
+    this.addresses = [];
+  }
+
 
   amountChanged(f){
     if(f.amount===0.5){

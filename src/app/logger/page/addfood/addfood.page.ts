@@ -9,6 +9,7 @@ import {
 import { PhotoService } from '../../../services/photo.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { MapboxServiceService, Feature } from '../../../services/mapbox-service.service';
 
 @Component({
   selector: 'app-addfood',
@@ -40,7 +41,10 @@ export class AddfoodPage implements OnInit {
   private long;
   private coords;
   private address;
+  addresses: string[] = [];
+  selectedAddress = null;
   private dateDate;
+  private justSelectedAddress = false;
   photos = this.photoService.photos;
   constructor(
     private fsService: FsService,
@@ -48,11 +52,35 @@ export class AddfoodPage implements OnInit {
     private toastController: ToastController,
     public photoService: PhotoService,
     private geolocation: Geolocation,
-    private nativeGeocoder: NativeGeocoder
+    private nativeGeocoder: NativeGeocoder,
+    private mapboxService: MapboxServiceService
     ) {
     this.foods = JSON.parse(localStorage.getItem("foods"));
     this.myToastController = toastController;
 
+  }
+  search(event: any) {
+    if (this.justSelectedAddress){
+      this.justSelectedAddress = false;
+      return;
+    }
+    const searchTerm = event.target.value.toLowerCase();
+    if (searchTerm && searchTerm.length > 0) {
+      this.mapboxService
+          .search_word(searchTerm)
+          .subscribe((features: Feature[]) => {
+            this.addresses = features.map(feat => feat.place_name);
+          });
+    } else {
+      this.addresses = [];
+    }
+  }
+
+  onSelect(address: string, food) {
+    this.selectedAddress = address;
+    food.address = address;
+    this.justSelectedAddress=true;
+    this.addresses = [];
   }
 
   updateLocation(){
@@ -67,10 +95,11 @@ export class AddfoodPage implements OnInit {
         useLocale: true,
         maxResults: 5
       };
+      this.selectedAddress = 'home';
       this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
           .then((result: NativeGeocoderResult[]) => {
             // alert(JSON.stringify(result[0]));
-            this.address = JSON.stringify(result[0].thoroughfare + ', ' + result[0].locality + ', ' + result[0].administrativeArea);
+            this.selectedAddress = JSON.stringify(result[0].thoroughfare + ', ' + result[0].locality + ', ' + result[0].administrativeArea);
             for ( let i = 0; i < this.foods.length; i++){
               this.logfoods[i].address = this.address;
             }

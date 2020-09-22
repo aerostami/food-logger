@@ -12,7 +12,10 @@ export const environment = {
     storageBucket: "uci-food-logger.appspot.com",
     messagingSenderId: "1037183118187",
     appId: "1:1037183118187:web:b12c64c6c412ccb1cf7a2e",
-    measurementId: "G-HL4NGHDV3X"
+    measurementId: "G-HL4NGHDV3X",
+  },
+  mapbox: {
+    accessToken: 'pk.eyJ1IjoiYWVyb3N0YW1pIiwiYSI6ImNqMzQ3cTZqMjAwMjUzM29jbnd1Y2FqYnIifQ._oLFWriCyDLJC62mvt8UQw'
   }
 };
 
