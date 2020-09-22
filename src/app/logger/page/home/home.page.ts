@@ -7,18 +7,26 @@ import { AuthService } from 'src/app/auth/service/auth.service';
 
 import { Chart } from 'chart.js';
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('barChart') barChart;
+  @ViewChild('pieChart') pieChart;
 
-  bars: any;
+  pie: any;
   colorArray: any;
 
-  
+  calories = 0;
+  suger = 0;
+  protein = 0;
+  sodium = 0;
+  fat = 0;
+  carbohydrate = 0;
+
   public logtime;
   public foods;
   public foodNum: number;
@@ -70,8 +78,20 @@ export class HomePage implements OnInit {
     this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
     
-    this.foods.subscribe(event => this.foodNum = event.length);
-    this.createBarChart();
+    this.foods.subscribe(event => {
+      this.foodNum = event.length;
+      event.forEach(element => {
+        this.calories = this.calories + element.food.nf_calories * parseInt(element.amount);
+        this.sodium = this.sodium + element.food.nf_sodium * parseInt(element.amount);
+        this.protein = this.protein + element.food.nf_protein * parseInt(element.amount)
+        this.fat = this.fat + element.food.nf_total_fat
+        this.carbohydrate = this.carbohydrate + element.food.nf_total_carbohydrate
+
+      });
+      this.createBarChart();
+    });
+    
+    
     
   }
   
@@ -86,28 +106,33 @@ export class HomePage implements OnInit {
   }
 
   createBarChart() {
-    this.bars = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
+    this.pie = new Chart(this.pieChart.nativeElement, {
+      type: 'pie',
       data: {
-        labels: ['calories', 'salt', 'suger'],
+        labels: ['protein', 'fat', 'carbohydrates'],
         datasets: [{
           label: 'g',
-          data: [100, 50, 30],
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          borderWidth: 1
+          data: [this.protein, this.fat, this.carbohydrate],
+          backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+          ]
         }]
       },
       options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
+        
       }
     });
+  }
+
+  calculateCalories(food:any) {
+    this.calories =  food.food.nf_calories * parseInt(food.amount)
+    return this.calories 
   }
 
 }

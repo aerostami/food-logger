@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'calendar',
         loadChildren: () => import('../calendar/calendar.module').then( m => m.CalendarPageModule)
+      },
+      {
+        path: 'graph',
+        loadChildren: () => import('../graph/graph.module').then( m => m.GraphPageModule)
       }
     ]
   }

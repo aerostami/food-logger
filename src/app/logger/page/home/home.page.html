@@ -15,13 +15,14 @@
   <ion-card>
     
     <ion-card-content>
-      <canvas #barChart></canvas>
+      <canvas #pieChart></canvas>
     </ion-card-content>
   </ion-card>
   
   <ion-list>
     <ion-list-header>
       Today's Food Log
+      
     </ion-list-header>
 
     <ion-item-sliding *ngFor="let food of foods | async">
@@ -32,6 +33,7 @@
           </ion-avatar>
           <ion-label>
             <h2>{{ food.food.food_name}}</h2>
+            <h1>Calories:{{ calculateCalories(food)}} J</h1>
             <p>At {{food.address}}</p>
           </ion-label>
           <ion-badge color="light" slot="end">{{ food.time.hour}} : {{food.time.minute}}</ion-badge>

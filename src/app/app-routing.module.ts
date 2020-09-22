@@ -44,6 +44,10 @@ const routes: Routes = [
     path: 'lazyloading',
     loadChildren: () => import('./logger/page/lazyloading/lazyloading.module').then( m => m.LazyloadingPageModule)
   },
+  {
+    path: 'graph',
+    loadChildren: () => import('./logger/page/graph/graph.module').then( m => m.GraphPageModule)
+  },
 ];
 
 @NgModule({
