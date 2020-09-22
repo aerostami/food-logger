@@ -12,7 +12,12 @@
 
 
 <ion-content [fullscreen]="true">
-
+  <ion-card>
+    
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
   
   <ion-list>
     <ion-list-header>
@@ -58,14 +63,7 @@
       {{foods.length}}
     </ion-label>
   </div>
-
-
-    <ion-card-content>
-      <canvas #pieChart></canvas>
-    </ion-card-content>
-    <ion-card-content>
-      <canvas #doughnutChart></canvas>
-    </ion-card-content>
+  
 
     <ion-fab horizontal="end" vertical="bottom" slot="fixed">
       <ion-fab-button>

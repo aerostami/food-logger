@@ -13,11 +13,9 @@ import { Chart } from 'chart.js';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('pieChart') pieChart;
-  @ViewChild('doughnutChart') doughnutChart;
+  @ViewChild('barChart') barChart;
 
   bars: any;
-  doughnuts: any;
   colorArray: any;
 
   
@@ -73,8 +71,7 @@ export class HomePage implements OnInit {
     var username = localStorage.getItem('username');
     
     this.foods.subscribe(event => this.foodNum = event.length);
-    this.createPieChart();
-    this.createDoughnutChart();
+    this.createBarChart();
     
   }
   
@@ -88,67 +85,26 @@ export class HomePage implements OnInit {
     this.fsService.deleteItem(id, formatted_date);
   }
 
-  createDoughnutChart(){
-    this.doughnuts = new Chart(this.doughnutChart.nativeElement, {
-      type: 'doughnut',
+  createBarChart() {
+    this.bars = new Chart(this.barChart.nativeElement, {
+      type: 'bar',
       data: {
+        labels: ['calories', 'salt', 'suger'],
         datasets: [{
-          label: 'PM',
-          backgroundColor: [
-            'rgb(220,220,200)',
-            'rgb(0,189,9)',
-            'rgb(220,131,121)'],
-          data: [8, 1 , 3],// array should have same number of elements as number of dataset
-          // borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          // borderWidth: 1
-        }, {
-          data: [1, 6, 1, 4],
-          backgroundColor: [
-            'rgb(0,183,218)',
-            'rgb(220,131,121)',
-            'rgb(237,0,81)',
-            'rgb(220,220,200)',
-          ],
-          label: 'AM',
+          label: 'g',
+          data: [100, 50, 30],
+          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
+          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
+          borderWidth: 1
         }]
       },
       options: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Food intake time distribution'
-        }
-      }
-    });
-  }
-
-  createPieChart() {
-    this.bars = new Chart(this.pieChart.nativeElement, {
-      type: 'pie',
-      data: {
-        labels: ['Carb', 'Protein', 'Sugar', 'Fat', 'Fiber'],
-        datasets: [{
-          label: 'Today intake composition',
-          data: [100, 50, 20, 30, 15],
-          backgroundColor: [
-            'rgb(0,183,218)',
-            'rgb(243,220,0)',
-            'rgb(242,133,0)',
-            'rgb(237,0,81)',
-            'rgb(38, 194, 129)',
-          ], // array should have same number of elements as number of dataset
-          // borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          // borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        legend: {
-          position: 'right',
-        },
-        title: {
-          display: true,
-          text: 'Daily Nutrition Breakdown'
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
         }
       }
     });
