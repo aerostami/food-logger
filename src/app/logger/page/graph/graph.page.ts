@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-graph',
@@ -6,7 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./graph.page.scss'],
 })
 export class GraphPage implements OnInit {
+  @ViewChild('barChart') barChart;
+  @ViewChild('doughnutChart') doughnutChart;
 
+  bars: any;
+  doughnut: any;
   constructor() { }
 
   ngOnInit() {
