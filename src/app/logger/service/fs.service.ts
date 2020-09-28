@@ -62,7 +62,16 @@ export class FsService {
     var hour = this.currentDate.getHours();
     return hour;
   }
+
+  private updateDate(){
+    this.currentDate = new Date();
+    this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
+    this.dateCollection = this.fs.collection<User>('users/'+ this.username + '/' + this.myDate);
+    this.foods = this.dateCollection.valueChanges(['added']);
+  }
+
   public getTodayFood() {
+    this.updateDate();
     return this.foods;
   }
 

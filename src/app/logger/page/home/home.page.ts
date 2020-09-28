@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
   labelDistDoughPM = [];
   timeDistAM = [];
   colorDistAM = [];
+  distMsgs = ['Daily intake time distribution'];
   labelDistDoughAM = [];
 
   public totalCals = 0;
@@ -92,7 +93,8 @@ export class HomePage implements OnInit {
       this.labelDistDoughAM.length = 0;
       this.totalCals = 0;
       const dur = 0.5;
-
+      console.log('events');
+      console.log(event);
       for (let i = 0; i < event.length; i++) {
         let theTime = event[i].time.hour + event[i].time.minute / 60;
         if (12 > theTime && theTime > 12 - dur){
@@ -134,7 +136,7 @@ export class HomePage implements OnInit {
       curTime = +curTime.toFixed(2);
       //
       //
-
+      this.distMsgs = ['Daily intake time distribution'];
       // AM:
       let lastTime = -0.5;
       for (let i = 0; i < times.length; i++) {
@@ -145,13 +147,27 @@ export class HomePage implements OnInit {
             }
             const diff = +(times[i].time - lastTime).toFixed(2);
             this.timeDistAM.push(diff);
-            if (!startedSleep){
+            if (!startedSleep){ // Go to bed!
               this.colorDistAM.push('rgb(197,199,192)');
               this.labelDistDoughAM.push('Digesting');
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('Go to bed!');
+                }else {
+                  this.distMsgs[1] = 'Go to bed!';
+                }
+              }
             } else{
               this.colorDistAM.push('rgb(143,210,132)');
               this.labelDistDoughAM.push('Fasting');
               startedSleep = false;
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('Good morning!');
+                }else {
+                  this.distMsgs[1] = 'Good morning!';
+                }
+              }
             }
 
             this.timeDistAM.push(dur);
@@ -188,10 +204,13 @@ export class HomePage implements OnInit {
       //
       //
       // PM
+      console.log('##');
+      console.log(this.timeDistAM);
       let isFasting = false;
       if (1 >= this.timeDistAM.length){
         isFasting = true;
       }
+      console.log(isFasting);
       lastTime = 11.5;
       for (let i = 0; i < times.length; i++) {
         if (times[i].time >= 12 && times[i].time <= curTime) { // if PM
@@ -206,9 +225,23 @@ export class HomePage implements OnInit {
               this.colorDistPM.push('rgb(143,210,132)');
               this.labelDistDoughPM.push('Fasting');
               isFasting = false;
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('Busy day hah?');
+                }else {
+                  this.distMsgs[1] = 'Busy day hah?';
+                }
+              }
             }else{
               this.colorDistPM.push('rgb(197,199,192)');
               this.labelDistDoughPM.push('Digesting');
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('That ' + times[i].food + ' was yum!');
+                }else {
+                  this.distMsgs[1] = 'That ' + times[i].food + ' was yum!';
+                }
+              }
             }
 
             // new item
@@ -222,18 +255,19 @@ export class HomePage implements OnInit {
           lastTime = times[i].time;
         }
       }
-      if ((24 - lastTime) > dur){
+      if ((24 - lastTime) > dur && lastTime !== 11.5){
         let end = 24;
         if (24 > curTime){
           end = curTime;
         }
         this.timeDistPM.push( +(end - lastTime).toFixed(2));
-        if (lateMeal){
-          this.colorDistPM.push('rgb(197,199,192)');
-          this.labelDistDoughPM.push('Digesting');
-        } else{
+        if (this.timeDistPM.length <= 1 && (this.timeDistAM.length <= 1 || (this.timeDistAM.length <= 2 && lateMeal) )){
           this.colorDistPM.push('rgb(143,210,132)');
           this.labelDistDoughPM.push('Fasting');
+        } else{
+          this.colorDistPM.push('rgb(197,199,192)');
+          this.labelDistDoughPM.push('Digesting');
+
         }
         if (end !== 24){
           this.timeDistPM.push( +(24 - end).toFixed(2));
@@ -297,7 +331,7 @@ export class HomePage implements OnInit {
         },
         title: {
           display: true,
-          text: 'Daily intake time distribution',
+          text: this.distMsgs,
           position: 'bottom'
         },
         animation: {
