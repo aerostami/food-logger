@@ -48,6 +48,11 @@ const routes: Routes = [
     path: 'graph',
     loadChildren: () => import('./logger/page/graph/graph.module').then( m => m.GraphPageModule)
   },
+  {
+    path: 'admin-panel',
+    loadChildren: () => import('./logger/page/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+  },
+  
 ];
 
 @NgModule({
