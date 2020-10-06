@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFireAuth } from "@angular/fire/auth";
+import { auth } from 'firebase/app';
 import { User } from '../../types/User.interface'
 import { Observable, Subject} from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
@@ -16,6 +18,9 @@ export class AuthService {
   constructor(
     private fs: AngularFirestore,
     private router: Router,
+    private afAuth: AngularFireAuth,
+    private ngZone: NgZone,
+
     ) {
     this.usersCollection = this.fs.collection('users')
     this.items = this.usersCollection.snapshotChanges().pipe(
@@ -58,5 +63,62 @@ export class AuthService {
 
     localStorage.removeItem('username');
     this.router.navigate(['/','auth','login'])
+  }
+
+  public SignIn(email, password) {
+    return this.afAuth.signInWithEmailAndPassword(email, password)
+    .then((result) => {
+      
+      this.ngZone.run(() => {
+        this.router.navigate(['/logger/home']);
+      });
+      this.SetUserData(result.user);
+    })
+  }
+
+  
+  public SignUp(email, password) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password)
+    .then((result) => {
+
+      this.SetUserData(result.user);
+    })
+  }
+
+  
+  public GoogleAuth() {
+    return this.AuthLogin(new auth.GoogleAuthProvider());
+  }
+
+  public AuthLogin(provider) {
+    return this.afAuth.signInWithPopup(provider)
+    .then((result) => {
+
+      
+      this.SetUserData(result.user);
+      this.ngZone.run(() => {
+        this.router.navigate(['/logger/home']);
+      })
+    }).catch((error) => {
+      window.alert(error)
+    })
+  }
+
+  public SetUserData(user) {
+    const userRef: AngularFirestoreDocument<any> = this.fs.doc(`users/${user.uid}`);
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+      userInfo: null,
+      isUserInfoLogged: false,
+    };
+    localStorage.setItem('username', user.uid);
+    this.UserLoginStream.next(user.uid);
+    return userRef.set(userData, {
+      merge: true
+    })
   }
 }

@@ -24,6 +24,10 @@ const routes: Routes = [
       {
         path: 'graph',
         loadChildren: () => import('../graph/graph.module').then( m => m.GraphPageModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../admin-panel/admin-panel-routing.module').then( m => m.AdminPanelPageRoutingModule)
       }
     ]
   }
