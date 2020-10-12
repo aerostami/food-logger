@@ -79,11 +79,11 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     var userid = localStorage.getItem('username');
-    console.log('userid', userid)
+
     this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
     this.fsService.getUserInfo().subscribe((result)=>{
-      if (result.isUserInfoLogged == undefined ||  result.isUserInfoLogged == false ) {
+      if ( result.isUserInfoLogged == undefined ) {
         this.router.navigate(['/user-info'])
       } 
     })
@@ -388,6 +388,10 @@ export class HomePage implements OnInit {
 
   public reload() {
     location.reload();
+  }
+
+  public logout() {
+    this.as.logout();
   }
 
 }

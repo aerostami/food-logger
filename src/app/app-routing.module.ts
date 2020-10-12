@@ -48,11 +48,23 @@ const routes: Routes = [
     path: 'graph',
     loadChildren: () => import('./logger/page/graph/graph.module').then( m => m.GraphPageModule)
   },
+  
   {
-    path: 'admin-panel',
+    path: 'user-info',
+    loadChildren: () => import('./logger/page/user-info/user-info.module').then( m => m.UserInfoPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./logger/page/home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./logger/page/calendar/calendar.module').then( m => m.CalendarPageModule)
+  },
+  {
+    path: 'adminpanel',
     loadChildren: () => import('./logger/page/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   },
-  
 ];
 
 @NgModule({

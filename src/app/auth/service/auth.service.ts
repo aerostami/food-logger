@@ -112,8 +112,7 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      userInfo: null,
-      isUserInfoLogged: false,
+      
     };
     localStorage.setItem('username', user.uid);
     this.UserLoginStream.next(user.uid);

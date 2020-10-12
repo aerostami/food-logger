@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FsService } from '../../service/fs.service'
+import { AuthService } from 'src/app/auth/service/auth.service';
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.page.html',
@@ -14,7 +15,8 @@ export class UserInfoPage implements OnInit {
   public phoneNumber;
 
   constructor(
-    private fsService: FsService
+    private fsService: FsService,
+    private as: AuthService,
   ) { }
 
   ngOnInit() {
@@ -32,6 +34,10 @@ export class UserInfoPage implements OnInit {
       isUserInfoLogged: true
     }
     this.fsService.logUserInfo(data);
-  }
+}
+public logout() {
+  this.as.logout();
+}
+
 
 }
