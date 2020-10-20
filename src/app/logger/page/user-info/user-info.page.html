@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>userInfo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Log Out</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form (ngSubmit)='logForm()'>
+    <ion-item>
+      <ion-label> Name</ion-label>
+      <ion-input slot='end' [(ngModel)]='name' name='name'requried></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Height</ion-label>
+      <ion-input slot='end' [(ngModel)]='height' name='height'requried></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Weight</ion-label>
+      <ion-input slot='end' [(ngModel)]='weight' name='weight'requried></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Age</ion-label>
+      <ion-input slot='end' [(ngModel)]='age' name='age'requried></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Gender</ion-label>
+      <ion-input slot='end'[(ngModel)]='gender' name='gender' required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label> Phone Number</ion-label>
+      <ion-input slot='end' [(ngModel)]='phoneNumber' name='phonNumber' required></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Next</button>
+  </form>
+</ion-content>

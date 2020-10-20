@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Home</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">Log Out</ion-button>
-    </ion-buttons>
+    
   </ion-toolbar>
 
   
@@ -67,17 +65,17 @@
       {{foods.length}}
     </ion-label>
   </div>
-
+  
   <ion-card>
-    <ion-card-content *ngIf="foodNum!=0">
-      <canvas #doughnutChart></canvas>
+    <ion-card-content >
+      <canvas id = "doughnutChart"></canvas>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-content *ngIf="foodNum!=0">
-        <canvas #barChart ></canvas>
-      </ion-card-content>
+    <ion-card-content >
+        <canvas id = "barChart" ></canvas>
+    </ion-card-content>
   </ion-card>
 
 

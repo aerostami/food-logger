@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsService } from '../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import {FoodEditPage} from '../food-edit/food-edit.page';
+import { FoodEditPage } from '../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
 
@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
 
   bars: any;
   doughnut: any;
+
   colorArray: any;
   nutData = [0, 0, 0, 0];
   timeDistPM = [];
@@ -72,15 +73,27 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('init');
 
   }
 
 
   ionViewWillEnter() {
+    var userid = localStorage.getItem('username');
+
     this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
+    this.fsService.getUserInfo().subscribe((result)=>{
+      if ( result.isUserInfoLogged == undefined ) {
+        this.router.navigate(['/user-info'])
+      } 
+    })
+    this.makeChart();
+    
+   
 
+  }
+
+  public makeChart() {
     this.foods.subscribe(event => {
       let times = [];
       this.foodNum = event.length;
@@ -93,8 +106,8 @@ export class HomePage implements OnInit {
       this.labelDistDoughAM.length = 0;
       this.totalCals = 0;
       const dur = 0.5;
-      console.log('events');
-      console.log(event);
+      // console.log('events');
+      // console.log(event);
       for (let i = 0; i < event.length; i++) {
         let theTime = event[i].time.hour + event[i].time.minute / 60;
         if (12 > theTime && theTime > 12 - dur){
@@ -130,7 +143,7 @@ export class HomePage implements OnInit {
         lateMeal = true;
         startedSleep = false;
       }
-      console.log(times);
+      // console.log(times);
       const currentDate = new Date();
       let curTime = currentDate.getHours() + currentDate.getMinutes() / 60;
       curTime = +curTime.toFixed(2);
@@ -203,14 +216,13 @@ export class HomePage implements OnInit {
       }
       //
       //
-      // PM
-      console.log('##');
-      console.log(this.timeDistAM);
+      // console.log('##');
+      // console.log(this.timeDistAM);
       let isFasting = false;
       if (1 >= this.timeDistAM.length){
         isFasting = true;
       }
-      console.log(isFasting);
+      // console.log(isFasting);
       lastTime = 11.5;
       for (let i = 0; i < times.length; i++) {
         if (times[i].time >= 12 && times[i].time <= curTime) { // if PM
@@ -276,12 +288,13 @@ export class HomePage implements OnInit {
         }
 
       }
-      //
-      //
+      
+      
       this.createBarChart();
       this.createDoughnutChart();
     });
   }
+  
   refresh(event){
     this.ionViewWillEnter();
     setTimeout(() => {
@@ -289,18 +302,18 @@ export class HomePage implements OnInit {
       event.target.complete();
     }, 2000);
   }
-  logout() {
-    this.as.logout();
-    
-  }
+  
   
   deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);
   }
 
+  
+
   createDoughnutChart(){
-    this.doughnut = new Chart(this.doughnutChart.nativeElement, {
+    var doughnut = document.getElementById('doughnutChart');
+    this.doughnut = new Chart(doughnut, {
       type: 'doughnut',
       data: {
         datasets: [{
@@ -343,7 +356,8 @@ export class HomePage implements OnInit {
   }
 
   createBarChart() {
-    this.bars = new Chart(this.barChart.nativeElement, {
+    var bar = document.getElementById('barChart');
+    this.bars = new Chart(bar, {
       type: 'pie',
       data: {
         labels: ['protein', 'sugar', 'carb', 'fat'],
@@ -370,6 +384,14 @@ export class HomePage implements OnInit {
         }
       }
     });
+  }
+
+  public reload() {
+    location.reload();
+  }
+
+  public logout() {
+    this.as.logout();
   }
 
 }

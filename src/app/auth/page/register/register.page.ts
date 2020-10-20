@@ -8,7 +8,7 @@ import { AuthService } from '../../service/auth.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  public username: string;
+  public email: string;
   public password: string;
   public registerForm: FormGroup;
   constructor(
@@ -26,10 +26,10 @@ export class RegisterPage implements OnInit {
 
   public onSubmit() {
 
-    var username = this.username;
+    var email = this.email;
     var password = this.password;
 
-    this.as.register(username, password);
+    this.as.SignUp(email, password);
 
 
   }
