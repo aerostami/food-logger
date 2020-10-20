@@ -30,8 +30,9 @@
       </div>
 
       <ion-card-header>
-<!--        <ion-card-subtitle>-->
-<!--          <ion-icon name="pin"></ion-icon>At {{address}}</ion-card-subtitle>-->
+        <ion-card-subtitle>
+          <ion-icon name="pin"></ion-icon>At {{address}}</ion-card-subtitle>
+
         <ion-searchbar searchIcon="pin-outline" debounce=500 (ionChange)="search($event)" [value]="selectedAddress"></ion-searchbar>
         <div style="position: absolute; width: 100%; z-index: 999;">
           <ion-list lines="none" *ngIf="addresses.length > 0">
