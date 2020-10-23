@@ -46,6 +46,7 @@ export class AddfoodPage implements OnInit {
   private dateDate;
   private justSelectedAddress = true;
   photos = this.photoService.photos;
+  
   constructor(
     private fsService: FsService,
     private router: Router,

@@ -78,6 +78,9 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
+    localStorage.setItem('mode', 'food')
+    var mode = localStorage.getItem('mode')
+    console.log(mode)
     var userid = localStorage.getItem('username');
 
     this.foods = this.fsService.getTodayFood();

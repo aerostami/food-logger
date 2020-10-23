@@ -27,8 +27,12 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: () => import('../admin-panel/admin-panel-routing.module').then( m => m.AdminPanelPageRoutingModule)
-      }
+        loadChildren: () => import('../admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+      },
+      {
+        path: 'recipe',
+        loadChildren: () => import('../recipe/recipe.module').then( m => m.RecipePageModule)
+      },
     ]
   }
 ];

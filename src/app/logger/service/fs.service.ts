@@ -132,4 +132,20 @@ export class FsService {
     this.router.navigate(['/logger/admin'])
   }
 
+
+
+  public createNewRecipt(data) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
+    userRef.set(data, {
+      merge: true
+    })
+    this.router.navigate(['/logger/recipe'])
+  }
+
+  public getRecipets() {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
+    return userRef.valueChanges();
+    
+  }
+
 }
