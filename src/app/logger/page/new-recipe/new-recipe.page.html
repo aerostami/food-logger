@@ -1,0 +1,51 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img [src]="r['photo']['thumb']" class="mr-1" style="width: 45px">
+  <ngb-highlight [result]="r.food_name" [term]="t"></ngb-highlight>
+</ng-template>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>newintergredients</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+
+
+      <ion-card-title>Enter the name of intergredients</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label >Name</ion-label>
+      <ion-input [(ngModel)]='name'></ion-input>
+    </ion-card-content>
+  </ion-card>
+  <ion-card id="log-card" *ngFor="let intergredient of aintergredients">
+    <ion-card-header>
+      <ion-card-title>Intergredients</ion-card-title>
+    </ion-card-header>
+    <div class="img_wrp">
+      <img style="display: block; margin: auto" [src]="intergredient.intergredient.photo.thumb" alt=""/>
+      
+    </div>
+
+
+    <ion-card-header>
+
+
+      <ion-card-title>{{ intergredients.food_name }}</ion-card-title>
+    </ion-card-header>
+    <ion-range  [(ngModel)]="intergredient.amount" (ionChange)="amountChanged(intergredient)"  min="0.5" max="5.0" step="0.5" color="secondary">
+      <ion-label slot="start" size="small"> Amount</ion-label>
+      <ion-label slot="end" size="small">{{intergredient.intergredient.serving_unit}} <ion-badge style="color: {{intergredient.badgeColor}} " slot="end">x{{intergredient.amount}}</ion-badge></ion-label>
+    </ion-range>
+    
+  
+
+
+</ion-card>
+<ion-card-content>
+  <ion-button (click)="createNewRecipe()" expand="block" full>Add</ion-button>
+</ion-card-content>
+
+</ion-content>

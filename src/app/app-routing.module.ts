@@ -65,6 +65,14 @@ const routes: Routes = [
     path: 'adminpanel',
     loadChildren: () => import('./logger/page/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   },
+  {
+    path: 'new-recipe',
+    loadChildren: () => import('./logger/page/new-recipe/new-recipe.module').then( m => m.NewRecipePageModule)
+  },
+  {
+    path: 'recipe',
+    loadChildren: () => import('./logger/page/recipe/recipe.module').then( m => m.RecipePageModule)
+  },
 ];
 
 @NgModule({
