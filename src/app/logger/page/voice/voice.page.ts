@@ -3,6 +3,7 @@ import { HttpRestService } from "../../service/http-rest.service";
 import { FsService } from '../../service/fs.service';
 import {SpeechRecognition} from '@ionic-native/speech-recognition/ngx';
 import {subscribeOn} from "rxjs/operators";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-voice',
@@ -19,7 +20,8 @@ export class VoicePage implements OnInit {
   constructor(
       private rest: HttpRestService,
       private fsService: FsService,
-      private speechRecognition: SpeechRecognition
+      private speechRecognition: SpeechRecognition,
+      private router: Router
   ) {
   }
   ionViewWillEnter() {
@@ -105,6 +107,12 @@ export class VoicePage implements OnInit {
           this.fsService.addItem(food);
         });
         localStorage.setItem('foods', JSON.stringify(this.foods));
+      } else if (this.mode == 'recipe') {
+        this.router.navigate(['/new-recipe'])
+                      var intergredient = [];
+                      intergredient.push(this.foods)
+                      localStorage.setItem('intergredient', JSON.stringify(intergredient))
+
       }
       });
       
