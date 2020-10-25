@@ -3,12 +3,14 @@ import { FsService } from '../../service/fs.service';
 import {Observable, of} from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
 import { HttpRestService } from "../../service/http-rest.service";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-text',
   templateUrl: './text.page.html',
   styleUrls: ['./text.page.scss'],
 })
 export class TextPage implements OnInit {
+  public mode;
   data;
   searchTerm: any;
   searching =false;
@@ -20,7 +22,8 @@ export class TextPage implements OnInit {
 
   constructor(
     private fsService: FsService,
-    private rest: HttpRestService
+    private rest: HttpRestService,
+    private router: Router
     ) {
 
   }
@@ -29,15 +32,26 @@ export class TextPage implements OnInit {
   ngOnInit(): void {
   }
 
+  ionViewWillEnter() {
+    this.mode = localStorage.getItem('mode')
+  }
+
   addItem(term: string) {
     this.rest.getRestNutritionix().all('/v2/natural/').one('nutrients')
                   .post('', {query: term}).subscribe(response => {
-                    console.log(response);
+
                     this.data = response.foods[0];
-                    this.fsService.addItem(this.data);
-                    var foodArray = [];
-                    foodArray.push({...this.data});
-                    localStorage.setItem('foods', JSON.stringify(foodArray));
+                    if (this.mode == 'food') {
+                      this.fsService.addItem(this.data);
+                      var foodArray = [];
+                      foodArray.push({...this.data});
+                      localStorage.setItem('foods', JSON.stringify(foodArray));
+                    } else if (this.mode == 'recipe') {
+                      this.router.navigate(['/new-recipe'])
+                      var intergredient = [];
+                      intergredient.push({...this.data})
+                      localStorage.setItem('intergredient', JSON.stringify(intergredient))
+                    }
                 });
 
   }
