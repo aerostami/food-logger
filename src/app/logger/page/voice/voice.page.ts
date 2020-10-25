@@ -10,7 +10,7 @@ import {subscribeOn} from "rxjs/operators";
   styleUrls: ['./voice.page.scss'],
 })
 export class VoicePage implements OnInit {
-
+  public mode;
   text: string;
   foods: any;
   hasPermission: boolean;
@@ -21,6 +21,9 @@ export class VoicePage implements OnInit {
       private fsService: FsService,
       private speechRecognition: SpeechRecognition
   ) {
+  }
+  ionViewWillEnter() {
+    this.mode = localStorage.getItem('mode')
   }
 
   checkPermission(){
@@ -97,11 +100,14 @@ export class VoicePage implements OnInit {
       query: this.text
     }).subscribe(response => {
       this.foods = response.foods;
-
-      this.foods.forEach(food => {
-        this.fsService.addItem(food);
+      if (this.mode == 'food') {
+        this.foods.forEach(food => {
+          this.fsService.addItem(food);
+        });
+        localStorage.setItem('foods', JSON.stringify(this.foods));
+      }
       });
-      localStorage.setItem('foods', JSON.stringify(this.foods));
-    });
+      
+    }
   }
 }
