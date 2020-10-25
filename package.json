@@ -25,7 +25,7 @@
     "@angular/router": "~9.1.6",
     "@capacitor/android": "^2.4.0",
     "@capacitor/core": "2.4.0",
-    "@capacitor/ios": "^2.4.0",
+    "@capacitor/ios": "^2.4.2",
     "@ionic-native/barcode-scanner": "^5.27.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/geolocation": "^5.28.0",

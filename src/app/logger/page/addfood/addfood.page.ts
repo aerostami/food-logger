@@ -97,12 +97,15 @@ export class AddfoodPage implements OnInit {
         maxResults: 5
       };
       this.selectedAddress = 'home';
+      for ( let i = 0; i < this.foods.length; i++){
+        this.logfoods[i].address = '-';
+      }
       this.nativeGeocoder.reverseGeocode(resp.coords.latitude, resp.coords.longitude, options)
           .then((result: NativeGeocoderResult[]) => {
             // alert(JSON.stringify(result[0]));
             this.selectedAddress = JSON.stringify(result[0].thoroughfare + ', ' + result[0].locality + ', ' + result[0].administrativeArea);
             for ( let i = 0; i < this.foods.length; i++){
-              this.logfoods[i].address = this.address;
+              this.logfoods[i].address = this.selectedAddress;
             }
           } )
           .catch((error: any) => console.log(error));

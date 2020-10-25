@@ -8,6 +8,7 @@ import { FsService } from '../../service/fs.service';
 })
 export class RecipePage implements OnInit {
   public recipes;
+  public recipeNum = 0;
 
   constructor(
     private fsService: FsService,
@@ -22,6 +23,10 @@ export class RecipePage implements OnInit {
     this.recipes = this.fsService.getRecipets();
     this.recipes.subscribe((result) => {
       localStorage.setItem('recipes', JSON.stringify(result.recipes));
+      if (result.recipes){
+
+        this.recipeNum = result.recipes.length;
+      }
     })
     
   }

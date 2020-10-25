@@ -66,14 +66,14 @@
     </ion-label>
   </div>
   
-  <ion-card>
+  <ion-card *ngIf="foodNum!==0">
     <ion-card-content >
       <canvas id = "doughnutChart"></canvas>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-content >
+    <ion-card-content *ngIf="foodNum!==0">
         <canvas id = "barChart" ></canvas>
     </ion-card-content>
   </ion-card>

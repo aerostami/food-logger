@@ -39,6 +39,14 @@
       
   
       </ion-list>
+        <div *ngIf="recipeNum==0">
+          <img style="display: block; margin: auto; width: 50%; padding-top: 40%;opacity: 95%;" src="../../../../assets/cookbook.png" alt=""/>
+          <ion-label style="text-align: center;padding-top: 12px;display: block">
+            <P>Your cookbook is empty.</P>
+            <p>Add your own recipes!</p>
+
+          </ion-label>
+        </div>
 
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
