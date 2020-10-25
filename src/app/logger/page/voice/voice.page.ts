@@ -109,5 +109,5 @@ export class VoicePage implements OnInit {
       });
       
     }
-  }
+  
 }
