@@ -146,13 +146,80 @@ export class HomePage implements OnInit {
         lateMeal = true;
         startedSleep = false;
       }
-      // console.log(times);
+      console.log(times);
       const currentDate = new Date();
       let curTime = currentDate.getHours() + currentDate.getMinutes() / 60;
       curTime = +curTime.toFixed(2);
       //
       //
+
       this.distMsgs = ['Daily intake time distribution'];
+
+      // single cycle
+      let lastTime = -1 * dur;
+      for (let i = 0; i < times.length; i++) {
+        if (times[i].time <= curTime){
+          if ((times[i].time - lastTime) > dur){
+            if (lastTime < 0){
+              lastTime = 0;
+            }
+            const diff = +(times[i].time - lastTime).toFixed(2);
+            this.timeDistAM.push(diff);
+            if (!startedSleep){ // Go to bed!
+              this.colorDistAM.push('rgb(197,199,192)');
+              this.labelDistDoughAM.push('Digesting');
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('Go to bed!');
+                }else {
+                  this.distMsgs[1] = 'Go to bed!';
+                }
+              }
+            } else{
+              this.colorDistAM.push('rgb(143,210,132)');
+              this.labelDistDoughAM.push('Fasting');
+              startedSleep = false;
+              if (curTime - times[i].time < 3){
+                if (this.distMsgs.length === 1){
+                  this.distMsgs.push('Good morning!');
+                }else {
+                  this.distMsgs[1] = 'Good morning!';
+                }
+              }
+            }
+
+            this.timeDistAM.push(dur);
+            this.colorDistAM.push('rgb(178,44,0)');
+            this.labelDistDoughAM.push(times[i].food);
+
+          } else { // group with last one
+            this.labelDistDoughAM[this.labelDistDoughAM.length - 1] = [this.labelDistDoughAM[this.labelDistDoughAM.length - 1] ,
+              times[i].food];
+          }
+          lastTime = times[i].time;
+        }
+      }
+      if ((24 - lastTime) > dur){
+        let end = 24;
+        if (24 > curTime){
+          end = curTime;
+        }
+        this.timeDistAM.push( +(end - lastTime).toFixed(2));
+        if (this.timeDistAM.length <= 0 || (this.timeDistAM.length <= 1 && lateMeal) ){
+          this.colorDistAM.push('rgb(143,210,132)');
+          this.labelDistDoughAM.push('Fasting');
+        } else{
+          this.colorDistAM.push('rgb(197,199,192)');
+          this.labelDistDoughAM.push('Digesting');
+
+        }
+        if (end !== 24){
+          this.timeDistAM.push( +(24 - end).toFixed(2));
+          this.colorDistAM.push('rgb(255,255,255)');
+          this.labelDistDoughAM.push('later...');
+        }
+      }
+      /*
       // AM:
       let lastTime = -0.5;
       for (let i = 0; i < times.length; i++) {
@@ -221,6 +288,7 @@ export class HomePage implements OnInit {
       //
       // console.log('##');
       // console.log(this.timeDistAM);
+      // PM
       let isFasting = false;
       if (1 >= this.timeDistAM.length){
         isFasting = true;
@@ -291,8 +359,7 @@ export class HomePage implements OnInit {
         }
 
       }
-      
-      
+      */
       this.createBarChart();
       this.createDoughnutChart();
     });
@@ -319,12 +386,13 @@ export class HomePage implements OnInit {
     this.doughnut = new Chart(doughnut, {
       type: 'doughnut',
       data: {
-        datasets: [{
+        datasets: [
+            /*{
           data: this.timeDistPM,
           backgroundColor: this.colorDistPM,
           label: 'PM',
           labels: this.labelDistDoughPM
-        }, {
+        }, */{
           data: this.timeDistAM,
           backgroundColor: this.colorDistAM,
           label: 'AM',
