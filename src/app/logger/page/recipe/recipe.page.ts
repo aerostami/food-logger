@@ -22,7 +22,12 @@ export class RecipePage implements OnInit {
 
     this.recipes = this.fsService.getRecipets();
     this.recipes.subscribe((result) => {
-      localStorage.setItem('recipes', JSON.stringify(result.recipes));
+      var recipes_list =result.recipes
+      if (result.recipes) {
+        localStorage.setItem('recipes', JSON.stringify(recipes_list));
+      } else {
+        localStorage.setItem('recipes', JSON.stringify([]));
+      }
       if (result.recipes){
 
         this.recipeNum = result.recipes.length;
