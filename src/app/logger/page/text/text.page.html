@@ -26,7 +26,7 @@
         </ion-item>
         <div class="form-group">
 
-          <input (selectItem)="selectedItem($event)" placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
+          <input (selectItem)="selectedItem($event)" [(ngModel)]="inputVar" placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
                  [resultTemplate]="rt" [inputFormatter]="formatter" /><ion-button (click)="addItem(newitem.value)" expand="block" full>Add</ion-button>
 
         </div>

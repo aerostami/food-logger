@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner/ngx";
 import { HttpRestService } from "../../service/http-rest.service";
 import { FsService } from "../../service/fs.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-barcode",
@@ -14,7 +15,8 @@ export class BarcodePage implements OnInit {
   constructor(
     private barcodeScanner: BarcodeScanner,
     private rest: HttpRestService,
-    private fsService: FsService
+    private fsService: FsService,
+    private router: Router
   ) {
     this.startScanner();
   }
@@ -40,7 +42,7 @@ export class BarcodePage implements OnInit {
       let foods = response.foods;
 
       foods.forEach(food => {
-        this.fsService.addItem(food);
+        this.router.navigate(["/","logger","addfood"]);
       });
       localStorage.setItem('foods', JSON.stringify(foods));
     });

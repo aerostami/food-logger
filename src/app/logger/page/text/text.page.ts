@@ -20,6 +20,7 @@ export class TextPage implements OnInit {
   items = ["z", "zz", "zzz"];
   public selectedFood = [];
   public outdata = [];
+  public inputVar;
 
 
   constructor(
@@ -48,7 +49,8 @@ export class TextPage implements OnInit {
                     } else if (this.mode == 'recipe') {
                       this.outdata.push({...this.data})
                     }
-                    document.getElementById('typeahead-template').value=""
+                    this.inputVar = ""
+                    
                 });
 
   }
