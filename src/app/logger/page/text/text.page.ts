@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FsService } from '../../service/fs.service';
-import {Observable, of} from "rxjs";
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import { HttpRestService } from "../../service/http-rest.service";
+import {Observable, of} from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import { HttpRestService } from '../../service/http-rest.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-text',
@@ -13,7 +13,7 @@ export class TextPage implements OnInit {
   public mode;
   data;
   searchTerm: any;
-  searching =false;
+  searching = false;
   searchFailed = false;
   searchResult = ['1', '2', '3'];
   isLoading = false;
@@ -35,7 +35,7 @@ export class TextPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.mode = localStorage.getItem('mode')
+    this.mode = localStorage.getItem('mode');
   }
 
   addItem(term: string) {
