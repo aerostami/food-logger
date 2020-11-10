@@ -104,13 +104,12 @@ export class VoicePage implements OnInit {
       this.foods = response.foods;
       if (this.mode == 'food') {
         this.foods.forEach(food => {
-          this.fsService.addItem(food);
+          this.router.navigate(["/","logger","addfood"]);
         });
         localStorage.setItem('foods', JSON.stringify(this.foods));
       } else if (this.mode == 'recipe') {
         this.router.navigate(['/new-recipe'])
-                      var intergredient = [];
-                      intergredient.push(this.foods)
+                      var intergredient = this.foods
                       localStorage.setItem('intergredient', JSON.stringify(intergredient))
 
       }

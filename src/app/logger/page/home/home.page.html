@@ -32,7 +32,7 @@
             <h2>{{ food.food.food_name}}</h2>
             <p>At {{food.address}}</p>
           </ion-label>
-          <ion-badge color="light" slot="end">{{ food.time.hour}} : {{food.time.minute}}</ion-badge>
+          <ion-badge color="light" slot="end">{{ convertTimeStampToDate(food.date).getHours()}} : {{convertTimeStampToDate(food.date).getMinutes()}}</ion-badge>
         </ion-item>
 
 
@@ -66,14 +66,14 @@
     </ion-label>
   </div>
   
-  <ion-card *ngIf="foodNum!==0">
+  <ion-card >
     <ion-card-content >
       <canvas id = "doughnutChart"></canvas>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-content *ngIf="foodNum!==0">
+    <ion-card-content >
         <canvas id = "barChart" ></canvas>
     </ion-card-content>
   </ion-card>

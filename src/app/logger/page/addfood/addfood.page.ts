@@ -57,6 +57,7 @@ export class AddfoodPage implements OnInit {
     private mapboxService: MapboxServiceService
     ) {
     this.foods = JSON.parse(localStorage.getItem("foods"));
+    console.log(this.foods)
     this.myToastController = toastController;
 
   }

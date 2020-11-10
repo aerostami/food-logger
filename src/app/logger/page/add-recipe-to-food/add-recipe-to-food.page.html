@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>addRecipeToFood</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-card>
+  <ion-card-header>
+    <h1>{{recipe.name}}</h1>
+  </ion-card-header>
+  
+  <ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let intergredient of intergredients">
+        <img style="display: block; margin: auto" [src]="intergredient.intergredient.photo.thumb" alt=""/>
+        <p>{{intergredient.intergredient.food_name}}</p>
+        
+      </ion-item>
+    </ion-list>
+    <ion-range  [(ngModel)]="amount"  min="0.5" max="5.0" step="0.5" color="secondary">
+      <ion-label slot="start" size="small"> Amount</ion-label>
+    </ion-range>
+  </ion-card-content>
+</ion-card>
+<ion-button class="add-btn"  (click)="addRecipeToFood()" expand="block" full >Add</ion-button>
+
+<ion-content>
+
+</ion-content>

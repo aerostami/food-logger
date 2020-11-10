@@ -14,6 +14,7 @@ export class NewRecipePage implements OnInit {
   public aintergredients = [];
   public data;
   
+  
 
   constructor(
     private fsService: FsService,
@@ -24,6 +25,7 @@ export class NewRecipePage implements OnInit {
   }
   ionViewWillEnter() {
     this.intergredients = JSON.parse(localStorage.getItem("intergredient"))
+    console.log(this.intergredients)
 
     for(let i=0; i<this.intergredients.length;i++) {
       this.aintergredients.push({'intergredient':this.intergredients[i]})
@@ -35,7 +37,7 @@ export class NewRecipePage implements OnInit {
   }
   public createNewRecipe() {
     var recipes = JSON.parse(localStorage.getItem('recipes'))
-    recipes.push({'name':this.name, 'intergredients': this.aintergredients})
+    recipes.push({'food_name':this.name, 'intergredients': this.aintergredients})
     this.fsService.createNewRecipt({'recipes':recipes})
   }
 
