@@ -19,6 +19,9 @@ export class TextPage implements OnInit {
   isLoading = false;
   items = ["z", "zz", "zzz"];
   public selectedFood = [];
+  public outdata = [];
+  public inputVar;
+
 
   constructor(
     private fsService: FsService,
@@ -41,19 +44,24 @@ export class TextPage implements OnInit {
                   .post('', {query: term}).subscribe(response => {
 
                     this.data = response.foods[0];
-                    if (this.mode === 'food') {
-                      this.fsService.addItem(this.data);
-                      var foodArray = [];
-                      foodArray.push({...this.data});
-                      localStorage.setItem('foods', JSON.stringify(foodArray));
-                    } else if (this.mode === 'recipe') {
-                      this.router.navigate(['/new-recipe']);
-                      let intergredient = [];
-                      intergredient.push({...this.data});
-                      localStorage.setItem('intergredient', JSON.stringify(intergredient));
+                    if (this.mode == 'food') {
+                      this.outdata.push({...this.data});
+                    } else if (this.mode == 'recipe') {
+                      this.outdata.push({...this.data})
                     }
+                    this.inputVar = ""
+                    
                 });
 
+  }
+  public next () {
+    if (this.mode == 'food') {
+      localStorage.setItem('foods', JSON.stringify(this.outdata));
+      this.router.navigate(["/","logger","addfood"]);
+    } else if (this.mode == 'recipe') {
+      localStorage.setItem('intergredient', JSON.stringify(this.outdata));
+      this.router.navigate(["/","new-recipe"]);
+    }
   }
   selectedItem(item){
       console.log(item.item.food_name);

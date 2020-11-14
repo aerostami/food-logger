@@ -39,7 +39,7 @@ export class HomePage implements OnInit {
       private fsService: FsService,
       private router: Router,
       private as: AuthService,
-      public modalController: ModalController
+      private modalController: ModalController
   ) {
     
 
@@ -112,10 +112,12 @@ export class HomePage implements OnInit {
       this.labelDistDoughAM.length = 0;
       this.totalCals = 0;
       const dur = 0.5;
+
+
       // console.log('events');
       // console.log(event);
       for (let i = 0; i < event.length; i++) {
-        let theTime = event[i].time.hour + event[i].time.minute / 60;
+        let theTime = this.convertTimeStampToDate(event[i].date).getHours() + this.convertTimeStampToDate(event[i].date).getMinutes() / 60;
         if (12 > theTime && theTime > 12 - dur){
           theTime = 12 - dur;
         }
@@ -503,6 +505,10 @@ export class HomePage implements OnInit {
 
   public logout() {
     this.as.logout();
+  }
+
+  public convertTimeStampToDate(timestamp) {
+    return timestamp.toDate();
   }
 
 }

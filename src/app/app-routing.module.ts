@@ -73,6 +73,10 @@ const routes: Routes = [
     path: 'recipe',
     loadChildren: () => import('./logger/page/recipe/recipe.module').then( m => m.RecipePageModule)
   },
+  {
+    path: 'add-recipe-to-food',
+    loadChildren: () => import('./logger/page/add-recipe-to-food/add-recipe-to-food.module').then( m => m.AddRecipeToFoodPageModule)
+  },
 ];
 
 @NgModule({

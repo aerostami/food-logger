@@ -99,10 +99,7 @@ export class FsService {
     itemDoc.delete();
   }
 
-  public addItem(data: any) {
-    this.router.navigate(["/","logger","addfood"]);
-    //this.dateCollection.add(data);
-  }
+ 
 
   public updateItem(oldid: any, data: any, oldDate: Date, newDate: Date) {
     const date_s = formatDate(oldDate, 'yyyyMMdd', 'en');
