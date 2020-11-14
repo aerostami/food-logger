@@ -14,9 +14,12 @@ import { Chart } from 'chart.js';
 export class HomePage implements OnInit {
   @ViewChild('barChart') barChart;
   @ViewChild('doughnutChart') doughnutChart;
+  @ViewChild('doughnutChartPM') doughnutChartPM;
 
   bars: any;
   doughnut: any;
+  doughnutPM: any;
+
 
   colorArray: any;
   nutData = [0, 0, 0, 0];
@@ -154,7 +157,7 @@ export class HomePage implements OnInit {
       //
 
       this.distMsgs = ['Daily intake time distribution'];
-
+      /*
       // single cycle
       let lastTime = -1 * dur;
       for (let i = 0; i < times.length; i++) {
@@ -219,7 +222,7 @@ export class HomePage implements OnInit {
           this.labelDistDoughAM.push('later...');
         }
       }
-      /*
+       */
       // AM:
       let lastTime = -0.5;
       for (let i = 0; i < times.length; i++) {
@@ -359,7 +362,7 @@ export class HomePage implements OnInit {
         }
 
       }
-      */
+
       this.createBarChart();
       this.createDoughnutChart();
     });
@@ -382,7 +385,44 @@ export class HomePage implements OnInit {
   
 
   createDoughnutChart(){
-    var doughnut = document.getElementById('doughnutChart');
+    const doughnutPM = document.getElementById('doughnutChartPM');
+    this.doughnutPM = new Chart(doughnutPM, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+        data: this.timeDistPM,
+        backgroundColor: this.colorDistPM,
+        label: 'PM',
+        labels: this.labelDistDoughPM
+      }]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var dataset = data.datasets[tooltipItem.datasetIndex];
+              var index = tooltipItem.index;
+              return dataset.labels[index];
+            }
+          }
+        },
+        title: {
+          display: true,
+          text: 'PM distribution', // this.distMsgs,
+          position: 'bottom'
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+    const doughnut = document.getElementById('doughnutChart');
     this.doughnut = new Chart(doughnut, {
       type: 'doughnut',
       data: {
@@ -415,7 +455,7 @@ export class HomePage implements OnInit {
         },
         title: {
           display: true,
-          text: this.distMsgs,
+          text: 'AM distribution', // this.distMsgs,
           position: 'bottom'
         },
         animation: {
