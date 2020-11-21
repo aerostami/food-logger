@@ -291,8 +291,8 @@ export class HomePage implements OnInit {
       }
       //
       //
-      // console.log('##');
-      // console.log(this.timeDistAM);
+      console.log('##');
+      console.log(this.timeDistAM);
       // PM
       let isFasting = false;
       if (1 >= this.timeDistAM.length){
@@ -364,7 +364,7 @@ export class HomePage implements OnInit {
         }
 
       }
-
+      console.log(this.timeDistPM);
       this.createBarChart();
       this.createDoughnutChart();
     });

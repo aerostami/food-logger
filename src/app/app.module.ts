@@ -23,6 +23,19 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import {HttpClientModule} from '@angular/common/http';
+import {Firebase} from '@ionic-native/firebase';
+import { FCM } from '@ionic-native/fcm/ngx';
+import {FcmService} from "./fcm.service";
+
+
+const firebase = {
+  apiKey: "AIzaSyDwucONTRE7dMFwnuB_e4VKSuo9WFGcxDY",
+  authDomain: "food-logger-uci.firebaseapp.com",
+  databaseURL: "https://food-logger-uci.firebaseio.com",
+  projectId: "food-logger-uci",
+  storageBucket: "food-logger-uci.appspot.com",
+  messagingSenderId: "1055247824931",
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,7 +54,8 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
-    HttpClientModule
+    AngularFireModule.initializeApp((firebase)),
+    HttpClientModule,
   ],
   providers: [
     StatusBar,
@@ -49,6 +63,7 @@ import {HttpClientModule} from '@angular/common/http';
     Geolocation,
     BarcodeScanner,
     NativeGeocoder,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

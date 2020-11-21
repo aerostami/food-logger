@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1055247824931",
+    "firebase_url": "https://food-logger-uci.firebaseio.com",
+    "project_id": "food-logger-uci",
+    "storage_bucket": "food-logger-uci.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055247824931:android:48e308ade94607c0b95996",
+        "android_client_info": {
+          "package_name": "xyz.foodlogger.foodlog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055247824931-u6mk1f7d4hftp6kob1nlgpc0knv9jo12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXPF9QzeF_MJi9eSId4WB3goSw20CfWcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055247824931-u6mk1f7d4hftp6kob1nlgpc0knv9jo12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
