@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../../types/User.interface';
 import { AuthService } from '../../service/auth.service'
+import { auth } from 'firebase';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { AuthService } from '../../service/auth.service'
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  public username: string;
+  public email: string;
   public password: string;
 
   validation = false;
@@ -28,22 +29,29 @@ export class LoginPage implements OnInit {
 
     ) { }
   ngOnInit() {
-
+    const username = localStorage.getItem('username');
+    
+    if (username === null || username === 'null') {
+      this.router.navigate(['/auth/login']);
+    } else {
+      this.as.pushUser();    
+    }
   }
-
- 
-  
-
 
 
   onSubmit() {
    
-    var username = this.username;
+    var email = this.email;
     var password = this.password;
-    console.log(username)
-    this.as.login(username, password);
+
+    this.as.SignIn(email, password);
 
 
+  }
+
+  public GoogleAuth() {
+    this.as.GoogleAuth()
+    
   }
 
 }

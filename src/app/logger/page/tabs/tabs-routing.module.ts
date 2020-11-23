@@ -20,7 +20,19 @@ const routes: Routes = [
       {
         path: 'calendar',
         loadChildren: () => import('../calendar/calendar.module').then( m => m.CalendarPageModule)
-      }
+      },
+      {
+        path: 'graph',
+        loadChildren: () => import('../graph/graph.module').then( m => m.GraphPageModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+      },
+      {
+        path: 'recipe',
+        loadChildren: () => import('../recipe/recipe.module').then( m => m.RecipePageModule)
+      },
     ]
   }
 ];

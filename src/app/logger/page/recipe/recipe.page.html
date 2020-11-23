@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>recipe</ion-title>
+    
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar id="searchbar"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  
+
+    <ion-list id="list">
+      <ion-item-sliding *ngFor="let recipe of (recipes | async)?.recipes " style="margin-top: 20px;">
+  
+          <ion-item (click)="openAddRecipeToFoodModal(recipe)">
+            <h3>{{ recipe.food_name}}</h3>
+          </ion-item>
+          
+  
+        <ion-item-options side="start">
+          <ion-item-option color="primary">
+            <ion-icon slot="icon-only" ios="share-outline" md="share-sharp"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+  
+        <ion-item-options side="end">
+          <ion-item-option expandable color="danger">
+            <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+  
+      </ion-item-sliding>
+      
+  
+      </ion-list>
+      
+        <div *ngIf="recipeNum==0">
+          <img style="display: block; margin: auto; width: 50%; padding-top: 40%;opacity: 95%;" src="../../../../assets/cookbook.png" alt=""/>
+          <ion-label style="text-align: center;padding-top: 12px;display: block">
+            <P>Your cookbook is empty.</P>
+            <p>Add your own recipes!</p>
+
+          </ion-label>
+        </div>
+
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="light" [routerLink]="['/','logger','text']">
+        <ion-icon name="text-outline"></ion-icon>
+      </ion-fab-button>
+     <ion-fab-button  color="light" [routerLink]="['/','logger','barcode']">
+        <ion-icon name="barcode-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="light" [routerLink]="['/','logger','voice']">
+        <ion-icon name="mic-outline"></ion-icon>
+      </ion-fab-button>
+      <!-- <ion-fab-button  color="light">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-fab-button> -->
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

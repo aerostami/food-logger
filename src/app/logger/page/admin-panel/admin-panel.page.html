@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Log Out</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label> Name</ion-label>
+      <ion-note slot='end' >{{ (user | async)?.userInfo.name  }} </ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label> Height</ion-label>
+      <ion-note slot='end' > {{ (user | async)?.userInfo.height  }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label> Weight</ion-label>
+      <ion-note slot='end' > {{ (user | async)?.userInfo.weight  }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label> Age</ion-label>
+      <ion-note slot='end' >{{ (user | async)?.userInfo.age  }} </ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label> Gender</ion-label>
+      <ion-note slot='end' > {{ (user | async)?.userInfo.gender  }} </ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label> Phone Number</ion-label>
+      <ion-note slot='end'> {{ (user | async)?.userInfo.phoneNumber }}</ion-note>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

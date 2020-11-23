@@ -1,26 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { FsService } from '../../service/fs.service';
-import {Observable, of} from "rxjs";
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import { HttpRestService } from "../../service/http-rest.service";
+import {Observable, of} from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import { HttpRestService } from '../../service/http-rest.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-text',
   templateUrl: './text.page.html',
   styleUrls: ['./text.page.scss'],
 })
 export class TextPage implements OnInit {
+  public mode;
   data;
   searchTerm: any;
-  searching =false;
+  searching = false;
   searchFailed = false;
   searchResult = ['1', '2', '3'];
   isLoading = false;
   items = ["z", "zz", "zzz"];
   public selectedFood = [];
+  public outdata = [];
+  public inputVar;
+
 
   constructor(
     private fsService: FsService,
-    private rest: HttpRestService
+    private rest: HttpRestService,
+    private router: Router
     ) {
 
   }
@@ -29,19 +35,38 @@ export class TextPage implements OnInit {
   ngOnInit(): void {
   }
 
-  addItem(term: string) {
-    this.rest.getRestNutritionix().all('/v2/search/')
-                  .get('instant', {query: term}).subscribe(response => {
+  ionViewWillEnter() {
+    this.mode = localStorage.getItem('mode');
+  }
 
-                    this.data = response['common'][0];
-                    this.fsService.addItem(this.data);
-                    var foodArray = [];
-                    foodArray.push({...this.data});
-                    localStorage.setItem('foods', JSON.stringify(foodArray));
+  addItem(term: string) {
+    this.rest.getRestNutritionix().all('/v2/natural/').one('nutrients')
+                  .post('', {query: term}).subscribe(response => {
+
+                    this.data = response.foods[0];
+                    if (this.mode == 'food') {
+                      this.outdata.push({...this.data});
+                    } else if (this.mode == 'recipe') {
+                      this.outdata.push({...this.data})
+                    }
+                    this.inputVar = ""
+                    
                 });
 
   }
-
+  public next () {
+    if (this.mode == 'food') {
+      localStorage.setItem('foods', JSON.stringify(this.outdata));
+      this.router.navigate(["/","logger","addfood"]);
+    } else if (this.mode == 'recipe') {
+      localStorage.setItem('intergredient', JSON.stringify(this.outdata));
+      this.router.navigate(["/","new-recipe"]);
+    }
+  }
+  selectedItem(item){
+      console.log(item.item.food_name);
+      this.addItem(item.item.food_name);
+  }
   search = (text$: Observable<string>) =>
       text$.pipe(
           debounceTime(300),

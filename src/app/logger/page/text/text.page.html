@@ -13,18 +13,26 @@
 </ion-header>
 
 <ion-content style="width: 94%;left:3%;">
+        <ion-list>
+          <ion-item *ngFor="let item of outdata">
+            <div class="img_wrp">
+              <img style="display: block; margin: auto" [src]="item.photo.thumb" alt=""/>
+              <p>{{item.food_name}}</p>
+            </div>
+          </ion-item>
+        </ion-list>
         <ion-item>
           <ion-label>Food Name</ion-label>
         </ion-item>
         <div class="form-group">
 
-          <input placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
-                 [resultTemplate]="rt" [inputFormatter]="formatter" />
+          <input (selectItem)="selectedItem($event)" [(ngModel)]="inputVar" placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
+                 [resultTemplate]="rt" [inputFormatter]="formatter" /><ion-button (click)="addItem(newitem.value)" expand="block" full>Add</ion-button>
 
         </div>
 
 
-      <ion-button (click)="addItem(newitem.value)" expand="block" full>Next</ion-button>
+      <ion-button (click)="next()" expand="block" full>Next</ion-button>
 
 </ion-content>
 

@@ -66,33 +66,49 @@ export class CalendarPage implements OnInit {
   events$: Observable<CalendarEvent<any>[]>;
   test: any;
 
+
+
   public monthFoods = [];
+
+  private ids = [];
 
   constructor(
     private modal: NgbModal,
     private fsService: FsService,
     ) {
-      this.fsService.getMonthFoods();
-      this.events$ = this.fsService.getFoodStream();
-      this.fsService.getFoodStream().subscribe(v => {
-        
-        var time = v.date.getHours() + ":" + v.date.getMinutes();
-        var event = {
-          start: v.date,
-          title: v.food_name + "   " + time,
-          color: colors.blue,
-          actions: this.actions,
-          id: v.id,
-        }
-        this.events.push(event);
-        
-        this.refresh.next();
-      })
+      
 
 
     }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    this.fsService.getMonthFoods();
+      this.events$ = this.fsService.getFoodStream();
+      this.fsService.getFoodStream().subscribe(v => {
+        
+
+        if (!( this.ids.includes(v.id))) {
+        
+          this.ids.push(v.id);
+          var time = v.date.getHours() + ":" + v.date.getMinutes();
+          var event = {
+            start: v.date,
+            title: v.food + "   " + time,
+            food: v,
+            color: colors.blue,
+            actions: this.actions,
+            id: v.id,
+          }
+          
+          this.events.push(event);
+          
+          this.refresh.next();
+        }
+        
+      })
   }
 
   getEventStream() {
@@ -168,7 +184,7 @@ export class CalendarPage implements OnInit {
   }
 
   public edit(v) {
-    console.log(v);
+
   }
 
 }

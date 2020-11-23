@@ -19,6 +19,11 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import {HttpClientModule} from '@angular/common/http';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -36,10 +41,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
+    BarcodeScanner,
+    NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -1,26 +1,38 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Home</ion-title>
+    
   </ion-toolbar>
+
+  
+
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
+
+  <ion-refresher  slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngIf="foodNum!==0">
+
   <ion-list>
     <ion-list-header>
       Today's Food Log
     </ion-list-header>
 
-    <ion-item-sliding *ngFor="let food of foods | async">
+    <ion-item-sliding *ngFor="let food of foods | async" style="margin-top: 20px;">
 
-        <ion-item>
+        <ion-item (click)="openFoodEditModal(food)">
           <ion-avatar slot="start">
             <img [src]="food.food.photo.thumb">
           </ion-avatar>
           <ion-label>
             <h2>{{ food.food.food_name}}</h2>
-            <p>At home</p>
+            <p>At {{food.address}}</p>
           </ion-label>
-          <ion-badge color="light" slot="end">{{ food.time.hour}} : {{food.time.minute}}</ion-badge>
+          <ion-badge color="light" slot="end">{{ convertTimeStampToDate(food.date).getHours()}} : {{convertTimeStampToDate(food.date).getMinutes()}}</ion-badge>
         </ion-item>
 
 
@@ -31,15 +43,19 @@
       </ion-item-options>
 
       <ion-item-options side="end">
-        <ion-item-option expandable color="danger">
-          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp"></ion-icon>
+        <ion-item-option expandable color="danger" (click)="deletefood(food.id, food.date)">
+          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
         </ion-item-option>
       </ion-item-options>
-      <script></script>
-    </ion-item-sliding>
 
+    </ion-item-sliding>
+    <ion-list-header style="margin-bottom: 15px; font-size: 15px;font-weight: 500;">
+      Total Calories: <ion-badge color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14">{{totalCals}}</ion-badge>
+    </ion-list-header>
 
     </ion-list>
+  </ion-card>
+
 
   <div *ngIf="foodNum==0">
     <img style="display: block; margin: auto; width: 50%; padding-top: 40%;opacity: 95%;" src="../../../../assets/hungry.png" alt=""/>
@@ -49,8 +65,22 @@
       {{foods.length}}
     </ion-label>
   </div>
+  
+  <ion-card >
+    <ion-card-content >
+      <canvas id = "doughnutChart"></canvas>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-card>
+    <ion-card-content >
+        <canvas id = "barChart" ></canvas>
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
       <ion-fab-button>
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
@@ -58,9 +88,9 @@
         <ion-fab-button color="light" [routerLink]="['/','logger','text']">
           <ion-icon name="text-outline"></ion-icon>
         </ion-fab-button>
-        <!-- <ion-fab-button  color="light">
+       <ion-fab-button  color="light" [routerLink]="['/','logger','barcode']">
           <ion-icon name="barcode-outline"></ion-icon>
-        </ion-fab-button> -->
+        </ion-fab-button>
         <ion-fab-button color="light" [routerLink]="['/','logger','voice']">
           <ion-icon name="mic-outline"></ion-icon>
         </ion-fab-button>

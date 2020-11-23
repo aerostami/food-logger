@@ -32,8 +32,51 @@ const routes: Routes = [
     path: 'logger/voice',
     loadChildren: () => import('./logger/page/voice/voice.module').then( m => m.VoicePageModule)
   },
+  {
+    path: 'logger/barcode',
+    loadChildren: () => import('./logger/page/barcode/barcode.module').then( m => m.BarcodePageModule)
+  },
+  {
+    path: 'food-edit',
+    loadChildren: () => import('./logger/page/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
+  },
+  {
+    path: 'lazyloading',
+    loadChildren: () => import('./logger/page/lazyloading/lazyloading.module').then( m => m.LazyloadingPageModule)
+  },
+  {
+    path: 'graph',
+    loadChildren: () => import('./logger/page/graph/graph.module').then( m => m.GraphPageModule)
+  },
   
-  
+  {
+    path: 'user-info',
+    loadChildren: () => import('./logger/page/user-info/user-info.module').then( m => m.UserInfoPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./logger/page/home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./logger/page/calendar/calendar.module').then( m => m.CalendarPageModule)
+  },
+  {
+    path: 'adminpanel',
+    loadChildren: () => import('./logger/page/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+  },
+  {
+    path: 'new-recipe',
+    loadChildren: () => import('./logger/page/new-recipe/new-recipe.module').then( m => m.NewRecipePageModule)
+  },
+  {
+    path: 'recipe',
+    loadChildren: () => import('./logger/page/recipe/recipe.module').then( m => m.RecipePageModule)
+  },
+  {
+    path: 'add-recipe-to-food',
+    loadChildren: () => import('./logger/page/add-recipe-to-food/add-recipe-to-food.module').then( m => m.AddRecipeToFoodPageModule)
+  },
 ];
 
 @NgModule({

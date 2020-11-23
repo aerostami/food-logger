@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VoicePageRoutingModule } from './voice-routing.module';
 
 import { VoicePage } from './voice.page';
+import {SpeechRecognition} from '@ionic-native/speech-recognition/ngx';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { VoicePage } from './voice.page';
     FormsModule,
     IonicModule,
     VoicePageRoutingModule
+  ],
+  providers: [
+      SpeechRecognition
   ],
   declarations: [VoicePage]
 })
