@@ -1,0 +1,10 @@
+.myCol {
+  float: left;
+}
+
+/* Clear floats after the columns */
+.myRow:after {
+  content: "";
+  display: table;
+  clear: both;
+}

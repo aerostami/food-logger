@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { User } from '../../types/User.interface'
 import { Observable, Subject} from 'rxjs';
@@ -27,14 +27,16 @@ export class AuthService {
       map(action => action.map( a => {
         const data = a.payload.doc.data() as User;
         const id = a.payload.doc.id;
+        console.log('crazy id: ' + a.payload.doc.id);
+        alert('crazy id: ' + a.payload.doc.id);
         return { id, ...data};
       }))
-    )
+    );
   }
-  public getUserLoginStream (): Observable<any>{
+  public getUserLoginStream(): Observable<any>{
     return this.UserLoginStream.asObservable();
   }
-  public login (username: string, password: string) {
+  public login(username: string, password: string) {
     this.items.forEach(item => item.forEach(v => {
       if (v.id === username) {
         if(v.password === password) {
@@ -46,15 +48,13 @@ export class AuthService {
       }
     }));
   }
-  public pushUser () {
-    
-    var username = localStorage.getItem('username');
+  public pushUser() {
+    const username = localStorage.getItem('username');
     this.UserLoginStream.next(username);
     this.router.navigate(['/logger/home']);
-    
   }
 
-  public register (username: string, password: string) {
+  public register(username: string, password: string) {
     const id = username;
     this.usersCollection.doc(id).set({'password': password});
   }
@@ -68,7 +68,7 @@ export class AuthService {
   public SignIn(email, password) {
     return this.afAuth.signInWithEmailAndPassword(email, password)
     .then((result) => {
-      
+
       this.ngZone.run(() => {
         this.router.navigate(['/logger/home']);
       });
@@ -76,7 +76,7 @@ export class AuthService {
     })
   }
 
-  
+
   public SignUp(email, password) {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
     .then((result) => {
@@ -85,7 +85,7 @@ export class AuthService {
     })
   }
 
-  
+
   public GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider());
   }
@@ -94,7 +94,7 @@ export class AuthService {
     return this.afAuth.signInWithPopup(provider)
     .then((result) => {
 
-      
+
       this.SetUserData(result.user);
       this.ngZone.run(() => {
         this.router.navigate(['/logger/home']);
@@ -112,12 +112,12 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      
+
     };
     localStorage.setItem('username', user.uid);
     this.UserLoginStream.next(user.uid);
     return userRef.set(userData, {
       merge: true
-    })
+    });
   }
 }
