@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../../types/User.interface';
-import { AuthService } from '../../service/auth.service'
+import { AuthService } from '../../service/auth.service';
 import { auth } from 'firebase';
 
 @Component({

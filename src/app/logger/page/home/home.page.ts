@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { FoodEditPage } from '../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
+import {FcmService} from '../../../services/fcm.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,8 @@ export class HomePage implements OnInit {
       private fsService: FsService,
       private router: Router,
       private as: AuthService,
-      private modalController: ModalController
+      private modalController: ModalController,
+      private fcmService: FcmService
   ) {
 
 
@@ -76,14 +78,14 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
+      this.fcmService.initPush();
   }
 
 
   ionViewWillEnter() {
     localStorage.setItem('mode', 'food')
     var mode = localStorage.getItem('mode')
-    console.log(mode)
+    console.log('mode: ' + mode);
     var userid = localStorage.getItem('username');
 
     this.foods = this.fsService.getTodayFood();

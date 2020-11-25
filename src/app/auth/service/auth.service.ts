@@ -100,7 +100,7 @@ export class AuthService {
         this.router.navigate(['/logger/home']);
       })
     }).catch((error) => {
-      window.alert(error)
+      window.alert(error);
     })
   }
 
