@@ -6,7 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './auth/service/auth.service';
 import { FsService } from './logger/service/fs.service';
 import { Router } from '@angular/router';
-import { FcmService } from './services/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -21,17 +20,15 @@ export class AppComponent {
       private as: AuthService,
       private fs: FsService,
       private router: Router,
-      private fcmService: FcmService
   ) {
     this.initializeApp();
-    this.router.navigate([''])
+    this.router.navigate(['']);
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.fcmService.initPush();
     });
   }
 }

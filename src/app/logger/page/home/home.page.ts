@@ -403,12 +403,6 @@ export class HomePage implements OnInit {
         responsive: true,
         legend: {
           display: false,
-          labels: {
-            fontSize: 20,
-            font: {
-              size: 50
-            }
-          }
         },
         tooltips: {
           callbacks: {

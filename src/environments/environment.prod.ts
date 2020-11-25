@@ -7,7 +7,7 @@ export const environment = {
     projectId: "food-logger-uci",
     storageBucket: "food-logger-uci.appspot.com",
     messagingSenderId: "1055247824931",
-    appId: "1:1055247824931:web:19d981bc51c31630b95996",
+    appId: "1:1055247824931:android:8b621b16b4d9967eb95996",
     measurementId: "G-4QSGBR4F37"
   }
 };
