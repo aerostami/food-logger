@@ -58,7 +58,6 @@ export class RecipePage implements OnInit {
       });
   }
   public async openAddRecipeToFoodModal(recipe){
-    console.log(recipe.name)
     const modal = await this.modalController.create({
       component: AddRecipeToFoodPage,
       componentProps: {
@@ -89,6 +88,10 @@ export class RecipePage implements OnInit {
       recipe_list.splice(remove_index, 1)
     }
     this.fsService.createNewRecipeList({'recipes':recipe_list})
+  }
+
+  public addRecipeToFood(recipe) {
+    this.fsService.addRecipeToFood(recipe);
   }
   
   
