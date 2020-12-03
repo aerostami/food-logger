@@ -27,7 +27,7 @@
         </ion-item-options>
   
         <ion-item-options side="end">
-          <ion-item-option expandable color="danger">
+          <ion-item-option expandable color="danger" (click)="deleteRecipe(recipe.food_name)">
             <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
           </ion-item-option>
         </ion-item-options>

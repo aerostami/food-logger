@@ -38,7 +38,7 @@ export class NewRecipePage implements OnInit {
   public createNewRecipe() {
     var recipes = JSON.parse(localStorage.getItem('recipes'))
     recipes.push({'food_name':this.name, 'intergredients': this.aintergredients})
-    this.fsService.createNewRecipt({'recipes':recipes})
+    this.fsService.createNewRecipeList({'recipes':recipes})
   }
 
   

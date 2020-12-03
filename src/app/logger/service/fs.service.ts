@@ -131,7 +131,7 @@ export class FsService {
 
 
 
-  public createNewRecipt(data) {
+  public createNewRecipeList(data) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
     userRef.set(data, {
       merge: true
@@ -139,10 +139,12 @@ export class FsService {
     this.router.navigate(['/logger/recipe'])
   }
 
-  public getRecipets() {
+  public getRecipes() {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
     return userRef.valueChanges();
     
   }
+
+ 
 
 }
