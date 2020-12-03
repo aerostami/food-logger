@@ -23,10 +23,10 @@ export class AddfoodPage implements OnInit {
   public ratingEmoji: string;
   public ratingColor: string;
   public myToastController: ToastController;
-  public logTime = "";
-  public logDate = "";
+  public date = new Date();
 
   public logfoods = [];
+  public mode;
 
 
 
@@ -56,8 +56,6 @@ export class AddfoodPage implements OnInit {
     private nativeGeocoder: NativeGeocoder,
     private mapboxService: MapboxServiceService
     ) {
-    this.foods = JSON.parse(localStorage.getItem("foods"));
-    this.myToastController = toastController;
 
   }
   search(event: any) {
@@ -116,19 +114,24 @@ export class AddfoodPage implements OnInit {
   }
 
   ngOnInit() {
+    this.mode = localStorage.getItem("mode")
+    if (this.mode == "food"){
+      this.foods = JSON.parse(localStorage.getItem("foods"));
+    } else if (this.mode = "recipe") {
+      this.foods = JSON.parse(localStorage.getItem("recipe_food"));
+    }
+    this.myToastController = this.toastController;
+
     this.photoService.loadSaved().then( _ => {
       this.photos = this.photoService.photos;
     });
     this.updateLocation();
     this.ratingEmoji = "happy";
     this.ratingColor ="#b7dd29";
-    this.logDate = this.currentDate.toISOString();
-    this.logTime = this.currentDate.toISOString();
     for(let i=0; i<this.foods.length; i++){
       this.logfoods.push({'food': this.foods[i]});
       
-      this.logfoods[i].logDate = this.currentDate.toISOString();
-      this.logfoods[i].logTime = this.currentDate.toISOString();
+      this.logfoods[i].date = this.currentDate.toISOString();
       this.logfoods[i].amount = '1.0';
       this.logfoods[i].rating = 3;
       this.logfoods[i].badgeColor = 'Secondary';
@@ -153,15 +156,11 @@ export class AddfoodPage implements OnInit {
   }
 
   public logFood(food: any, serving: Number, rating: Number) {
-    this.timeDate = new Date(food.logTime);
-    var hour = this.timeDate.getHours();
-    var minute = this.timeDate.getMinutes();
-
-    this.time = {hour: hour, minute: minute};
-    var data = {...food,  'date': this.timeDate, 'time': this.time };
-    const index = this.logfoods.indexOf(food);
+    food.date = new Date(food.date)
+    var data = {...food};
+    const remove_index = this.logfoods.indexOf(food);
     this.fsService.logfood(data, this.currentDate);
-    this.logfoods.splice(index, 1);
+    this.logfoods.splice(remove_index, 1);
     localStorage.setItem("foods",JSON.stringify(this.logfoods));
     if (this.logfoods.length == 0) {
       this.router.navigate(['/logger/home']);

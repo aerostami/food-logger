@@ -24,31 +24,32 @@ export class AddRecipeToFoodPage implements OnInit {
   ngOnInit() {
     this.recipe = this.navParams.data.recipe;
     this.intergredients = this.recipe.intergredients;
-    console.log(this.recipe)
+    
   }
   async closeModal() {
     await this.modalController.dismiss();
   }
 
-  public addRecipeToFood() {
+  public addRecipeToFood(recipe) {
     var calorie = 0;
     var protein = 0;
     var sugar = 0;
     var carb = 0;
     var fat = 0;
-    this.intergredients.forEach((element) => {
+    recipe.intergredients.forEach((element) => {
       calorie += element.amount * element.intergredient.nf_calories
       protein += element.amount * element.intergredient.nf_protein
       sugar += element.amount * element.intergredient.nf_sugars
       carb += element.amount * element.intergredient.nf_total_carbohydrate
       fat += element.amount * element.intergredient.nf_total_fat
     });
-    var photo = {
-      'thumb':" ",
-      'is_user_uploaded':false,
-      'highres':" "
+    if (recipe.photo != undefined) {
+      var photo = recipe.photo
+    } else{
+      var photo = recipe.intergredients[0].intergredient.photo
     }
-    var food = {...this.recipe, 
+    console.log(photo)
+    var food = {...recipe, 
     'isRecipe':true,
     'nf_calories':calorie,
     'nf_protein':protein,
@@ -58,13 +59,12 @@ export class AddRecipeToFoodPage implements OnInit {
     'photo':photo,
     }
 
-    var data = {'food':food,
-    'date': this.currentDate,
-    'amount': this.amount
-    }
-    console.log(data)
-    this.fsService.logfood(data, this.currentDate)
-    this.router.navigate(['/logger/home']);
+    var food_list = []
+    food_list.push(food)
+    localStorage.setItem("recipe_food", JSON.stringify(food_list))
+    this.router.navigate
+    this.closeModal();
+    this.router.navigate(["/","logger","addfood"]);
   }
   
 
