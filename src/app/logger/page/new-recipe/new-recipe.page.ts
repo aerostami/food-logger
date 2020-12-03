@@ -3,13 +3,14 @@ import {Observable, of} from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
 import { HttpRestService } from "../../service/http-rest.service";
 import { FsService } from '../../service/fs.service';
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-new-recipe',
   templateUrl: './new-recipe.page.html',
   styleUrls: ['./new-recipe.page.scss'],
 })
 export class NewRecipePage implements OnInit {
-  public name;
+  public name = ""
   public intergredients;
   public aintergredients = [];
   public data;
@@ -18,7 +19,8 @@ export class NewRecipePage implements OnInit {
 
   constructor(
     private fsService: FsService,
-    private rest: HttpRestService
+    private rest: HttpRestService,
+    private toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -35,9 +37,13 @@ export class NewRecipePage implements OnInit {
 
   }
   public createNewRecipe() {
-    var recipes = JSON.parse(localStorage.getItem('recipes'))
-    recipes.push({'food_name':this.name, 'intergredients': this.aintergredients, 'photo': this.aintergredients[0].intergredient.photo})
-    this.fsService.createNewRecipeList({'recipes':recipes})
+    if (this.name.trim() == "")  {
+      this.startToast()
+    } else {
+      var recipes = JSON.parse(localStorage.getItem('recipes'))
+      recipes.push({'food_name':this.name, 'intergredients': this.aintergredients, 'photo': this.aintergredients[0].intergredient.photo})
+      this.fsService.createNewRecipeList({'recipes':recipes})
+    }
   }
 
   
@@ -71,6 +77,16 @@ export class NewRecipePage implements OnInit {
     if (f.amount === Math.floor(f.amount)){
       f.amount = f.amount + '.0';
     }
+  }
+
+  async startToast(){
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: 'Please Add a Name',
+    });
+
+    await toast.present();
   }
 
 
