@@ -20,9 +20,9 @@ export class AddfoodPage implements OnInit {
 
   public amount: number = 2;
   public enjoyment: number = 3;
-  ratingEmoji: string;
-  ratingColor: string;
-  myToastController: ToastController;
+  public ratingEmoji: string;
+  public ratingColor: string;
+  public myToastController: ToastController;
   public logTime = "";
   public logDate = "";
 
@@ -41,11 +41,11 @@ export class AddfoodPage implements OnInit {
   private long;
   private coords;
   private address;
-  addresses: string[] = [];
-  selectedAddress = null;
+  public addresses: string[] = [];
+  public selectedAddress = null;
   private dateDate;
   private justSelectedAddress = true;
-  photos = this.photoService.photos;
+  public photos = this.photoService.photos;
   
   constructor(
     private fsService: FsService,
@@ -57,7 +57,6 @@ export class AddfoodPage implements OnInit {
     private mapboxService: MapboxServiceService
     ) {
     this.foods = JSON.parse(localStorage.getItem("foods"));
-    console.log(this.foods)
     this.myToastController = toastController;
 
   }
