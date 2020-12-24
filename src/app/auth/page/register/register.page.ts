@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class RegisterPage implements OnInit {
   public password: string;
   public registerForm: FormGroup;
   constructor(
-    private formBuilder: FormBuilder,
+    private toastController: ToastController,
     private as: AuthService,
     ) {
     
@@ -29,10 +30,13 @@ export class RegisterPage implements OnInit {
     var email = this.email;
     var password = this.password;
 
-    this.as.SignUp(email, password);
+
+    this.as.SignUp(email, password)
+
 
 
   }
 
+  
 
 }

@@ -25,7 +25,7 @@ export class RecipePage implements OnInit {
     localStorage.setItem('mode', 'recipe')
     var mode = localStorage.getItem('mode')
 
-    this.recipes = this.fsService.getRecipets();
+    this.recipes = this.fsService.getRecipes();
     this.recipes.subscribe((result) => {
       var recipes_list =result.recipes
       if (result.recipes) {
@@ -58,7 +58,6 @@ export class RecipePage implements OnInit {
       });
   }
   public async openAddRecipeToFoodModal(recipe){
-    console.log(recipe.name)
     const modal = await this.modalController.create({
       component: AddRecipeToFoodPage,
       componentProps: {
@@ -74,6 +73,25 @@ export class RecipePage implements OnInit {
     })
     return await modal.present();
     
+  }
+  public deleteRecipe(recipe_name){
+    var recipe_list = JSON.parse(localStorage.getItem("recipes"));
+    var i = 0;
+    var remove_index = -1;
+    recipe_list.forEach(element => {
+      if (element.food_name ==recipe_name) {
+        remove_index = i;
+      }
+      i++;
+    });
+    if (remove_index>-1){
+      recipe_list.splice(remove_index, 1)
+    }
+    this.fsService.createNewRecipeList({'recipes':recipe_list})
+  }
+
+  public addRecipeToFood(recipe) {
+    this.fsService.addRecipeToFood(recipe);
   }
   
   

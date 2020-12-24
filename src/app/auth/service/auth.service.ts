@@ -6,6 +6,8 @@ import { User } from '../../types/User.interface'
 import { Observable, Subject} from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class AuthService {
     private router: Router,
     private afAuth: AngularFireAuth,
     private ngZone: NgZone,
-
+    private toastController:ToastController,
     ) {
     this.usersCollection = this.fs.collection('users')
     this.items = this.usersCollection.snapshotChanges().pipe(
@@ -82,7 +84,14 @@ export class AuthService {
     .then((result) => {
 
       this.SetUserData(result.user);
+      this.startToast('Registration Successful');
+    
+    }).catch((error)=>{
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      this.startToast(errorMessage);
     })
+
   }
 
   
@@ -120,4 +129,14 @@ export class AuthService {
       merge: true
     })
   }
+  async startToast(message:string){
+    const toast = await this.toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: message,
+    });
+
+    await toast.present();
+  }
+  
 }

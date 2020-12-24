@@ -14,13 +14,21 @@ export class UserInfoPage implements OnInit {
   public gender;
   public phoneNumber;
 
+  public ageHtml;
+  public heightHtml;
+  public genderHtml;
+  public weightHtml;
+
+
   constructor(
     private fsService: FsService,
     private as: AuthService,
   ) { }
 
   ngOnInit() {
+    this.makeAgeHtml() 
   }
+
   public logForm(){
     var data = {
       userInfo: {
@@ -34,6 +42,22 @@ export class UserInfoPage implements OnInit {
       isUserInfoLogged: true
     }
     this.fsService.logUserInfo(data);
+}
+public makeAgeHtml() {
+  var htmlmid = '';
+  for (let i=0;i<100;i++) {
+    htmlmid +='<ion-select-option value="'+i+'"></ion-select-option>'
+  }
+  this.ageHtml = 
+  `
+  <ion-select value ="age">
+  `
+  +
+  htmlmid
+  +
+  `
+  </ion-select>
+  `
 }
 public logout() {
   this.as.logout();

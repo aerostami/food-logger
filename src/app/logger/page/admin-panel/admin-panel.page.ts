@@ -15,7 +15,7 @@ export class AdminPanelPage implements OnInit {
   public age;
   public gender;
   public phoneNumber;
-  public user;
+  public user: any;
 
   constructor(
     private fsService: FsService,
@@ -27,7 +27,6 @@ export class AdminPanelPage implements OnInit {
 
   ionViewWillEnter(){
     this.user = this.fsService.getUserInfo();
-    console.log(this.user)
     
     
   }

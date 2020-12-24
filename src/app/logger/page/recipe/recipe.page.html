@@ -15,9 +15,11 @@
     <ion-list id="list">
       <ion-item-sliding *ngFor="let recipe of (recipes | async)?.recipes " style="margin-top: 20px;">
   
-          <ion-item (click)="openAddRecipeToFoodModal(recipe)">
-            <h3>{{ recipe.food_name}}</h3>
+          <ion-item >
+            <h3 (click)="openAddRecipeToFoodModal(recipe)">{{ recipe.food_name}}</h3>
+            <ion-button slot="end" (click)="addRecipeToFood(recipe)">Add</ion-button>
           </ion-item>
+          
           
   
         <ion-item-options side="start">
@@ -27,11 +29,11 @@
         </ion-item-options>
   
         <ion-item-options side="end">
-          <ion-item-option expandable color="danger">
+          <ion-item-option expandable color="danger" (click)="deleteRecipe(recipe.food_name)">
             <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
           </ion-item-option>
         </ion-item-options>
-  
+        
       </ion-item-sliding>
       
   
