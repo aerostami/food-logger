@@ -84,12 +84,12 @@ export class AuthService {
     .then((result) => {
 
       this.SetUserData(result.user);
-      this.successToast();
+      this.startToast('Registration Successful');
     
     }).catch((error)=>{
       var errorCode = error.code;
       var errorMessage = error.message;
-      this.failToast();
+      this.startToast(errorMessage);
     })
 
   }
@@ -129,22 +129,14 @@ export class AuthService {
       merge: true
     })
   }
-  async successToast(){
+  async startToast(message:string){
     const toast = await this.toastController.create({
       color: 'dark',
       duration: 2000,
-      message: 'Registration Successful',
+      message: message,
     });
 
     await toast.present();
   }
-  async failToast(){
-    const toast = await this.toastController.create({
-      color: 'dark',
-      duration: 2000,
-      message: 'Something went wrong',
-    });
-
-    await toast.present();
-  }
+  
 }
