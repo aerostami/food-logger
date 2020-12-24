@@ -85,11 +85,11 @@ export class HomePage implements OnInit {
 
     this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
-    this.fsService.getUserInfo().subscribe((result)=>{
-      if ( result.isUserInfoLogged == undefined ) {
-        this.router.navigate(['/user-info'])
-      } 
-    })
+    // this.fsService.getUserInfo().subscribe((result)=>{
+    //   if ( result.isUserInfoLogged == undefined ) {
+    //     this.router.navigate(['/user-info'])
+    //   } 
+    // })
     this.makeChart();
     
    
