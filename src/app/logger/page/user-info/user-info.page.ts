@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/service/auth.service';
   styleUrls: ['./user-info.page.scss'],
 })
 export class UserInfoPage implements OnInit {
+  public user;
   public name;
   public height;
   public weight;
@@ -26,7 +27,17 @@ export class UserInfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.makeAgeHtml() 
+    this.makeAgeHtml();
+    this.fsService.getUserInfo().subscribe((data)=>{
+      console.log(data)
+      this.name = data.userInfo.name;
+      this.height = data.userInfo.height;
+      this.weight = data.userInfo.weight;
+      this.age = data.userInfo.age;
+      this.gender = data.userInfo.gender;
+      this.phoneNumber = data.userInfo.phoneNumber;
+
+    });
   }
 
   public logForm(){

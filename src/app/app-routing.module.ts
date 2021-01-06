@@ -77,6 +77,10 @@ const routes: Routes = [
     path: 'add-recipe-to-food',
     loadChildren: () => import('./logger/page/add-recipe-to-food/add-recipe-to-food.module').then( m => m.AddRecipeToFoodPageModule)
   },
+  {
+    path: 'auth/reset-password',
+    loadChildren: () => import('./auth/page/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
 ];
 
 @NgModule({
