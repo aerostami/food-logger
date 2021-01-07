@@ -85,6 +85,7 @@ export class AuthService {
 
       this.SetUserData(result.user);
       this.startToast('Registration Successful');
+      this.router.navigate(['/auth/login']);
     
     }).catch((error)=>{
       var errorCode = error.code;
@@ -128,6 +129,18 @@ export class AuthService {
     return userRef.set(userData, {
       merge: true
     })
+  }
+  public ResetPasswordByEmail(emialAddress: string) {
+
+    this.afAuth.sendPasswordResetEmail(emialAddress).then(()=>{
+      this.startToast('Successful send');
+      this.router.navigate(['auth/login']);
+    }).catch((error)=>{
+      this.startToast(error);
+    });
+    
+
+
   }
   async startToast(message:string){
     const toast = await this.toastController.create({

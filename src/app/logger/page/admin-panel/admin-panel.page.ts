@@ -22,7 +22,7 @@ export class AdminPanelPage implements OnInit {
     private as: AuthService,
   ) { }
   ngOnInit(){
-    this.user = this.fsService.getUserInfo();
+
   }
 
   ionViewWillEnter(){

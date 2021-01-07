@@ -49,6 +49,7 @@ export class LoginPage implements OnInit {
 
   }
 
+
   public GoogleAuth() {
     this.as.GoogleAuth()
     
