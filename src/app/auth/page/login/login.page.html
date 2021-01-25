@@ -34,12 +34,10 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="formGroup">
-          <button type="button" class="btn googleBtn" (click)="GoogleAuth()">
-            <i class="fab fa-google-plus-g"></i>
-            Log in with Google
-          </button>
-        </div>
+        <ion-button expand="block" (click)="GoogleAuth()" color="danger">
+          <ion-icon slot="start" name="logo-google"></ion-icon>
+          LogIn with Google
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
