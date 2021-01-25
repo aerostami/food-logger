@@ -18,8 +18,13 @@
         </div>
         <img *ngIf="!food.localPhoto" style="display: block; margin: auto" [src]="food.food.photo.thumb" alt=""/>
         <ion-fab horizontal="start" vertical="bottom" slot="fixed">
-          <ion-fab-button color="dark" (click)="takePicture(food)">
-            <ion-icon name="camera"></ion-icon>
+        <ion-fab-button color="dark" (click)="takePicture(food)">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+        <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+          <ion-fab-button color="blue" style="width: 40px;height: 40px;">
+            <ion-icon name="information-outline"></ion-icon>
           </ion-fab-button>
         </ion-fab>
         <ion-fab *ngIf="food.localPhoto" horizontal="start" vertical="top" slot="fixed" style="left:20px;opacity: 80%;">
