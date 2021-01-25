@@ -6,6 +6,11 @@
     <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
   </feature>
 
+  <feature name="GooglePlus">
+    <param name="android-package" value="nl.xservices.plugins.GooglePlus"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="NativeGeocoder">
     <param name="android-package" value="cordova.plugin.nativegeocoder.NativeGeocoder"/>
   </feature>
