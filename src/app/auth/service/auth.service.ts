@@ -7,7 +7,9 @@ import { Observable, Subject} from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,21 +19,26 @@ export class AuthService {
   private UserLoginStream = new Subject<any>();
   private usersCollection: AngularFirestoreCollection<User>;
   items: Observable<any[]>;
+  private user;
   constructor(
     private fs: AngularFirestore,
     private router: Router,
     private afAuth: AngularFireAuth,
     private ngZone: NgZone,
     private toastController:ToastController,
+    private platform: Platform,
+    private gplus: GooglePlus,
     ) {
-    this.usersCollection = this.fs.collection('users')
-    this.items = this.usersCollection.snapshotChanges().pipe(
-      map(action => action.map( a => {
-        const data = a.payload.doc.data() as User;
-        const id = a.payload.doc.id;
-        return { id, ...data};
-      }))
-    )
+      this.user = this.afAuth.authState;
+    
+      this.usersCollection = this.fs.collection('users')
+      this.items = this.usersCollection.snapshotChanges().pipe(
+        map(action => action.map( a => {
+          const data = a.payload.doc.data() as User;
+          const id = a.payload.doc.id;
+          return { id, ...data};
+        }))
+      )
   }
   public getUserLoginStream (): Observable<any>{
     return this.UserLoginStream.asObservable();
@@ -71,9 +78,9 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password)
     .then((result) => {
       
-      this.ngZone.run(() => {
-        this.router.navigate(['/logger/home']);
-      });
+
+      this.router.navigate(['/logger/home']);
+
       this.SetUserData(result.user);
     })
   }
@@ -97,18 +104,46 @@ export class AuthService {
 
   
   public GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    if (this.platform.is('capacitor')) {
+      let params = {
+        webClientId: '1055247824931-u6mk1f7d4hftp6kob1nlgpc0knv9jo12.apps.googleusercontent.com', 
+        offline: true
+      };
+      this.gplus.login(params)
+      .then((response) => {
+
+        const { idToken, accessToken } = response;
+        this.onLoginSuccess(idToken, accessToken);
+      }).catch ((error) =>
+        alert('error: test' + error)
+      );
+      
+    } else {
+      return this.AuthLogin(new auth.GoogleAuthProvider());
+    }
+    return;
+  }
+  onLoginSuccess(accessToken, accessSecret) {
+    const credential = accessSecret ? auth.GoogleAuthProvider
+        .credential(accessToken, accessSecret) : auth.GoogleAuthProvider
+            .credential(accessToken);
+    this.afAuth.signInWithCredential(credential)
+      .then((success) => {
+        this.SetUserData(success.user);
+
+        this.router.navigate(['/logger/home']);
+
+      });
+
   }
 
-  public AuthLogin(provider) {
+  async AuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
-    .then((result) => {
-
-      
+    .then((result) => {      
       this.SetUserData(result.user);
-      this.ngZone.run(() => {
-        this.router.navigate(['/logger/home']);
-      })
+
+      this.router.navigate(['/logger/home']);
+
     }).catch((error) => {
       window.alert(error)
     })
