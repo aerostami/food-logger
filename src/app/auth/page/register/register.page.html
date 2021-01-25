@@ -20,11 +20,17 @@
     </ion-row>
     <ion-row>
       <ion-col >
-        <ion-button margin (click)="onSubmit()">
+        <ion-button expand="block"  margin (click)="onSubmit()">
           <ion-label>Register</ion-label>
         </ion-button>
-        
-        <a routerLink="/auth/login">Login</a>
+
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <ion-button expand="block"  margin routerLink="/auth/login">
+          <ion-label>Back to Login</ion-label>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

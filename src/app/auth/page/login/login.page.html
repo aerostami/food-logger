@@ -20,24 +20,31 @@
     </ion-row>
     <ion-row>
       <ion-col >
-        <ion-button (click)="onSubmit()">
+        <ion-button expand="block"  (click)="onSubmit()">
           <ion-label>Login</ion-label>
         </ion-button>
-        <a routerLink="/auth/register">Register</a>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col >
-          <a routerLink="/auth/reset-password">Forget Password</a>
 
-      </ion-col>
-    </ion-row>
     <ion-row>
       <ion-col>
         <ion-button expand="block" (click)="GoogleAuth()" color="danger">
           <ion-icon slot="start" name="logo-google"></ion-icon>
           LogIn with Google
         </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <ion-button expand="block"  routerLink="/auth/register">
+          <ion-label>Register</ion-label>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <a routerLink="/auth/reset-password">Forget Password</a>
+
       </ion-col>
     </ion-row>
   </ion-grid>
