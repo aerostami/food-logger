@@ -82,6 +82,9 @@ export class AuthService {
       this.router.navigate(['/logger/home']);
 
       this.SetUserData(result.user);
+    }).catch(error => {
+      var errorMessage = error.message;
+      this.startToast(errorMessage);
     })
   }
 
