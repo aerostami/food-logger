@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsService } from '../../service/fs.service';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { FoodEditPage } from '../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
+import { Plugins, LocalNotificationEnabledResult, LocalNotificationActionPerformed, LocalNotification, Device } from '@capacitor/core';
+const { LocalNotifications } = Plugins;
 
 @Component({
   selector: 'app-home',
@@ -36,7 +38,8 @@ export class HomePage implements OnInit {
       private fsService: FsService,
       private router: Router,
       private as: AuthService,
-      private modalController: ModalController
+      private modalController: ModalController,
+      private alertCtrl: AlertController,
   ) {
     
 
@@ -72,8 +75,70 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await LocalNotifications.requestPermission();
+    // await this.lunchNotification();
+    // TODO night time
+    await this.waterNotification();
+  }
 
+  async lunchNotification() {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Lunch Notification',
+          body: "Have you had your lunch?",
+          id: 1,
+          // extra: {
+          //   data: 'Pass data to your handler'
+          // },
+          iconColor: '#0000FF',
+          schedule: {
+            on: {
+              hour: 12,
+              minute: 0
+            },
+            repeats: true
+          },
+        }
+      ]
+    });
+  }
+
+  async waterNotification() {
+    // get user's `consumed_at` time data
+    const userData = await this.as.getUserData();
+    console.log(userData);
+    let userDate = userData.food.consumed_at;
+    userDate = new Date(userDate);
+    const userTime = userDate.getTime() / 1000;
+    console.log(userTime);
+
+    // set standard time data
+    const currentDate = new Date();
+    const currentTime = currentDate.getTime() / 1000;
+    const setDate = new Date(currentTime * 1000 - 3600000);  // 1 hour ago
+    const setTime = setDate.getTime() / 1000;
+    console.log(setTime);
+
+    // check if the user had water within that time
+    const water = await this.as.checkWaterData();
+    console.log(water);
+    if (!water && userTime < setTime) {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Water Notification',
+            body: "Take water",
+            id: 2,
+            iconColor: '#0000FF',
+            schedule: {
+              repeats: true
+            },
+          }
+        ]
+      });
+    }
   }
 
 

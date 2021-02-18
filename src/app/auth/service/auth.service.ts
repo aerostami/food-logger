@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { User } from '../../types/User.interface'
+import { User } from '../../types/User.interface';
 import { Observable, Subject} from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { Router } from '@angular/router';
@@ -20,12 +20,13 @@ export class AuthService {
   private usersCollection: AngularFirestoreCollection<User>;
   items: Observable<any[]>;
   private user;
+  uid: any;
   constructor(
     private fs: AngularFirestore,
     private router: Router,
     private afAuth: AngularFireAuth,
     private ngZone: NgZone,
-    private toastController:ToastController,
+    private toastController: ToastController,
     private platform: Platform,
     private gplus: GooglePlus,
     ) {
@@ -189,5 +190,51 @@ export class AuthService {
 
     await toast.present();
   }
-  
+
+  async getUser() {
+    await this.afAuth.authState.subscribe( authState => {
+      this.uid = authState.uid;
+      return this.uid;
+    });
+  }
+
+  async checkWaterData() {
+    // const usersDoc = this.fs.firestore.collection(`users`);
+    // usersDoc.get().then((userQuerySnapshot) => {
+    //   userQuerySnapshot.forEach((user) => {
+    //     const userLogDoc = usersDoc.doc(user.id).collection('20210209');
+    //     userLogDoc.get().then((menuQuerySnapshot) => {
+    //       menuQuerySnapshot.forEach((menu) => {
+    //         console.log(menu.id, '=>', menu.data());
+    //       });
+    //     });
+    //     // console.log(doc.id, '=>', doc.data());
+    //   });
+    // });
+    let flag = false;
+    const userDoc = this.fs.firestore.collection('users').doc('test_Seiwon').collection('20210215');
+    await userDoc.get().then((doc) => {
+      doc.forEach((food) => {
+        if (food.data().food.food_name === 'water') {
+          flag = true;
+          return flag;
+        } else {
+          return flag;
+        }
+      });
+    });
+    return flag;
+  }
+
+  async getUserData() {
+    let data;
+    const userDoc = this.fs.firestore.collection('users').doc('test_Seiwon').collection('20210215');
+    await userDoc.get().then((doc) => {
+      doc.forEach((food) => {
+        data = food.data();
+        return data;
+      });
+    });
+    return data;
+  }
 }
