@@ -77,21 +77,22 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await LocalNotifications.requestPermission();
-    // await this.lunchNotification();
-    // TODO night time
-    await this.waterNotification();
+    await this.lunchNotification();
+
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    if (currentHour >= 8 && currentHour <= 19) {  // users get 'water notification' between 8am to 8pm(by localtime)
+      await this.waterNotification();
+    }
   }
 
-  async lunchNotification() {
+  async lunchNotification() {  // users get 'lunch notification at 12:00(by localtime)'
     await LocalNotifications.schedule({
       notifications: [
         {
           title: 'Lunch Notification',
           body: "Have you had your lunch?",
           id: 1,
-          // extra: {
-          //   data: 'Pass data to your handler'
-          // },
           iconColor: '#0000FF',
           schedule: {
             on: {
@@ -105,25 +106,21 @@ export class HomePage implements OnInit {
     });
   }
 
-  async waterNotification() {
+  async waterNotification() {  // users get 'water notification if they haven't taken water for an hour'
     // get user's `consumed_at` time data
     const userData = await this.as.getUserData();
-    console.log(userData);
     let userDate = userData.food.consumed_at;
     userDate = new Date(userDate);
     const userTime = userDate.getTime() / 1000;
-    console.log(userTime);
 
     // set standard time data
     const currentDate = new Date();
     const currentTime = currentDate.getTime() / 1000;
     const setDate = new Date(currentTime * 1000 - 3600000);  // 1 hour ago
     const setTime = setDate.getTime() / 1000;
-    console.log(setTime);
 
     // check if the user had water within that time
     const water = await this.as.checkWaterData();
-    console.log(water);
     if (!water && userTime < setTime) {
       await LocalNotifications.schedule({
         notifications: [

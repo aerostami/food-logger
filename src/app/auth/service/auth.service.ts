@@ -191,13 +191,6 @@ export class AuthService {
     await toast.present();
   }
 
-  async getUser() {
-    await this.afAuth.authState.subscribe( authState => {
-      this.uid = authState.uid;
-      return this.uid;
-    });
-  }
-
   async checkWaterData() {
     // const usersDoc = this.fs.firestore.collection(`users`);
     // usersDoc.get().then((userQuerySnapshot) => {
@@ -212,15 +205,35 @@ export class AuthService {
     //   });
     // });
     let flag = false;
-    const userDoc = this.fs.firestore.collection('users').doc('test_Seiwon').collection('20210215');
-    await userDoc.get().then((doc) => {
-      doc.forEach((food) => {
-        if (food.data().food.food_name === 'water') {
-          flag = true;
-          return flag;
-        } else {
-          return flag;
-        }
+    await this.afAuth.authState.subscribe( async authState => {
+      // set doc path(ex. USER_UID)
+      this.uid = authState.uid;
+
+      // set collection path(ex. 20201225)
+      const currentDate = new Date().toLocaleDateString();
+      const dateElements = currentDate.split('/');
+      const year = dateElements[2];
+      let month = dateElements[0];
+      let date = dateElements[1];
+
+      if (month.length === 1) {
+        month = '0' + month;
+      }
+      if (date.length === 1) {
+        date = '0' + date;
+      }
+      const collectionPath = year + month + date;
+
+      const userDoc = this.fs.firestore.collection('users').doc(this.uid).collection(collectionPath);
+      await userDoc.get().then((doc) => {
+        doc.forEach((food) => {
+          if (food.data().food.food_name === 'water') {
+            flag = true;
+            return flag;
+          } else {
+            return flag;
+          }
+        });
       });
     });
     return flag;
