@@ -81,7 +81,11 @@ export class HomePage implements OnInit {
 
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
-    if (currentHour >= 8 && currentHour <= 19) {  // users get 'water notification' between 8am to 8pm(by localtime)
+    const currentMin = currentDate.getMinutes();
+
+    // users get water notification only at 10:00am and 16:00pm
+    if ((currentMin < 1)  // and I set delay time for 1 min
+        && (currentHour === 10 || currentHour === 16)) {
       await this.waterNotification();
     }
   }
