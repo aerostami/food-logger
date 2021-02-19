@@ -78,9 +78,13 @@
     </ion-card-content>
   </ion-card>
 
+  <div class="my-overlay" padding [hidden]="overlayHidden">
 
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+
+  </div>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" (click)="clickedFab()">
       <ion-fab-button>
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
@@ -94,10 +98,18 @@
         <ion-fab-button color="light" [routerLink]="['/','logger','voice']">
           <ion-icon name="mic-outline"></ion-icon>
         </ion-fab-button>
+        <img class="hint-img" style="margin: auto;" src="../../../../assets/addFood.png" alt=""/>
+
         <!-- <ion-fab-button  color="light">
           <ion-icon name="camera-outline"></ion-icon>
         </ion-fab-button> -->
       </ion-fab-list>
+    <ion-fab-list side="start">
+      <ion-fab-button color="light" [routerLink]="['/','logger','text']">
+        <ion-icon name="code-slash"></ion-icon>
+      </ion-fab-button>
+      <img class="hint-img-tag" src="../../../../assets/addTag.png" alt=""/>
+    </ion-fab-list>
     </ion-fab>
 
 </ion-content>

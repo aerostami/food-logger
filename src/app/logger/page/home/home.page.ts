@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
   colorDistAM = [];
   distMsgs = ['Daily intake time distribution'];
   labelDistDoughAM = [];
+  overlayHidden = true;
 
   public totalCals = 0;
   public logtime;
@@ -94,6 +95,14 @@ export class HomePage implements OnInit {
     
    
 
+  }
+
+  clickedFab(){
+    this.overlayHidden = !this.overlayHidden;
+  }
+
+  public hideOverlay() {
+    this.overlayHidden = true;
   }
 
   public makeChart() {
