@@ -14,14 +14,18 @@ import { firestore } from 'firebase';
   providedIn: 'root'
 })
 export class FsService {
-  private dateCollection: AngularFirestoreCollection;
+  private foodDataCollection: AngularFirestoreCollection;
+  private eventDataCollection: AngularFirestoreCollection;
   private itemDoc: AngularFirestoreDocument;
   private currentDate: Date;
   private myDate: string;
   private userId: string;
+  private foodPath = '/logs/foodLogs/';
+  private eventPath = '/logs/eventLogs/';
 
   public FoodStream = new Subject<any>();
   public foods: Observable<any[]>;
+  public events: Observable<any[]>;
 
   constructor(
       private afs: AngularFirestore,
@@ -34,9 +38,12 @@ export class FsService {
           this.userId = v;
           this.currentDate = new Date();
           this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
-          this.dateCollection = this.afs.collection<User>('users/'+ this.userId + '/Health/LogFood/' + this.myDate);
-          this.foods = this.dateCollection.valueChanges(['added']);
-          this.itemDoc = afs.doc<User>('users/' + this.userId)
+          this.foodDataCollection = this.afs.collection<User>('users/' + this.userId + this.foodPath + this.myDate);
+          this.foods = this.foodDataCollection.valueChanges(['added']);
+
+          this.eventDataCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + this.myDate);
+          this.events = this.eventDataCollection.valueChanges(['added']);
+          this.itemDoc = afs.doc<User>('users/' + this.userId);
         }
 
     );
@@ -65,20 +72,24 @@ export class FsService {
   private updateDate(){
     this.currentDate = new Date();
     this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
-    this.dateCollection = this.afs.collection<User>('users/'+ this.userId + '/Health/LogFood/' + this.myDate);
-    this.foods = this.dateCollection.valueChanges(['added']);
+    this.foodDataCollection = this.afs.collection<User>('users/'+ this.userId + this.foodPath + this.myDate);
+    this.foods = this.foodDataCollection.valueChanges(['added']);
   }
 
   public getTodayFood() {
     this.updateDate();
     return this.foods;
   }
+  public getTodayEvent() {
+    this.updateDate();
+    return this.events;
+  }
 
   public getMonthFoods() {
     var days = endOfMonth(this.currentDate);
     for (var i=1; i <= days.getDate();i++ ) {
       var date = formatDate(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i), 'yyyyMMdd', 'en');
-      var temp_foodsCollection = this.afs.collection<any>('users/'+ this.userId + '/Health/LogFood/' + date);
+      var temp_foodsCollection = this.afs.collection<any>('users/'+ this.userId + this.foodPath + date);
       var temp_foods = temp_foodsCollection.valueChanges();
 
       temp_foods.forEach(item => item.forEach(v => {
@@ -95,15 +106,20 @@ export class FsService {
 
   public deleteItem(id: any, date: Date) {
     const date_s = formatDate(date, 'yyyyMMdd', 'en');
-    const itemDoc = this.afs.doc('users/'+ this.userId + '/Health/LogFood/' + date_s + '/' + id);
+    const itemDoc = this.afs.doc('users/'+ this.userId + this.foodPath + date_s + '/' + id);
     itemDoc.delete();
   }
 
+  public deleteItemEvent(id: any, date: Date) {
+    const date_s = formatDate(date, 'yyyyMMdd', 'en');
+    const itemDoc = this.afs.doc('users/'+ this.userId + this.eventPath + date_s + '/' + id);
+    itemDoc.delete();
+  }
  
 
   public updateItem(oldid: any, data: any, oldDate: Date, newDate: Date) {
     const date_s = formatDate(oldDate, 'yyyyMMdd', 'en');
-    const itemDoc = this.afs.doc('users/'+ this.userId + '/Health/LogFood/' + date_s + '/' + oldid);
+    const itemDoc = this.afs.doc('users/'+ this.userId + this.foodPath + date_s + '/' + oldid);
 
     itemDoc.delete();
     this.logfood(data, newDate);
@@ -112,12 +128,22 @@ export class FsService {
 
   public logfood(data: any, date: Date) {
     var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/'+ this.userId + '/Health/LogFood/' + date_s);
+    var dateCollection = this.afs.collection<User>('users/'+ this.userId + this.foodPath + date_s);
     var id = this.afs.createId();
 
     var item = { ...data, 'id': id };
     dateCollection.doc(id).set(item);
   }
+
+  public logEvent(data: any, date: Date) {
+    var date_s = formatDate(date, 'yyyyMMdd', 'en');
+    var dateCollection = this.afs.collection<User>('users/'+ this.userId + this.eventPath + date_s);
+    var id = this.afs.createId();
+
+    var item = { ...data, 'id': id };
+    dateCollection.doc(id).set(item);
+  }
+
 
   public getUserInfo() {
     return this.itemDoc.valueChanges();
@@ -126,7 +152,7 @@ export class FsService {
   public logUserInfo(data) {
     this.itemDoc.set(data, 
       {merge: true});
-    this.router.navigate(['/logger/admin'])
+    this.router.navigate(['/logger/admin']);
   }
 
 

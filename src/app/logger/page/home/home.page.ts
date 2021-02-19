@@ -28,11 +28,14 @@ export class HomePage implements OnInit {
   distMsgs = ['Daily intake time distribution'];
   labelDistDoughAM = [];
   overlayHidden = true;
+  hasNutritionalContent = false;
 
   public totalCals = 0;
   public logtime;
   public foods;
+  public events;
   public foodNum: number;
+  public eventNum: number;
   constructor(
       private fsService: FsService,
       private router: Router,
@@ -83,9 +86,10 @@ export class HomePage implements OnInit {
     var mode = localStorage.getItem('mode')
     console.log(mode)
     var userid = localStorage.getItem('username');
-
-    this.foods = this.fsService.getTodayFood();
     var username = localStorage.getItem('username');
+    this.foods = this.fsService.getTodayFood();
+    this.events = this.fsService.getTodayEvent();
+
     // this.fsService.getUserInfo().subscribe((result)=>{
     //   if ( result.isUserInfoLogged == undefined ) {
     //     this.router.navigate(['/user-info'])
@@ -106,6 +110,9 @@ export class HomePage implements OnInit {
   }
 
   public makeChart() {
+    this.events.subscribe(event => {
+      this.eventNum = event.length;
+    });
     this.foods.subscribe(event => {
       let times = [];
       this.foodNum = event.length;
@@ -371,11 +378,17 @@ export class HomePage implements OnInit {
 
       }
       */
-      this.createBarChart();
-      this.createDoughnutChart();
+      if (this.nutData[0] + this.nutData[1] + this.nutData[2] + this.nutData[3] > 0){
+        this.hasNutritionalContent = true;
+        this.createBarChart();
+      }else{
+        this.hasNutritionalContent = false;
+      }
+      if (this.timeDistAM.length > 2){
+        this.createDoughnutChart();
+      }
     });
   }
-  
   refresh(event){
     this.ionViewWillEnter();
     setTimeout(() => {
@@ -388,6 +401,11 @@ export class HomePage implements OnInit {
   deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);
+  }
+
+  deleteEvent(id: any, date: any) {
+    var formatted_date = date.toDate();
+    this.fsService.deleteItemEvent(id, formatted_date);
   }
 
   

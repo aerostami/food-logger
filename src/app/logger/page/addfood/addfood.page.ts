@@ -156,7 +156,7 @@ export class AddfoodPage implements OnInit {
   }
 
   public logFood(food: any, serving: Number, rating: Number) {
-    food.date = new Date(food.date)
+    food.date = new Date(food.date);
     var data = {...food};
     const remove_index = this.logfoods.indexOf(food);
     this.fsService.logfood(data, this.currentDate);

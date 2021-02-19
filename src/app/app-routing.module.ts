@@ -81,6 +81,11 @@ const routes: Routes = [
     path: 'auth/reset-password',
     loadChildren: () => import('./auth/page/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
+  {
+    path: 'eventLogger/event-log-page',
+    loadChildren: () => import('./eventLogger/event-log-page/event-log-page.module').then( m => m.EventLogPagePageModule)
+  },
+
 ];
 
 @NgModule({

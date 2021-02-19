@@ -15,7 +15,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngIf="foodNum!==0">
+  <ion-card *ngIf="foodNum!==0 || eventNum!=0">
 
   <ion-list>
     <ion-list-header>
@@ -49,6 +49,32 @@
       </ion-item-options>
 
     </ion-item-sliding>
+
+    <ion-item-sliding *ngFor="let event of events | async" style="margin-top: 20px;">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-icon name="code-slash"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ event.type}}</h2>
+          <p>x {{event.level}}</p>
+        </ion-label>
+        <ion-badge color="light" slot="end">{{ convertTimeStampToDate(event.date).getHours()}} : {{convertTimeStampToDate(event.date).getMinutes()}}</ion-badge>
+      </ion-item>
+
+      <ion-item-options side="start">
+        <ion-item-option color="primary">
+          <ion-icon slot="icon-only" ios="share-outline" md="share-sharp"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+      <ion-item-options side="end">
+        <ion-item-option expandable color="danger" (click)="deleteEvent(event.id, event.date)">
+          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
     <ion-list-header style="margin-bottom: 15px; font-size: 15px;font-weight: 500;">
       Total Calories: <ion-badge color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14">{{totalCals}}</ion-badge>
     </ion-list-header>
@@ -72,7 +98,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="foodNum!=0">
+  <ion-card *ngIf="hasNutritionalContent">
     <ion-card-content >
         <canvas id = "barChart" ></canvas>
     </ion-card-content>
@@ -105,10 +131,10 @@
         </ion-fab-button> -->
       </ion-fab-list>
     <ion-fab-list side="start">
-      <ion-fab-button color="light" [routerLink]="['/','logger','text']">
+      <ion-fab-button color="light" [routerLink]="['/','eventLogger','event-log-page']">
         <ion-icon name="code-slash"></ion-icon>
       </ion-fab-button>
-      <img class="hint-img-tag" src="../../../../assets/addTag.png" alt=""/>
+      <img class="hint-img-tag" src="../../../../assets/addEvent.png" alt=""/>
     </ion-fab-list>
     </ion-fab>
 
