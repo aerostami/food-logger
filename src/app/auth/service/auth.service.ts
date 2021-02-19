@@ -20,6 +20,7 @@ export class AuthService {
   private usersCollection: AngularFirestoreCollection<User>;
   items: Observable<any[]>;
   private user;
+  uid: any;
   constructor(
     private fs: AngularFirestore,
     private router: Router,
@@ -189,5 +190,64 @@ export class AuthService {
 
     await toast.present();
   }
-  
+
+  async checkWaterData() {
+    // const usersDoc = this.fs.firestore.collection(`users`);
+    // usersDoc.get().then((userQuerySnapshot) => {
+    //   userQuerySnapshot.forEach((user) => {
+    //     const userLogDoc = usersDoc.doc(user.id).collection('20210209');
+    //     userLogDoc.get().then((menuQuerySnapshot) => {
+    //       menuQuerySnapshot.forEach((menu) => {
+    //         console.log(menu.id, '=>', menu.data());
+    //       });
+    //     });
+    //     // console.log(doc.id, '=>', doc.data());
+    //   });
+    // });
+    let flag = false;
+    await this.afAuth.authState.subscribe( async authState => {
+      // set doc path(ex. USER_UID)
+      this.uid = authState.uid;
+
+      // set collection path(ex. 20201225)
+      const currentDate = new Date().toLocaleDateString();
+      const dateElements = currentDate.split('/');
+      const year = dateElements[2];
+      let month = dateElements[0];
+      let date = dateElements[1];
+
+      if (month.length === 1) {
+        month = '0' + month;
+      }
+      if (date.length === 1) {
+        date = '0' + date;
+      }
+      const collectionPath = year + month + date;
+
+      const userDoc = this.fs.firestore.collection('users').doc(this.uid).collection(collectionPath);
+      await userDoc.get().then((doc) => {
+        doc.forEach((food) => {
+          if (food.data().food.food_name === 'water') {
+            flag = true;
+            return flag;
+          } else {
+            return flag;
+          }
+        });
+      });
+    });
+    return flag;
+  }
+
+  async getUserData() {
+    let data;
+    const userDoc = this.fs.firestore.collection('users').doc('test_Seiwon').collection('20210215');
+    await userDoc.get().then((doc) => {
+      doc.forEach((food) => {
+        data = food.data();
+        return data;
+      });
+    });
+    return data;
+  }
 }

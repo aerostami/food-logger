@@ -76,8 +76,71 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await LocalNotifications.requestPermission();
+    await this.lunchNotification();
 
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMin = currentDate.getMinutes();
+
+    // users get water notification only at 10:00am and 16:00pm
+    if ((currentMin < 1)  // and I set delay time for 1 min
+        && (currentHour === 10 || currentHour === 16)) {
+      await this.waterNotification();
+    }
+  }
+
+  async lunchNotification() {  // users get 'lunch notification at 12:00(by localtime)'
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Lunch Notification',
+          body: "Have you had your lunch?",
+          id: 1,
+          iconColor: '#0000FF',
+          schedule: {
+            on: {
+              hour: 12,
+              minute: 0
+            },
+            repeats: true
+          },
+        }
+      ]
+    });
+  }
+
+  async waterNotification() {  // users get 'water notification if they haven't taken water for an hour'
+    // get user's `consumed_at` time data
+    const userData = await this.as.getUserData();
+    let userDate = userData.food.consumed_at;
+    userDate = new Date(userDate);
+    const userTime = userDate.getTime() / 1000;
+
+    // set standard time data
+    const currentDate = new Date();
+    const currentTime = currentDate.getTime() / 1000;
+    const setDate = new Date(currentTime * 1000 - 3600000);  // 1 hour ago
+    const setTime = setDate.getTime() / 1000;
+
+    // check if the user had water within that time
+    const water = await this.as.checkWaterData();
+    if (!water && userTime < setTime) {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Water Notification',
+            body: "Take water",
+            id: 2,
+            iconColor: '#0000FF',
+            schedule: {
+              repeats: true
+            },
+          }
+        ]
+      });
+    }
   }
 
 
