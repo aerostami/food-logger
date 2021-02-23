@@ -5,6 +5,8 @@ import { ModalController } from '@ionic/angular';
 import { FoodEditPage } from '../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
+import { OpenModalService } from 'src/app/services/open-modal.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-home',
@@ -38,9 +40,8 @@ export class HomePage implements OnInit {
   public eventNum: number;
   constructor(
       private fsService: FsService,
-      private router: Router,
       private as: AuthService,
-      private modalController: ModalController
+      private openModalService:OpenModalService,
   ) {
     
 
@@ -56,24 +57,8 @@ export class HomePage implements OnInit {
      */
   }
 
-  public async openFoodEditModal(food){
-    const modal = await this.modalController.create({
-      component: FoodEditPage,
-      componentProps: {
-        "food": food,
-        "foods": this.foods
-      }
-    });
-
-    modal.onDidDismiss().then((dataReturned) => {
-      if (dataReturned !== null) {
-        // this.dataReturned = dataReturned.data;
-        // console.log(this.dataReturned);
-        // alert('Modal Sent Data :'+ dataReturned);
-      }
-    });
-
-    return await modal.present();
+  public async openFoodEditModal(data){
+    this.openModalService.openFoodEditModal(data);
   }
 
   ngOnInit() {
@@ -389,7 +374,8 @@ export class HomePage implements OnInit {
       }
     });
   }
-  refresh(event){
+  
+  public refresh(event){
     this.ionViewWillEnter();
     setTimeout(() => {
       console.log('Async operation has ended');
@@ -398,12 +384,12 @@ export class HomePage implements OnInit {
   }
   
   
-  deletefood(id: any, date: any) {
+  public deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);
   }
 
-  deleteEvent(id: any, date: any) {
+  public deleteEvent(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItemEvent(id, formatted_date);
   }

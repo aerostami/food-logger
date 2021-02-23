@@ -7,6 +7,7 @@ import { FsService } from '../../service/fs.service';
 import { timeInterval } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
 import { FoodEditPage } from '../food-edit/food-edit.page';
+import { OpenModalService } from 'src/app/services/open-modal.service';
 
 
 export const colors: any = {
@@ -77,7 +78,7 @@ export class CalendarPage implements OnInit {
   constructor(
     private modal: NgbModal,
     private fsService: FsService,
-    private modalController: ModalController,
+    private openModalService: OpenModalService,
     ) {
       
 
@@ -91,7 +92,6 @@ export class CalendarPage implements OnInit {
     this.fsService.getMonthFoods();
       this.events$ = this.fsService.getFoodStream();
       this.fsService.getFoodStream().subscribe(v => {
-        console.log(v)
 
         if (!( this.ids.includes(v.id))) {
         
@@ -115,11 +115,11 @@ export class CalendarPage implements OnInit {
       })
   }
 
-  getEventStream() {
+  public getEventStream() {
     return this.eventStream.asObservable();
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  public dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -133,7 +133,7 @@ export class CalendarPage implements OnInit {
     }
   }
 
-  eventTimesChanged({
+  public eventTimesChanged({
     event,
     newStart,
     newEnd,
@@ -151,15 +151,15 @@ export class CalendarPage implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event): void {
+  public handleEvent(action: string, event): void {
     this.modalData = { event, action };
     if (action === "Clicked") {
-
-      this.openFoodEditModal(event.food);
+      this.openModalService.openFoodEditModal(event.food);
+      this.deleteEvent(event);
     };
   }
 
-  addEvent(): void {
+  public addEvent(): void {
     this.events = [
       ...this.events,
       {
@@ -176,38 +176,19 @@ export class CalendarPage implements OnInit {
     ];
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  public deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
+  public setView(view: CalendarView) {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  public closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
-  public edit(v) {
-
-  }
-  public async openFoodEditModal(food){
-    const modal = await this.modalController.create({
-      component: FoodEditPage,
-      componentProps: {
-        "food": food,
-      }
-    });
-
-    modal.onDidDismiss().then((dataReturned) => {
-      if (dataReturned !== null) {
-        // this.dataReturned = dataReturned.data;
-        // console.log(this.dataReturned);
-        // alert('Modal Sent Data :'+ dataReturned);
-      }
-    });
-
-    return await modal.present();
-  }
+  
+  
 
 }
