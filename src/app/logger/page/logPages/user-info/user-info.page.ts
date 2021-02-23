@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FsService } from '../../service/fs.service'
+import { FsService } from '../../../service/fs.service'
 import { AuthService } from 'src/app/auth/service/auth.service';
 @Component({
   selector: 'app-user-info',

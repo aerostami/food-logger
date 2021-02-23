@@ -38,11 +38,11 @@ const routes: Routes = [
   },
   {
     path: 'food-edit',
-    loadChildren: () => import('./logger/page/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
+    loadChildren: () => import('./logger/page/logPages/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
   },
   {
     path: 'user-info',
-    loadChildren: () => import('./logger/page/user-info/user-info.module').then( m => m.UserInfoPageModule)
+    loadChildren: () => import('./logger/page/logPages/user-info/user-info.module').then( m => m.UserInfoPageModule)
   },
   {
     path: 'home',

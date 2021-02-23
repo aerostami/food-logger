@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { FoodEditPage } from '../../food-edit/food-edit.page';
+import { FoodEditPage } from '../../logPages/food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
 import { OpenModalService } from 'src/app/services/open-modal.service';

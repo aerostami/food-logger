@@ -6,11 +6,11 @@ import {
 } from '@ionic/angular';
 
 
-import { PhotoService } from '../../../services/photo.service';
-import { FsService } from '../../service/fs.service';
+import { PhotoService } from '../../../../services/photo.service';
+import { FsService } from '../../../service/fs.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-import { MapboxServiceService, Feature } from '../../../services/mapbox-service.service';
+import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
 
 @Component({
   selector: 'app-food-edit',

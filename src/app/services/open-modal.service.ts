@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FoodEditPage } from '../logger/page/food-edit/food-edit.page';
+import { FoodEditPage } from '../logger/page/logPages/food-edit/food-edit.page';
 
 @Injectable({
   providedIn: 'root'

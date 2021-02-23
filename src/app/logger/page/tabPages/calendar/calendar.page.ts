@@ -6,7 +6,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 import { FsService } from '../../../service/fs.service';
 import { timeInterval } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
-import { FoodEditPage } from '../../food-edit/food-edit.page';
+import { FoodEditPage } from '../../logPages/food-edit/food-edit.page';
 import { OpenModalService } from 'src/app/services/open-modal.service';
 
 
