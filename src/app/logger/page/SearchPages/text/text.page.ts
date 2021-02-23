@@ -57,7 +57,7 @@ export class TextPage implements OnInit {
   public next () {
     if (this.mode == 'food') {
       localStorage.setItem('foods', JSON.stringify(this.outdata));
-      this.router.navigate(["/","logger","addfood"]);
+      this.router.navigate(["/","logger","logfood"]);
     } else if (this.mode == 'recipe') {
       localStorage.setItem('intergredient', JSON.stringify(this.outdata));
       this.router.navigate(["/","new-recipe"]);

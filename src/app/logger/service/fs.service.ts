@@ -22,6 +22,7 @@ export class FsService {
   private userId: string;
   private foodPath = '/logs/foodLogs/';
   private eventPath = '/logs/eventLogs/';
+  private recipePath = '/logs/Recipes';
 
   public FoodStream = new Subject<any>();
   public foods: Observable<any[]>;
@@ -162,7 +163,7 @@ export class FsService {
 
 
   public createNewRecipeList(data) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
     userRef.set(data, {
       merge: true
     })
@@ -170,7 +171,7 @@ export class FsService {
   }
 
   public getRecipes() {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
     return userRef.valueChanges();
     
   }
@@ -206,8 +207,7 @@ export class FsService {
     var food_list = []
     food_list.push(food)
     localStorage.setItem("recipe_food", JSON.stringify(food_list))
-    this.router.navigate
-    this.router.navigate(["/","logger","addfood"]);
+    this.router.navigate(["/","logger","logfood"]);
   }
 
  

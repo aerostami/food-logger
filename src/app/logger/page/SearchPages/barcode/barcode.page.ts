@@ -41,7 +41,7 @@ export class BarcodePage implements OnInit {
       let foods = response.foods;
 
       foods.forEach(food => {
-        this.router.navigate(["/","logger","addfood"]);
+        this.router.navigate(["/","logger","logfood"]);
       });
       localStorage.setItem('foods', JSON.stringify(foods));
     });

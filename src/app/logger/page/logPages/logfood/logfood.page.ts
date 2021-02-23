@@ -12,11 +12,11 @@ import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@io
 import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
 
 @Component({
-  selector: 'app-addfood',
-  templateUrl: './addfood.page.html',
-  styleUrls: ['./addfood.page.scss'],
+  selector: 'app-logfood',
+  templateUrl: './logfood.page.html',
+  styleUrls: ['./logfood.page.scss'],
 })
-export class AddfoodPage implements OnInit {
+export class LogfoodPage implements OnInit {
 
   public amount: number = 2;
   public enjoyment: number = 3;

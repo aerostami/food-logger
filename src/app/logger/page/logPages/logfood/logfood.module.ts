@@ -5,9 +5,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddfoodPageRoutingModule } from './addfood-routing.module';
+import { LogfoodPageRoutingModule } from './logfood-routing.module';
 
-import { AddfoodPage } from './addfood.page';
+import { LogfoodPage } from './logfood.page';
 
 
 @NgModule({
@@ -15,9 +15,9 @@ import { AddfoodPage } from './addfood.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AddfoodPageRoutingModule,
+    LogfoodPageRoutingModule,
     FlatpickrModule.forRoot(),
   ],
-  declarations: [AddfoodPage]
+  declarations: [LogfoodPage]
 })
-export class AddfoodPageModule {}
+export class LogfoodPageModule {}
