@@ -57,7 +57,7 @@ const routes: Routes = [
     loadChildren: () => import('./logger/page/tabPages/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   },
   {
-    path: 'new-recipe',
+    path: 'logrecipe',
     loadChildren: () => import('./logger/page/logPages/logrecipe/logrecipe.module').then( m => m.LogRecipePageModule)
   },
   {

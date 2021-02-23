@@ -60,7 +60,7 @@ export class TextPage implements OnInit {
       this.router.navigate(["/","logger","logfood"]);
     } else if (this.mode == 'recipe') {
       localStorage.setItem('intergredient', JSON.stringify(this.outdata));
-      this.router.navigate(["/","new-recipe"]);
+      this.router.navigate(["/","logrecipe"]);
     }
   }
   selectedItem(item){

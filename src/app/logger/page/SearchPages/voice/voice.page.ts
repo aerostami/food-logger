@@ -108,7 +108,7 @@ export class VoicePage implements OnInit {
         });
         localStorage.setItem('foods', JSON.stringify(this.foods));
       } else if (this.mode == 'recipe') {
-        this.router.navigate(['/new-recipe'])
+        this.router.navigate(['/logrecipe'])
                       var intergredient = this.foods
                       localStorage.setItem('intergredient', JSON.stringify(intergredient))
 

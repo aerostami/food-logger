@@ -5,9 +5,9 @@ import { HttpRestService } from "../../../service/http-rest.service";
 import { FsService } from '../../../service/fs.service';
 import { ToastController } from '@ionic/angular';
 @Component({
-  selector: 'app-new-recipe',
-  templateUrl: './new-recipe.page.html',
-  styleUrls: ['./new-recipe.page.scss'],
+  selector: 'app-logrecipe',
+  templateUrl: './logrecipe.page.html',
+  styleUrls: ['./logrecipe.page.scss'],
 })
 export class LogRecipePage implements OnInit {
   public name = ""
