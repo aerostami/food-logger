@@ -25,8 +25,8 @@ const routes: Routes = [
     loadChildren: () => import('./logger/page/SearchPages/text/text.module').then( m => m.TextPageModule)
   },
   {
-    path: 'logger/addfood',
-    loadChildren: () => import('./logger/page/logPages/addfood/addfood.module').then( m => m.AddfoodPageModule)
+    path: 'logger/logfood',
+    loadChildren: () => import('./logger/page/logPages/logfood/logfood.module').then( m => m.LogfoodPageModule)
   },
   {
     path: 'logger/voice',
@@ -58,7 +58,7 @@ const routes: Routes = [
   },
   {
     path: 'new-recipe',
-    loadChildren: () => import('./logger/page/logPages/new-recipe/new-recipe.module').then( m => m.NewRecipePageModule)
+    loadChildren: () => import('./logger/page/logPages/logrecipe/logrecipe.module').then( m => m.LogRecipePageModule)
   },
   {
     path: 'recipe',
