@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import { ModalController } from '@ionic/angular';
-import { AddRecipeToFoodPage } from '../add-recipe-to-food/add-recipe-to-food.page';
+import { AddRecipeToFoodPage } from '../../logPages/add-recipe-to-food/add-recipe-to-food.page';
 
 
 @Component({

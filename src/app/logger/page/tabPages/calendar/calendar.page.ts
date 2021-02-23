@@ -3,10 +3,10 @@ import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMo
 import { Subject, Observable, of } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import { timeInterval } from 'rxjs/operators';
 import { ModalController } from '@ionic/angular';
-import { FoodEditPage } from '../food-edit/food-edit.page';
+import { FoodEditPage } from '../../food-edit/food-edit.page';
 import { OpenModalService } from 'src/app/services/open-modal.service';
 
 

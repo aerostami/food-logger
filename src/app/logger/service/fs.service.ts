@@ -193,7 +193,6 @@ export class FsService {
     } else{
       var photo = recipe.intergredients[0].intergredient.photo
     }
-    console.log(photo)
     var food = {...recipe, 
     'isRecipe':true,
     'nf_calories':calorie,

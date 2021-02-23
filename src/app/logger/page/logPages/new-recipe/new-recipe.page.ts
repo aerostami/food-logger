@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable, of} from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from "rxjs/operators";
-import { HttpRestService } from "../../service/http-rest.service";
-import { FsService } from '../../service/fs.service';
+import { HttpRestService } from "../../../service/http-rest.service";
+import { FsService } from '../../../service/fs.service';
 import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-new-recipe',

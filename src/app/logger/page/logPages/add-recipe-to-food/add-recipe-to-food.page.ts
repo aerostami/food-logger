@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ModalController } from '@ionic/angular';
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
 
 
@@ -18,7 +18,7 @@ export class AddRecipeToFoodPage implements OnInit {
     private modalController: ModalController, 
     private navParams: NavParams,
     private fsService: FsService, 
-    private router: Router,
+
   ) { }
 
   ngOnInit() {

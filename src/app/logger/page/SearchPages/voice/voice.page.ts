@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRestService } from "../../service/http-rest.service";
-import { FsService } from '../../service/fs.service';
+import { HttpRestService } from "../../../service/http-rest.service";
+import { FsService } from '../../../service/fs.service';
 import {SpeechRecognition} from '@ionic-native/speech-recognition/ngx';
 import {subscribeOn} from "rxjs/operators";
 import { Router } from '@angular/router';

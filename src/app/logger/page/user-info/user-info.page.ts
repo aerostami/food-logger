@@ -29,7 +29,6 @@ export class UserInfoPage implements OnInit {
   ngOnInit() {
     this.makeAgeHtml();
     this.fsService.getUserInfo().subscribe((data)=>{
-      console.log(data)
       this.name = data.userInfo.name;
       this.height = data.userInfo.height;
       this.weight = data.userInfo.weight;

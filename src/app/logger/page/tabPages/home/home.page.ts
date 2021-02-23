@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { FoodEditPage } from '../food-edit/food-edit.page';
+import { FoodEditPage } from '../../food-edit/food-edit.page';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { Chart } from 'chart.js';
 import { OpenModalService } from 'src/app/services/open-modal.service';
@@ -69,7 +69,6 @@ export class HomePage implements OnInit {
   ionViewWillEnter() {
     localStorage.setItem('mode', 'food')
     var mode = localStorage.getItem('mode')
-    console.log(mode)
     var userid = localStorage.getItem('username');
     var username = localStorage.getItem('username');
     this.foods = this.fsService.getTodayFood();
@@ -149,7 +148,7 @@ export class HomePage implements OnInit {
         lateMeal = true;
         startedSleep = false;
       }
-      console.log(times);
+
       const currentDate = new Date();
       let curTime = currentDate.getHours() + currentDate.getMinutes() / 60;
       curTime = +curTime.toFixed(2);

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import {Observable, of} from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import { HttpRestService } from '../../service/http-rest.service';
+import { HttpRestService } from '../../../service/http-rest.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-text',
@@ -64,7 +64,6 @@ export class TextPage implements OnInit {
     }
   }
   selectedItem(item){
-      console.log(item.item.food_name);
       this.addItem(item.item.food_name);
   }
   search = (text$: Observable<string>) =>

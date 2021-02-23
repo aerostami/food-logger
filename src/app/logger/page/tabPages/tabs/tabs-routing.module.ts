@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'graph',
-        loadChildren: () => import('../graph/graph.module').then( m => m.GraphPageModule)
+        loadChildren: () => import('../../graph/graph.module').then( m => m.GraphPageModule)
       },
       {
         path: 'admin',

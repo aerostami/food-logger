@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner/ngx";
-import { HttpRestService } from "../../service/http-rest.service";
-import { FsService } from "../../service/fs.service";
+import { HttpRestService } from "../../../service/http-rest.service";
+import { FsService } from "../../../service/fs.service";
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,7 +28,7 @@ export class BarcodePage implements OnInit {
         this.barcodeText = barcodeData.text;
         this.searchForText(this.barcodeText);
         // For debugging purposes
-        console.log(barcodeData);
+        // console.log(barcodeData);
       })
       .catch((err) => {
         alert("Error: " + err + ". Please try it again later.");
@@ -36,7 +36,6 @@ export class BarcodePage implements OnInit {
   }
 
   searchForText(barcodeText: String) {
-    console.log(this.rest.getRestNutritionix());
     this.rest.getRestNutritionix().one('/v2/search/item?upc=' + barcodeText).get('', {
     }).subscribe(response => {
       let foods = response.foods;

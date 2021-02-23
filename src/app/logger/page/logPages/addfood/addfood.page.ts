@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FsService } from '../../service/fs.service';
+import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
 import {
   ToastController,
 } from '@ionic/angular';
 
-import { PhotoService } from '../../../services/photo.service';
+import { PhotoService } from '../../../../services/photo.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
-import { MapboxServiceService, Feature } from '../../../services/mapbox-service.service';
+import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
 
 @Component({
   selector: 'app-addfood',
