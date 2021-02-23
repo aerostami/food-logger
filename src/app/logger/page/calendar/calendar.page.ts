@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView,} from 'angular-calendar';
 import { FsService } from '../../service/fs.service';
 import { timeInterval } from 'rxjs/operators';
+import { ModalController } from '@ionic/angular';
+import { FoodEditPage } from '../food-edit/food-edit.page';
 
 
 export const colors: any = {
@@ -75,6 +77,7 @@ export class CalendarPage implements OnInit {
   constructor(
     private modal: NgbModal,
     private fsService: FsService,
+    private modalController: ModalController,
     ) {
       
 
@@ -88,15 +91,16 @@ export class CalendarPage implements OnInit {
     this.fsService.getMonthFoods();
       this.events$ = this.fsService.getFoodStream();
       this.fsService.getFoodStream().subscribe(v => {
-        
+        console.log(v)
 
         if (!( this.ids.includes(v.id))) {
         
           this.ids.push(v.id);
-          var time = v.date.getHours() + ":" + v.date.getMinutes();
-          var event = {
-            start: v.date,
-            title: v.food + "   " + time,
+          let date = this.fsService.convertTimeStampToDate(v.date)
+          let time = date.getHours() + ":" + date.getMinutes();
+          let event = {
+            start: date,
+            title: v.food.food_name + "   " + time,
             food: v,
             color: colors.blue,
             actions: this.actions,
@@ -147,10 +151,11 @@ export class CalendarPage implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
+  handleEvent(action: string, event): void {
     this.modalData = { event, action };
     if (action === "Clicked") {
-      this.modal.open(this.modalContent, { size: 'lg' });
+
+      this.openFoodEditModal(event.food);
     };
   }
 
@@ -185,6 +190,24 @@ export class CalendarPage implements OnInit {
 
   public edit(v) {
 
+  }
+  public async openFoodEditModal(food){
+    const modal = await this.modalController.create({
+      component: FoodEditPage,
+      componentProps: {
+        "food": food,
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        // this.dataReturned = dataReturned.data;
+        // console.log(this.dataReturned);
+        // alert('Modal Sent Data :'+ dataReturned);
+      }
+    });
+
+    return await modal.present();
   }
 
 }

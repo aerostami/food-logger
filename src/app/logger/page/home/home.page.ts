@@ -495,7 +495,7 @@ export class HomePage implements OnInit {
   }
 
   public convertTimeStampToDate(timestamp) {
-    return timestamp.toDate();
+    return this.fsService.convertTimeStampToDate(timestamp);
   }
 
 }

@@ -69,6 +69,10 @@ export class FsService {
     return hour;
   }
 
+  public convertTimeStampToDate(timestamp) {
+    return timestamp.toDate();
+  }
+
   private updateDate(){
     this.currentDate = new Date();
     this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
@@ -92,10 +96,10 @@ export class FsService {
       var temp_foodsCollection = this.afs.collection<any>('users/'+ this.userId + this.foodPath + date);
       var temp_foods = temp_foodsCollection.valueChanges();
 
-      temp_foods.forEach(item => item.forEach(v => {
-            var time = v.date.toDate();
+      temp_foods.forEach(item => item.forEach(food => {
 
-            this.FoodStream.next({'food': v.food.food_name, 'date': time, 'id': v.id});
+
+            this.FoodStream.next({...food});
           })
       );
 

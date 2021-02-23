@@ -50,6 +50,7 @@ export class FoodEditPage implements OnInit {
 
   ngOnInit() {
     this.food = this.navParams.data.food;
+    console.log(this.food);
     this.selectedAddress = this.food.address;
     this.photoService.loadSaved().then( _ => {
       // this.photos = this.photoService.photos;
