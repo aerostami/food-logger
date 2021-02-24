@@ -25,6 +25,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx'
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

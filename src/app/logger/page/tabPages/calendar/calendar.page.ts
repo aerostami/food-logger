@@ -53,10 +53,7 @@ export class CalendarPage implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
         this.fsService.deleteItem(event.id, event.start);
-        this.handleEvent('Deleted', event);
-
       },
     },
   ];
@@ -68,51 +65,37 @@ export class CalendarPage implements OnInit {
   eventStream = new Subject<any>();
   events$: Observable<CalendarEvent<any>[]>;
   test: any;
-
-
-
   public monthFoods = [];
 
-  private ids = [];
 
   constructor(
-    private modal: NgbModal,
     private fsService: FsService,
     private openModalService: OpenModalService,
     ) {
-      
-
-
+      this.fsService.getMonthFoods();
+      this.fsService.getAddFoodStream().subscribe(v => {
+        let date = this.fsService.convertTimeStampToDate(v.date)
+        let time = date.getHours() + ":" + date.getMinutes();
+        let event = {
+          start: date,
+          title: v.food.food_name + "   " + time,
+          food: v,
+          color: colors.blue,
+          actions: this.actions,
+          id: v.id,
+        }
+        this.events.push(event);
+        this.refresh.next();
+      })
+      this.fsService.getDeleteFoodStream().subscribe(data =>{
+        this.events = this.events.filter(v=>v.id!=data.id);
+      })
     }
 
   ngOnInit() {
   }
 
-  ionViewDidEnter() {
-    this.fsService.getMonthFoods();
-      this.events$ = this.fsService.getFoodStream();
-      this.fsService.getFoodStream().subscribe(v => {
-
-        if (!( this.ids.includes(v.id))) {
-        
-          this.ids.push(v.id);
-          let date = this.fsService.convertTimeStampToDate(v.date)
-          let time = date.getHours() + ":" + date.getMinutes();
-          let event = {
-            start: date,
-            title: v.food.food_name + "   " + time,
-            food: v,
-            color: colors.blue,
-            actions: this.actions,
-            id: v.id,
-          }
-          
-          this.events.push(event);
-          
-          this.refresh.next();
-        }
-        
-      })
+  ionViewWillEnter() {   
   }
 
   public getEventStream() {
@@ -155,7 +138,6 @@ export class CalendarPage implements OnInit {
     this.modalData = { event, action };
     if (action === "Clicked") {
       this.openModalService.openFoodEditModal(event.food);
-      this.deleteEvent(event);
     };
   }
 
@@ -176,7 +158,7 @@ export class CalendarPage implements OnInit {
     ];
   }
 
-  public deleteEvent(eventToDelete: CalendarEvent) {
+  public deleteEvent(eventToDelete) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 

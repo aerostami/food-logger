@@ -24,7 +24,8 @@ export class FsService {
   private eventPath = '/logs/eventLogs/';
   private recipePath = '/logs/Recipes';
 
-  public FoodStream = new Subject<any>();
+  public AddFoodStream = new Subject<any>();
+  public DeleteFoodStream = new Subject<any>();
   public foods: Observable<any[]>;
   public events: Observable<any[]>;
 
@@ -40,10 +41,10 @@ export class FsService {
           this.currentDate = new Date();
           this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
           this.foodDataCollection = this.afs.collection<User>('users/' + this.userId + this.foodPath + this.myDate);
-          this.foods = this.foodDataCollection.valueChanges(['added']);
+          this.foods = this.foodDataCollection.valueChanges();
 
           this.eventDataCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + this.myDate);
-          this.events = this.eventDataCollection.valueChanges(['added']);
+          this.events = this.eventDataCollection.valueChanges();
           this.itemDoc = afs.doc<User>('users/' + this.userId);
         }
 
@@ -52,9 +53,13 @@ export class FsService {
     
 
   }
-  public getFoodStream() {
-    return this.FoodStream.asObservable();
+  public getAddFoodStream() {
+    return this.AddFoodStream.asObservable();
   }
+  public getDeleteFoodStream() {
+    return this.DeleteFoodStream.asObservable();
+  }
+
   public getDate() {
     return this.currentDate;
   }
@@ -92,17 +97,28 @@ export class FsService {
 
   public getMonthFoods() {
     var days = endOfMonth(this.currentDate);
+    
     for (var i=1; i <= days.getDate();i++ ) {
       var date = formatDate(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i), 'yyyyMMdd', 'en');
-      var temp_foodsCollection = this.afs.collection<any>('users/'+ this.userId + this.foodPath + date);
-      var temp_foods = temp_foodsCollection.valueChanges();
+      this.afs.collection<any>('users/'+ this.userId + this.foodPath + date)
+      .stateChanges(['added', 'removed']).pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          const type = a.type;
 
-      temp_foods.forEach(item => item.forEach(food => {
-
-
-            this.FoodStream.next({...food});
-          })
+          return {'data':data, 'type':type};
+        }))
+      ).subscribe(item => item.forEach((data) => {
+        if (data.type=="added") {
+          this.AddFoodStream.next({...data.data});
+        } else if (data.type=="removed") {
+          this.DeleteFoodStream.next({...data.data});
+        }
+            
+        })
       );
+      
 
     }
 

@@ -76,6 +76,7 @@ const routes: Routes = [
     path: 'eventLogger/event-log-page',
     loadChildren: () => import('./eventLogger/event-log-page/event-log-page.module').then( m => m.EventLogPagePageModule)
   },
+  
 
 ];
 
