@@ -36,7 +36,7 @@ export class HomePage implements OnInit {
   public logtime;
   public foods;
   public events;
-  public foodNum: number;
+  public foodNum: number = 0;
   public eventNum: number;
   constructor(
       private fsService: FsService,
@@ -44,7 +44,9 @@ export class HomePage implements OnInit {
       private openModalService:OpenModalService,
   ) {
     
-
+    this.foods = this.fsService.getTodayFood();
+    this.events = this.fsService.getTodayEvent();
+    this.makeChart();
   }
 
   barcodescan(){
@@ -67,19 +69,17 @@ export class HomePage implements OnInit {
 
 
   ionViewWillEnter() {
-    localStorage.setItem('mode', 'food')
-    var mode = localStorage.getItem('mode')
-    var userid = localStorage.getItem('username');
-    var username = localStorage.getItem('username');
-    this.foods = this.fsService.getTodayFood();
-    this.events = this.fsService.getTodayEvent();
+    localStorage.setItem('mode', 'food');
+    this.createBarChart();
+    this.createDoughnutChart();
+    
+    
 
     // this.fsService.getUserInfo().subscribe((result)=>{
     //   if ( result.isUserInfoLogged == undefined ) {
     //     this.router.navigate(['/user-info'])
     //   } 
     // })
-    this.makeChart();
     
    
 
@@ -94,10 +94,12 @@ export class HomePage implements OnInit {
   }
 
   public makeChart() {
+    
     this.events.subscribe(event => {
       this.eventNum = event.length;
     });
     this.foods.subscribe(event => {
+      console.log(event.length);
       let times = [];
       this.foodNum = event.length;
       this.nutData = [0, 0, 0, 0];
@@ -109,7 +111,6 @@ export class HomePage implements OnInit {
       this.labelDistDoughAM.length = 0;
       this.totalCals = 0;
       const dur = 0.5;
-
 
       // console.log('events');
       // console.log(event);
@@ -362,15 +363,19 @@ export class HomePage implements OnInit {
 
       }
       */
-      if (this.nutData[0] + this.nutData[1] + this.nutData[2] + this.nutData[3] > 0){
-        this.hasNutritionalContent = true;
-        this.createBarChart();
-      }else{
-        this.hasNutritionalContent = false;
-      }
-      if (this.timeDistAM.length > 2){
-        this.createDoughnutChart();
-      }
+     this.createBarChart();
+     this.createDoughnutChart();
+      // if (this.nutData[0] + this.nutData[1] + this.nutData[2] + this.nutData[3] > 0){
+      //   this.hasNutritionalContent = true;
+      //   this.createBarChart();
+      // }else{
+      //   this.hasNutritionalContent = false;
+      // }
+      // if (this.timeDistAM.length > 2){
+      //   this.createDoughnutChart();
+      // }
+    
+      
     });
   }
   
@@ -396,7 +401,7 @@ export class HomePage implements OnInit {
   
 
   createDoughnutChart(){
-    var doughnut = document.getElementById('doughnutChart');
+    let doughnut = document.getElementById('doughnutChart');
     this.doughnut = new Chart(doughnut, {
       type: 'doughnut',
       data: {
