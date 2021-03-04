@@ -159,7 +159,7 @@ export class LogfoodPage implements OnInit {
     food.date = new Date(food.date);
     var data = {...food};
     const remove_index = this.logfoods.indexOf(food);
-    this.fsService.logfood(data, this.currentDate);
+    this.fsService.logfood(data, food.date);
     this.logfoods.splice(remove_index, 1);
     localStorage.setItem("foods",JSON.stringify(this.logfoods));
     if (this.logfoods.length == 0) {

@@ -75,7 +75,11 @@ const routes: Routes = [
   {
     path: 'eventLogger/event-log-page',
     loadChildren: () => import('./eventLogger/event-log-page/event-log-page.module').then( m => m.EventLogPagePageModule)
+  },  {
+    path: 'survey-log',
+    loadChildren: () => import('./SurveyLogger/survey-log/survey-log.module').then( m => m.SurveyLogPageModule)
   },
+
   
 
 ];

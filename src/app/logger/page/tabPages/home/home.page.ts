@@ -70,10 +70,13 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     localStorage.setItem('mode', 'food');
-    this.createBarChart();
-    this.createDoughnutChart();
-    
-    
+    if (this.foodNum !== 0){
+      this.createBarChart();
+      this.createDoughnutChart();
+
+    }
+
+
 
     // this.fsService.getUserInfo().subscribe((result)=>{
     //   if ( result.isUserInfoLogged == undefined ) {
@@ -363,8 +366,10 @@ export class HomePage implements OnInit {
 
       }
       */
-     this.createBarChart();
-     this.createDoughnutChart();
+      if (this.foodNum !== 0) {
+        this.createBarChart();
+        this.createDoughnutChart();
+      }
       // if (this.nutData[0] + this.nutData[1] + this.nutData[2] + this.nutData[3] > 0){
       //   this.hasNutritionalContent = true;
       //   this.createBarChart();
@@ -374,11 +379,8 @@ export class HomePage implements OnInit {
       // if (this.timeDistAM.length > 2){
       //   this.createDoughnutChart();
       // }
-    
-      
     });
   }
-  
   public refresh(event){
     this.ionViewWillEnter();
     setTimeout(() => {

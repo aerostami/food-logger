@@ -23,5 +23,9 @@ export const AppConfig = {
         id: '9397fbd8',
         key: '1f103d7bf25a5371a0b10f66b3e77da2',
         base_url: 'https://trackapi.nutritionix.com/'
+    }, {
+        id: '43ff33c9',
+        key: 'a4714df8389db95b1967346330f26814',
+        base_url: 'https://trackapi.nutritionix.com/'
     }]
 };

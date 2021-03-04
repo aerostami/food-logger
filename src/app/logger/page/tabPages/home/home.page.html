@@ -93,13 +93,13 @@
   </div>
   
 
-  <ion-card>
+  <ion-card *ngIf="foodNum!=0">
     <ion-card-content >
       <canvas id = "doughnutChart"></canvas>
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="foodNum!=0">
     <ion-card-content >
         <canvas id = "barChart" ></canvas>
     </ion-card-content>
@@ -138,5 +138,12 @@
       <img class="hint-img-tag" src="../../../../assets/addEvent.png" alt=""/>
     </ion-fab-list>
     </ion-fab>
+
+  <ion-fab horizontal="start" vertical="bottom" slot="fixed" (click)="clickedFab()">
+    <ion-fab-button  color="danger">
+      <ion-icon name="notifications"></ion-icon>
+    </ion-fab-button>
+
+  </ion-fab>
 
 </ion-content>
