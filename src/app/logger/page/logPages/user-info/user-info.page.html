@@ -11,29 +11,53 @@
 
   <form (ngSubmit)='logForm()'>
     <ion-item>
+      <ion-label>Basic Information</ion-label>
+    </ion-item>
+    <ion-item>
       <ion-label> Name</ion-label>
-      <ion-input slot='end' [(ngModel)]='name' name='name'requried></ion-input>
+      <ion-input slot='end' [(ngModel)]='name' name='name'></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> Height</ion-label>
-      <ion-input slot='end' [(ngModel)]='height' name='height'requried></ion-input>
+      <ion-input slot='end' [(ngModel)]='height' name='height'></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> Weight</ion-label>
-      <ion-input slot='end' [(ngModel)]='weight' name='weight'requried></ion-input>
+      <ion-input slot='end' [(ngModel)]='weight' name='weight'></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> Age</ion-label>
-      <ion-input slot='end' [(ngModel)]='age' name='age'requried></ion-input>
+      <ion-input slot='end' [(ngModel)]='age' name='age'></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> Gender</ion-label>
-      <ion-input slot='end'[(ngModel)]='gender' name='gender' required></ion-input>
+      <ion-input slot='end'[(ngModel)]='gender' name='gender' ></ion-input>
     </ion-item>
     <ion-item>
       <ion-label> Phone Number</ion-label>
-      <ion-input slot='end' [(ngModel)]='phoneNumber' name='phonNumber' required></ion-input>
+      <ion-input slot='end' [(ngModel)]='phoneNumber' name='phonNumber' ></ion-input>
     </ion-item>
+
+    <ion-list-header>
+      Medical History
+    </ion-list-header>
+    <ion-item>
+      <ion-label> Diabetes</ion-label>
+      <ion-input slot='end' [(ngModel)]='diabetes' name='diabetes' ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hypertension</ion-label>
+      <ion-input slot='end' [(ngModel)]='hypertension' name='hypertension' ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>High blood lipids</ion-label>
+      <ion-input slot='end' [(ngModel)]='lipids' name='lipids' ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sleep apnea</ion-label>
+      <ion-input slot='end' [(ngModel)]='apnea' name='apnea' ></ion-input>
+    </ion-item>
+
     <ion-button type="submit" expand="block" full>Next</ion-button>
   </form>
 </ion-content>

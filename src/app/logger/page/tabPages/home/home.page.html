@@ -1,6 +1,6 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
-    <ion-title>Home</ion-title>
+    <ion-title style="background: rgb(168,139,95,0.02);">Home</ion-title>
     
   </ion-toolbar>
 
@@ -15,8 +15,56 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngIf="foodNum!==0 || eventNum!=0">
+  <ion-grid class="ion-text-center" style="width: 80vw; margin: 0 auto; margin-bottom: -4vh;">
 
+    <div *ngIf="foodNum==0">
+      <img style="display: block; margin: auto; width: 50%; padding-top: 15%;opacity: 95%;" src="../../../../assets/hungry.png" alt=""/>
+      <ion-label style="text-align: center;padding-top: 12px; padding-bottom: 2vh;display: block">
+        <P>Today's food log is empty</P>
+        <p>Feed yourself and the logger!</p>
+        {{foods.length}}
+      </ion-label>
+    </div>
+    <ion-row *ngIf="!(this.nutData[0] === 0 && this.nutData[1] === 0 && this.nutData[2] === 0 && this.nutData[3] === 0)">
+      <ion-col>
+        <ion-header style="z-index: -1">
+          Macro Breakdown
+        </ion-header>
+        <canvas id = "barChart" style="margin: 1vh auto 1vh; width: 1vh;"></canvas>
+      </ion-col>
+    </ion-row>
+    <ion-row style="height: 10vh">
+      <ion-col>
+        <canvas id = "doughnutChart" style="height:5vw; width:5vw; margin: 0 auto; bottom: -1.5vh; position: absolute;"></canvas>
+        <ion-text style=" bottom: -4vh; position: relative; margin: 0 auto; ">
+          Fasted
+        </ion-text>
+      </ion-col>
+      <ion-col>
+        <canvas  id = "doughnutChartSleep"style="height:5vw; width:5vw; margin: 0 auto; bottom: -1.5vh; position: absolute;" [routerLink]="['/','eventLogger','event-log-page']"></canvas>
+        <ion-text style=" bottom: -4vh; position: relative;margin: 0 auto; ">
+          Sleep
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row style="height: 10vh">
+      <ion-col>
+        <canvas id = "doughnutChartStress" style="height:5vw; width:5vw; margin: 0 auto; bottom: -1.5vh; position: absolute;"></canvas>
+        <ion-text style=" bottom: -4vh; position: relative; margin: 0 auto; ">
+          Stress
+        </ion-text>
+      </ion-col>
+      <ion-col>
+        <canvas  id = "doughnutChartWater"style="height:5vw; width:5vw; margin: 0 auto; bottom: -1.5vh; position: absolute;" [routerLink]="['/','eventLogger','event-log-page']"></canvas>
+        <ion-text style=" bottom: -4vh; position: relative;margin: 0 auto; ">
+          Water
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+<!--  <hr width="100%" size="8" align="center">-->
+<ion-card>
   <ion-list>
     <ion-list-header>
       Today's Food Log
@@ -32,9 +80,8 @@
             <h2>{{ food.food.food_name}}</h2>
             <p>At {{food.address}}</p>
           </ion-label>
-          <ion-badge color="light" slot="end">{{ convertTimeStampToDate(food.date).getHours()}} : {{convertTimeStampToDate(food.date).getMinutes()}}</ion-badge>
+          <ion-badge color="secondary" slot="end">{{ convertTimeStampToDate(food.date)}} </ion-badge>
         </ion-item>
-
 
       <ion-item-options side="start">
         <ion-item-option color="primary">
@@ -50,68 +97,96 @@
 
     </ion-item-sliding>
 
-    <ion-item-sliding *ngFor="let event of events | async" style="margin-top: 20px;">
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-icon name="code-slash"></ion-icon>
-        </ion-avatar>
-        <ion-label>
-          <h2>{{ event.type}}</h2>
-          <p>Level {{event.level}}</p>
-        </ion-label>
-        <ion-badge color="light" slot="end">{{convertTimeStampToDate(event.date).getHours()}} : {{convertTimeStampToDate(event.date).getMinutes()}}</ion-badge>
-      </ion-item>
 
-      <ion-item-options side="start">
-        <ion-item-option color="primary">
-          <ion-icon slot="icon-only" ios="share-outline" md="share-sharp"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
 
-      <ion-item-options side="end">
-        <ion-item-option expandable color="danger" (click)="deleteEvent(event.id, event.date)">
-          <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
 
     <ion-list-header style="margin-bottom: 15px; font-size: 15px;font-weight: 500;">
-      Total Calories: <ion-badge color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14">{{totalCals}}</ion-badge>
+      Total Calories: <ion-badge id="totalCal" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14">{{totalCals}}</ion-badge>
     </ion-list-header>
 
     </ion-list>
+</ion-card>
+
+  <ion-card>
+
+    <ion-list>
+      <ion-list-header>
+        Today's Event Log
+      </ion-list-header>
+
+      <ion-item-sliding *ngFor="let event of events | async" style="margin-top: 20px;">
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-icon name="code-slash"></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ event.type}}</h2>
+            <p>Level {{event.level}}</p>
+          </ion-label>
+          <ion-badge slot="end">{{ convertTimeStampToDate(event.date)}}</ion-badge>
+        </ion-item>
+
+        <ion-item-options side="start">
+          <ion-item-option color="primary">
+            <ion-icon slot="icon-only" ios="share-outline" md="share-sharp"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option expandable color="danger" (click)="deleteEvent(event.id, event.date)">
+            <ion-icon slot="icon-only" ios="trash-outline" md="trash-sharp" ></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-button style="--background: #0a74ab;margin: 10px 20px 16px;" round="true" [routerLink]="['/','eventLogger','event-log-page']"><ion-icon name="add-outline" style="margin-left: -9px;"></ion-icon>Event </ion-button>
+    </ion-list>
+
+
   </ion-card>
 
 
-  <div *ngIf="foodNum==0">
-    <img style="display: block; margin: auto; width: 50%; padding-top: 40%;opacity: 95%;" src="../../../../assets/hungry.png" alt=""/>
-    <ion-label style="text-align: center;padding-top: 12px;display: block">
-      <P>Today's food log is empty</P>
-      <p>Feed yourself and the logger!</p>
-      {{foods.length}}
-    </ion-label>
-  </div>
-  
 
-  <ion-card *ngIf="foodNum!=0">
-    <ion-card-content >
-      <canvas id = "doughnutChart"></canvas>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card *ngIf="foodNum!=0">
-    <ion-card-content >
-        <canvas id = "barChart" ></canvas>
-    </ion-card-content>
-  </ion-card>
-
-  <div class="my-overlay" padding [hidden]="overlayHidden">
+  <ion-list>
 
 
+    <ion-item>
+      <ion-label>
+        <h2>Use of any anti-inflammatory?</h2>
+<!--        <h3>Move Along</h3>-->
+        <p>Within the last 12 hours</p>
+        <ion-segment  value={{antiInflammatoryVal}} (ionChange)="antiInflammatoryChanged($event)">
+          <ion-segment-button class="no" value="n">
+            <ion-label>No</ion-label>
+          </ion-segment-button>
+          <ion-segment-button class="yes" value="y">
+            <ion-label>Yes</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-label>
 
-  </div>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>Use of any alleviating meds?</h2>
+        <!--        <h3>Move Along</h3>-->
+        <p>Within the last 12 hours</p>
+        <ion-segment value={{alleviatingMedsVal}}  (ionChange)="alleviatingmedsChanged($event)">
+          <ion-segment-button class="no" value="n">
+            <ion-label>No</ion-label>
+          </ion-segment-button>
+          <ion-segment-button class="yes" value="y">
+            <ion-label>Yes</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed" (click)="clickedFab()">
+
+
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
       <ion-fab-button>
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
@@ -125,25 +200,28 @@
         <ion-fab-button color="light" [routerLink]="['/','logger','voice']">
           <ion-icon name="mic-outline"></ion-icon>
         </ion-fab-button>
-        <img class="hint-img" style="margin: auto;" src="../../../../assets/addFood.png" alt=""/>
+<!--        <img class="hint-img" style="margin: auto;" src="../../../../assets/addFood.png" alt=""/>-->
+
 
         <!-- <ion-fab-button  color="light">
           <ion-icon name="camera-outline"></ion-icon>
         </ion-fab-button> -->
       </ion-fab-list>
+    <!--
     <ion-fab-list side="start">
       <ion-fab-button color="light" [routerLink]="['/','eventLogger','event-log-page']">
         <ion-icon name="code-slash"></ion-icon>
       </ion-fab-button>
       <img class="hint-img-tag" src="../../../../assets/addEvent.png" alt=""/>
     </ion-fab-list>
+    -->
     </ion-fab>
-
-  <ion-fab horizontal="start" vertical="bottom" slot="fixed" (click)="clickedFab()">
-    <ion-fab-button  color="danger">
+<!--
+  <ion-fab horizontal="start" vertical="bottom" slot="fixed">
+    <ion-fab-button  color="danger"  [routerLink]="['/','SurveyLogger','survey-log']">
       <ion-icon name="notifications"></ion-icon>
     </ion-fab-button>
 
   </ion-fab>
-
+-->
 </ion-content>

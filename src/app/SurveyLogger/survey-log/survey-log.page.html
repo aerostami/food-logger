@@ -1,9 +1,101 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>SurveyLog</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="padding-left: 30px">Weekly questionnaire</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Fill the questions for the last 7 days
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I was afraid to eat because of acid reflux and heartburn symptoms</h3>
+        <ion-range #levelSlider0 [(ngModel)]="ans[0]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider0.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I was unable to sleep well at night because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider1 [(ngModel)]="ans[1]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider1.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I found it inconvenient to have to take medications regularly because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider2 [(ngModel)]="ans[2]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider2.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I felt discomfort when I exercised because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider3 [(ngModel)]="ans[3]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider3.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I have reduced my social activities because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider4 [(ngModel)]="ans[4]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider4.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I was afraid to eat too much because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider5 [(ngModel)]="ans[5]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider5.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">Because of acid reflux and heartburn symptoms, I have to take long term medications and I was disturbed by the associated side effects.</h3>
+        <ion-range #levelSlider6 [(ngModel)]="ans[6]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider6.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>
+        <h3 style="white-space: normal;">I needed to avoid bending over because of acid reflux and heartburn symptoms.</h3>
+        <ion-range #levelSlider7 [(ngModel)]="ans[7]"  snaps={true} min="0.0" max="4.0" step="1" color="secondary">
+          <ion-label class="asnLabel" slot="end" style="font-size: small">{{hash[levelSlider7.value]}}</ion-label>
+        </ion-range>
+      </ion-label>
+    </ion-item>
+
+
+  </ion-list>
+
+
+
+  <ion-card-content>
+    <ion-button (click)="report()" expand="block" full>Report</ion-button>
+  </ion-card-content>
 </ion-content>

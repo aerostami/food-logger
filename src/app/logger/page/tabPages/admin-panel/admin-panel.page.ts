@@ -15,6 +15,10 @@ export class AdminPanelPage implements OnInit {
   public age;
   public gender;
   public phoneNumber;
+  public diabetes;
+  public hypertension;
+  public lipids;
+  public apnea;
   public user: any;
 
   constructor(
@@ -27,8 +31,6 @@ export class AdminPanelPage implements OnInit {
 
   ionViewWillEnter(){
     this.user = this.fsService.getUserInfo();
-    
-    
   }
   public logout() {
     this.as.logout();

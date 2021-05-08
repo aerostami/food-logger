@@ -10,11 +10,13 @@ import { PhotoService } from '../../../../services/photo.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
+import {HomePage} from 'src/app/logger/page/tabPages/home/home.page';
 
 @Component({
   selector: 'app-logfood',
   templateUrl: './logfood.page.html',
   styleUrls: ['./logfood.page.scss'],
+  providers: [HomePage],
 })
 export class LogfoodPage implements OnInit {
 
@@ -27,7 +29,6 @@ export class LogfoodPage implements OnInit {
 
   public logfoods = [];
   public mode;
-
 
 
   public currentDate = new Date();
@@ -54,7 +55,8 @@ export class LogfoodPage implements OnInit {
     public photoService: PhotoService,
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
-    private mapboxService: MapboxServiceService
+    private mapboxService: MapboxServiceService,
+    private hp: HomePage
     ) {
 
   }
@@ -128,17 +130,14 @@ export class LogfoodPage implements OnInit {
     this.updateLocation();
     this.ratingEmoji = "happy";
     this.ratingColor ="#b7dd29";
-    for(let i=0; i<this.foods.length; i++){
-      this.logfoods.push({'food': this.foods[i]});
-      
+    for( let i = 0 ; i < this.foods.length; i++){
+      this.logfoods.push({'food' : this.foods[i]});
       this.logfoods[i].date = this.currentDate.toISOString();
       this.logfoods[i].amount = '1.0';
       this.logfoods[i].rating = 3;
       this.logfoods[i].badgeColor = 'Secondary';
       this.logfoods[i].ratingEmoji = this.ratingEmoji;
       this.logfoods[i].ratingColor = this.ratingColor;
-      
-
     }
   }
 
@@ -162,7 +161,7 @@ export class LogfoodPage implements OnInit {
     this.fsService.logfood(data, food.date);
     this.logfoods.splice(remove_index, 1);
     localStorage.setItem("foods",JSON.stringify(this.logfoods));
-    if (this.logfoods.length == 0) {
+    if (this.logfoods.length === 0) {
       this.router.navigate(['/logger/home']);
     }
 
@@ -230,7 +229,7 @@ export class LogfoodPage implements OnInit {
     for(let i=0; i< elements.length; i++){
       (elements[i] as HTMLElement).click();
     }
-
+    await new Promise(resolve => setTimeout(() => resolve(), 200)).then( () => this.hp.drawCharts());
     this.startToast();
   }
 

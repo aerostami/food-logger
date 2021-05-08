@@ -16,19 +16,25 @@ import { firestore } from 'firebase';
 export class FsService {
   private foodDataCollection: AngularFirestoreCollection;
   private eventDataCollection: AngularFirestoreCollection;
+  private alleviatingMedsDataCollection: AngularFirestoreCollection;
+  private antiInflammatoryDataCollection: AngularFirestoreCollection;
+
   private itemDoc: AngularFirestoreDocument;
   private currentDate: Date;
   private myDate: string;
   private userId: string;
   private foodPath = '/logs/foodLogs/';
   private eventPath = '/logs/eventLogs/';
-  private recipePath = '/logs/Recipes';
+  private alleviatingPath = '/logs/alleviatingMeds/';
+  private antiInflammatoryPath = '/logs/antiInflammatory/';
+  private recipePath = '/logs/Recipes/';
 
   public AddFoodStream = new Subject<any>();
   public DeleteFoodStream = new Subject<any>();
   public foods: Observable<any[]>;
   public events: Observable<any[]>;
-
+  public alleviatingMeds: Observable<any[]>;
+  public antiInflammatory: Observable<any[]>;
   constructor(
       private afs: AngularFirestore,
       private as: AuthService,
@@ -39,19 +45,23 @@ export class FsService {
     this.as.getUserLoginStream().subscribe(v => {
           this.userId = v;
           this.currentDate = new Date();
-          this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
+          this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en');
+
           this.foodDataCollection = this.afs.collection<User>('users/' + this.userId + this.foodPath + this.myDate);
           this.foods = this.foodDataCollection.valueChanges();
 
           this.eventDataCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + this.myDate);
           this.events = this.eventDataCollection.valueChanges();
+
+          this.antiInflammatoryDataCollection = this.afs.collection<User>('users/' + this.userId + this.antiInflammatoryPath + this.myDate);
+          this.antiInflammatory = this.antiInflammatoryDataCollection.valueChanges();
+
+          this.alleviatingMedsDataCollection = this.afs.collection<User>('users/' + this.userId + this.alleviatingPath + this.myDate);
+          this.alleviatingMeds = this.alleviatingMedsDataCollection.valueChanges();
+
           this.itemDoc = afs.doc<User>('users/' + this.userId);
         }
-
     );
-
-    
-
   }
   public getAddFoodStream() {
     return this.AddFoodStream.asObservable();
@@ -93,6 +103,14 @@ export class FsService {
   public getTodayEvent() {
     this.updateDate();
     return this.events;
+  }
+  public getTodayAlleviatingMeds(){
+    this.updateDate();
+    return this.alleviatingMeds;
+  }
+  public getTodayAntiInflammatory(){
+    this.updateDate();
+    return this.antiInflammatory;
   }
 
   public getMonthFoods() {
@@ -158,9 +176,25 @@ export class FsService {
 
   public logEvent(data: any, date: Date) {
     var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/'+ this.userId + this.eventPath + date_s);
+    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + date_s);
     var id = this.afs.createId();
 
+    var item = { ...data, 'id': id };
+    dateCollection.doc(id).set(item);
+  }
+
+  public logAntiInflammatory(data: any, date: Date) {
+    var date_s = formatDate(date, 'yyyyMMdd', 'en');
+    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.antiInflammatoryPath + date_s);
+    var id = this.afs.createId();
+    var item = { ...data, 'id': id };
+    dateCollection.doc(id).set(item);
+  }
+
+  public logAlleviatingMeds(data: any, date: Date) {
+    var date_s = formatDate(date, 'yyyyMMdd', 'en');
+    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.alleviatingPath + date_s);
+    var id = this.afs.createId();
     var item = { ...data, 'id': id };
     dateCollection.doc(id).set(item);
   }
@@ -171,8 +205,7 @@ export class FsService {
   }
 
   public logUserInfo(data) {
-    this.itemDoc.set(data, 
-      {merge: true});
+    this.itemDoc.set(data, {merge: true});
     this.router.navigate(['/logger/admin']);
   }
 
@@ -182,14 +215,13 @@ export class FsService {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
     userRef.set(data, {
       merge: true
-    })
-    this.router.navigate(['/logger/recipe'])
+    });
+    this.router.navigate(['/logger/recipe']);
   }
 
   public getRecipes() {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
     return userRef.valueChanges();
-    
   }
 
   public addRecipeToFood(recipe) {

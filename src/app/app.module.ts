@@ -23,7 +23,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { HttpClientModule } from '@angular/common/http';
-import { GooglePlus } from '@ionic-native/google-plus/ngx'
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
 @NgModule({

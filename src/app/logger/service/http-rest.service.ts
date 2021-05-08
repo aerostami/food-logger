@@ -28,7 +28,8 @@ export class HttpRestService {
             header);
         RestangularConfigurer.setErrorInterceptor((response, deferred, responseHandler) => {
             this.spinnerService.hide();
-            if (response.data.message === 'usage limits exceeded') {
+            console.log(response.data.message);
+            if (response.data.message === 'usage limits exceeded' || response.data.message === 'unauthorized') {
                 const new_nu = (+localStorage.getItem('nutritionIXIndex') + 1) % AppConfig.nutritionix.length ;
                 localStorage.setItem('nutritionIXIndex', '' + new_nu);
             }

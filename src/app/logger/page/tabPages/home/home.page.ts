@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -16,37 +16,58 @@ import { UtilService } from 'src/app/services/util.service';
 export class HomePage implements OnInit {
   @ViewChild('barChart') barChart;
   @ViewChild('doughnutChart') doughnutChart;
+  @ViewChild('doughnutChartSleep') doughnutChartSleep;
 
   bars: any;
   doughnut: any;
+  doughnutSleep: any;
+  doughnutWater: any;
+  doughnutStress: any;
+  antiInflammatoryVal = 'n';
+  alleviatingMedsVal = 'n';
 
   colorArray: any;
   nutData = [0, 0, 0, 0];
   timeDistPM = [];
   colorDistPM = [];
+  sleepDistColors = [];
   labelDistDoughPM = [];
   timeDistAM = [];
+  sleepDist = [];
+  waterDist = [];
+  waterDistColors = [];
+  stressDist = [];
+  barChartDeselectedColor = 'rgb(107,101,95,0.43)';
+  stressDistColors = [];
   colorDistAM = [];
   distMsgs = ['Daily intake time distribution'];
   labelDistDoughAM = [];
-  overlayHidden = true;
   hasNutritionalContent = false;
 
   public totalCals = 0;
   public logtime;
   public foods;
   public events;
+  public  lastAntiInflammatoryService;
+  public lastAlleviatingMedsService;
+  public lastAntiInflammatoryVal;
+  public lastAlleviatingMedsVal;
+
   public foodNum: number = 0;
   public eventNum: number;
   constructor(
       private fsService: FsService,
       private as: AuthService,
-      private openModalService:OpenModalService,
+      private openModalService: OpenModalService,
   ) {
-    
+    this.drawCharts();
+    /*
     this.foods = this.fsService.getTodayFood();
     this.events = this.fsService.getTodayEvent();
+    this.lastAntiInflammatoryService = this.fsService.getTodayAntiInflammatory();
+    this.lastAlleviatingMedsService = this.fsService.getTodayAlleviatingMeds();
     this.makeChart();
+    */
   }
 
   barcodescan(){
@@ -63,18 +84,26 @@ export class HomePage implements OnInit {
     this.openModalService.openFoodEditModal(data);
   }
 
+  async  addChartsDelayed(){
+    await new Promise(resolve => setTimeout(() => resolve(), 100000)).then( () => this.drawCharts());
+  }
   ngOnInit() {
-
+    this.drawCharts();
+    // this.addChartsDelayed();
+    // this.makeChart();
   }
 
 
-  ionViewWillEnter() {
-    localStorage.setItem('mode', 'food');
-    if (this.foodNum !== 0){
-      this.createBarChart();
-      this.createDoughnutChart();
 
-    }
+  drawCharts() {
+    localStorage.setItem('mode', 'food');
+    this.foods = this.fsService.getTodayFood();
+    this.events = this.fsService.getTodayEvent();
+    this.lastAntiInflammatoryService = this.fsService.getTodayAntiInflammatory();
+    this.lastAlleviatingMedsService = this.fsService.getTodayAlleviatingMeds();
+    // console.log(document.getElementById('barChart'));
+
+    this.makeChart();
 
 
 
@@ -83,26 +112,99 @@ export class HomePage implements OnInit {
     //     this.router.navigate(['/user-info'])
     //   } 
     // })
-    
-   
-
   }
+  drawAlleMeds(){
+    this.lastAlleviatingMedsService.subscribe(event => {
+      console.log('AlleMeds: ', event);
+      for ( let i = 0; i < event.length; i++) {
+        //this.lastAlleviatingMedsVal = event[i].level;
+      }
 
-  clickedFab(){
-    this.overlayHidden = !this.overlayHidden;
-  }
-
-  public hideOverlay() {
-    this.overlayHidden = true;
-  }
-
-  public makeChart() {
-    
-    this.events.subscribe(event => {
-      this.eventNum = event.length;
     });
+  }
+  drawAntiflam(){
+    this.lastAntiInflammatoryService.subscribe(event => {
+      this.drawAlleMeds();
+    });
+  }
+  drawEvents(){
+    this.events.subscribe(event => {
+
+      this.sleepDist.length = 0;
+      this.stressDist.length = 0;
+      this.eventNum = event.length;
+      let sleepQualities = 0;
+      let stressAvg = 0;
+      let countSleep = 0;
+      let countStress = 0;
+
+      for ( let i = 0; i < event.length; i++) {
+        if (event[i].type === 'Sleep'){
+
+          sleepQualities += event[i].level;
+          countSleep += 1;
+        }else if (event[i].type === 'Stress'){
+
+          stressAvg += event[i].level;
+          countStress += 1;
+        }
+      }
+      // sleep
+      if (sleepQualities){
+        sleepQualities = sleepQualities / countSleep;
+      }
+
+      this.sleepDistColors = ['rgb(36,64,101)', this.barChartDeselectedColor];
+      /*
+      if (sleepQualities < 1){
+        this.sleepDistColors[0] = 'rgb(107,101,95,0.6)';
+      }else if (sleepQualities < 2) {
+        this.sleepDistColors[0] = 'rgb(107,101,95,0.6)';
+      }else if (sleepQualities < 3) {
+        this.sleepDistColors[0] = 'rgb(107,101,95,0.6)';
+      }else if (sleepQualities < 4) {
+        this.sleepDistColors[0] = 'rgb(107,101,95,0.6)';
+      }
+      */
+      if (sleepQualities === 0){
+        sleepQualities = 0.2;
+        this.sleepDistColors[1] =this.barChartDeselectedColor;
+      }
+      this.sleepDist = [sleepQualities, 5 - sleepQualities];
+      if (countSleep === 0){
+        this.sleepDist = [0, 5];
+        this.sleepDistColors = ['rgb(255,255,255)', this.barChartDeselectedColor];
+      }
+      this.createDoughnutChartSleep();
+      // stress
+      if (stressAvg){
+        stressAvg = stressAvg / countStress;
+      }
+      this.stressDistColors = ['rgb(218,115,101)', this.barChartDeselectedColor];
+      if (stressAvg < 1){
+        this.stressDistColors = ['rgb(61,114,98)', this.barChartDeselectedColor];
+      }else if (stressAvg < 2) {
+        this.stressDistColors = ['rgb(92,113,97)', this.barChartDeselectedColor];
+      }else if (stressAvg < 3) {
+        this.stressDistColors = ['rgb(105,116,96)', this.barChartDeselectedColor];
+      }else if (stressAvg < 4) {
+        this.stressDistColors = ['rgb(169,114,96)', this.barChartDeselectedColor];
+      }
+      if (stressAvg === 5){
+        stressAvg = 4.8;
+      }
+      this.stressDist = [stressAvg, 5 - stressAvg];
+      if (countStress === 0){
+        this.stressDist = [0, 5];
+        this.stressDistColors = ['rgb(255,255,255)', this.barChartDeselectedColor];
+      }
+      this.createDoughnutChartStress();
+      this.drawAntiflam();
+    });
+
+  }
+  public makeChart() {
     this.foods.subscribe(event => {
-      console.log(event.length);
       let times = [];
       this.foodNum = event.length;
       this.nutData = [0, 0, 0, 0];
@@ -117,8 +219,12 @@ export class HomePage implements OnInit {
 
       // console.log('events');
       // console.log(event);
+      let waterAmount = 0;
       for (let i = 0; i < event.length; i++) {
-        let theTime = this.convertTimeStampToDate(event[i].date).getHours() + this.convertTimeStampToDate(event[i].date).getMinutes() / 60;
+        if (event[i].food.serving_unit === 'serving 8 fl oz'){
+          waterAmount += event[i].amount;
+        }
+        let theTime = this.fsService.convertTimeStampToDate(event[i].date).getHours() + this.fsService.convertTimeStampToDate(event[i].date).getMinutes() / 60;
         if (12 > theTime && theTime > 12 - dur){
           theTime = 12 - dur;
         }
@@ -144,6 +250,14 @@ export class HomePage implements OnInit {
           this.nutData[3] += (event[i].food.nf_total_fat * 9) / event[i].food.nf_calories * 100  * event[i].amount;
         }
       }
+
+      this.waterDistColors = ['rgb(67,149,160)', this.barChartDeselectedColor];
+      if (waterAmount > 12){
+        waterAmount = 12;
+      }
+      this.waterDist = [waterAmount, 12 - waterAmount];
+      this.createDoughnutChartWater();
+
       this.nutData = [+this.nutData[0].toFixed(2), +this.nutData[1].toFixed(2), +this.nutData[2].toFixed(2), +this.nutData[3].toFixed(2)];
       times.sort((a, b) => (a.time > b.time) ? 1 : -1);
       let lateMeal = false;
@@ -172,7 +286,7 @@ export class HomePage implements OnInit {
             const diff = +(times[i].time - lastTime).toFixed(2);
             this.timeDistAM.push(diff);
             if (!startedSleep){ // Go to bed!
-              this.colorDistAM.push('rgb(197,199,192)');
+              this.colorDistAM.push('rgb(226,120,73)');
               this.labelDistDoughAM.push('Digesting');
               if (curTime - times[i].time < 3){
                 if (this.distMsgs.length === 1){
@@ -215,13 +329,12 @@ export class HomePage implements OnInit {
           this.colorDistAM.push('rgb(143,210,132)');
           this.labelDistDoughAM.push('Fasting');
         } else{
-          this.colorDistAM.push('rgb(197,199,192)');
+          this.colorDistAM.push('rgb(226,120,73)');
           this.labelDistDoughAM.push('Digesting');
-
         }
         if (end !== 24){
           this.timeDistAM.push( +(24 - end).toFixed(2));
-          this.colorDistAM.push('rgb(255,255,255)');
+          this.colorDistAM.push(this.barChartDeselectedColor);
           this.labelDistDoughAM.push('later...');
         }
       }
@@ -366,10 +479,19 @@ export class HomePage implements OnInit {
 
       }
       */
-      if (this.foodNum !== 0) {
+
+      if (!(this.nutData[0] === 0 && this.nutData[1] === 0 && this.nutData[2] === 0 && this.nutData[3] === 0 ) && document.getElementById('barChart')){
         this.createBarChart();
-        this.createDoughnutChart();
+        var bar = document.getElementById('barChart');
+
+        // bar.setAttribute('height', bar.getAttribute('width'));
+        // bar.style.height = bar.style.width;
+        // console.log('barChartAfter: ', bar);
+      }else{
+        // console.log('Nothing to draw, nutData: ', this.nutData, 'barChart: ', document.getElementById('barChart'));
       }
+      this.createDoughnutChart();
+      this.drawEvents();
       // if (this.nutData[0] + this.nutData[1] + this.nutData[2] + this.nutData[3] > 0){
       //   this.hasNutritionalContent = true;
       //   this.createBarChart();
@@ -382,46 +504,58 @@ export class HomePage implements OnInit {
     });
   }
   public refresh(event){
-    this.ionViewWillEnter();
+    this.drawCharts();
     setTimeout(() => {
-      console.log('Async operation has ended');
+      // console.log('Async operation has ended');
       event.target.complete();
-    }, 2000);
+    }, 700);
   }
-  
+
+
+  async antiInflammatoryChanged(event){
+      const currentDate = new Date();
+      const data = {type: 'antiInflammatory', date: currentDate, level: event.detail.value};
+      this.fsService.logAntiInflammatory(data, currentDate);
+      /*
+      this.fsService.logEvent(data, currentDate);
+      // localStorage.setItem("events",JSON.stringify(this.logfoods));
+      this.router.navigate(['/logger/home']);
+      await new Promise(resolve => setTimeout(() => resolve(), 200)).then( () => this.hp.drawCharts()
+      */
+  }
+
+  async alleviatingmedsChanged(event){
+    const currentDate = new Date();
+    const data = {type: 'alleviatingMeds', date: currentDate, level: event.detail.value};
+    this.fsService.logAlleviatingMeds(data, currentDate);
+  }
   
   public deletefood(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItem(id, formatted_date);
+    this.drawCharts();
   }
 
   public deleteEvent(id: any, date: any) {
     var formatted_date = date.toDate();
     this.fsService.deleteItemEvent(id, formatted_date);
   }
-
-  
-
-  createDoughnutChart(){
+/*
+  createDoughnutChartOld(){
     let doughnut = document.getElementById('doughnutChart');
     this.doughnut = new Chart(doughnut, {
       type: 'doughnut',
       data: {
         datasets: [
-            /*{
-          data: this.timeDistPM,
-          backgroundColor: this.colorDistPM,
-          label: 'PM',
-          labels: this.labelDistDoughPM
-        }, */{
-          data: this.timeDistAM,
-          backgroundColor: this.colorDistAM,
-          label: 'AM',
-          labels: this.labelDistDoughAM
-        }]
+          {
+            data: this.timeDistAM,
+            backgroundColor: this.colorDistAM,
+            label: 'AM',
+            labels: this.labelDistDoughAM
+          }]
       },
       options: {
-        responsive: true,
+        responsive: false,
         legend: {
           display: false,
         },
@@ -446,8 +580,118 @@ export class HomePage implements OnInit {
       }
     });
   }
+*/
+  createDoughnutChart(){
+    let doughnut = document.getElementById('doughnutChart');
+    this.doughnut = new Chart(doughnut, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+          data: this.timeDistAM,
+          backgroundColor: this.colorDistAM, labels: this.labelDistDoughAM
+        }]
+      },
+      options: {
+        circumference: Math.PI,
+        rotation: 1.0 * Math.PI,
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var dataset = data.datasets[tooltipItem.datasetIndex];
+            var index = tooltipItem.index;
+            return dataset.labels[index];
+          }
+        }
+      },
+      title: {
+        display: true,
+        text: this.distMsgs,
+        position: 'bottom'
+      },
+      animation: {
+        animateScale: true,
+        animateRotate: true
+      }
+    });
+  }
+
+  createDoughnutChartSleep(){
+    const doughnutSleep = document.getElementById('doughnutChartSleep');
+    this.doughnutSleep = new Chart(doughnutSleep, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+            data: this.sleepDist,
+            backgroundColor: this.sleepDistColors
+          }]
+      },
+      options: {
+        circumference: Math.PI,
+        rotation: 1.0 * Math.PI,
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+  }
+
+  createDoughnutChartWater(){
+    const doughnutWater = document.getElementById('doughnutChartWater');
+    this.doughnutWater = new Chart(doughnutWater, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+            data: this.waterDist,
+            backgroundColor: this.waterDistColors
+          }]
+      },
+      options: {
+        circumference: Math.PI,
+        rotation: 1.0 * Math.PI,
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+  }
+
+  createDoughnutChartStress(){
+    const doughnutStress = document.getElementById('doughnutChartStress');
+    // console.log(doughnutStress);
+    this.doughnutStress = new Chart(doughnutStress, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+            data: this.stressDist,
+            backgroundColor: this.stressDistColors
+          }]
+      },
+      options: {
+        circumference: Math.PI,
+        rotation: 1.0 * Math.PI,
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+    // console.log(doughnutStress);
+  }
+
 
   createBarChart() {
+
     var bar = document.getElementById('barChart');
     this.bars = new Chart(bar, {
       type: 'pie',
@@ -457,22 +701,16 @@ export class HomePage implements OnInit {
           label: 'g',
           data: this.nutData,
           backgroundColor: [
-            'rgb(194,92,3)',
-            'rgb(0,120,194)',
-            'rgb(40,194,12)',
-            'rgb(233,238,0)'
+            'rgb(212,77,57)',
+            'rgb(239,215,180)',
+            'rgb(230,174,122)',// (237,174,123), (231,123,77), 234,143,100
+            'rgb(57,123,151)'
           ],
         }]
       },
       options: {
-        responsive: true,
         legend: {
           position: 'left',
-        },
-        title: {
-          display: true,
-          text: 'Daily nutritional breakdown',
-          position: 'bottom'
         }
       }
     });
@@ -487,7 +725,25 @@ export class HomePage implements OnInit {
   }
 
   public convertTimeStampToDate(timestamp) {
-    return this.fsService.convertTimeStampToDate(timestamp);
+    const zdate = this.fsService.convertTimeStampToDate(timestamp);
+    let ret = [zdate.getHours() , zdate.getMinutes() , 'AM'];
+    if (ret[0] > 12){
+      ret[0] = ret[0] - 12;
+      ret[2] = 'PM';
+    }
+    if (ret[0] === 12){
+      ret[2] = 'pm';
+    }
+    ret = [ret[0] + '', ret[1] + '' , ret[2]];
+    /*
+    if (ret[0].length === 1){
+      ret[0] = '0' + ret[0];
+    }
+    if (ret[1].length === 1){
+      ret[1] = '0' + ret[1];
+    }
+     */
+    return ret[0] + ' : ' + ret[1] + ' ' + ret[2];
   }
 
 }

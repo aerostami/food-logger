@@ -14,6 +14,11 @@ export class UserInfoPage implements OnInit {
   public age;
   public gender;
   public phoneNumber;
+  public diabetes;
+  public hypertension;
+  public lipids;
+  public apnea;
+
 
   public ageHtml;
   public heightHtml;
@@ -35,6 +40,10 @@ export class UserInfoPage implements OnInit {
       this.age = data.userInfo.age;
       this.gender = data.userInfo.gender;
       this.phoneNumber = data.userInfo.phoneNumber;
+      this.diabetes = data.userInfo.diabetes;
+      this.hypertension = data.userInfo.hypertension;
+      this.lipids = data.userInfo.lipids;
+      this.apnea = data.userInfo.apnea;
 
     });
   }
@@ -47,10 +56,14 @@ export class UserInfoPage implements OnInit {
         weight: this.weight,
         age: this.age,
         gender: this.gender,
-        phoneNumber: this.phoneNumber
+        phoneNumber: this.phoneNumber,
+        diabetes: this.diabetes,
+        hypertension: this.hypertension,
+        lipids: this.lipids,
+        apnea: this.apnea
       },
       isUserInfoLogged: true
-    }
+    };
     this.fsService.logUserInfo(data);
 }
 public makeAgeHtml() {

@@ -23,3 +23,31 @@
   right: 50%;
   max-width: 400%
 }
+
+ion-content{
+
+  --ion-background-color: rgba(207, 163, 154,0.08);
+}
+
+ion-badge{
+  background: rgba(125, 149, 113, 0.91);
+}
+
+ion-badge#totalCal{
+  background: rgba(205, 158, 80, 0.99);
+}
+
+ion-fab-button{
+  --background: #0a74ab;
+}
+
+
+ion-segment-button.yes {
+  --background-checked: rgba(62, 114, 99, 1);
+  --color-checked: white;
+
+}
+
+ion-segment-button.no {
+  --background-checked: rgba(22, 122, 159, 0.2);
+}

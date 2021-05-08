@@ -10,6 +10,10 @@
 
 <ion-content>
   <ion-list>
+    <ion-list-header>
+      Basic Information
+    </ion-list-header>
+
     <ion-item>
       <ion-label> Name</ion-label>
       <ion-note slot='end' >{{ (user | async)?.userInfo.name  }} </ion-note>
@@ -33,6 +37,25 @@
     <ion-item>
       <ion-label> Phone Number</ion-label>
       <ion-note slot='end'> {{ (user | async)?.userInfo.phoneNumber }}</ion-note>
+    </ion-item>
+    <ion-list-header>
+      Medical History
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Diabetes</ion-label>
+      <ion-note slot='end'> {{ (user | async)?.userInfo.diabetes }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Hypertension</ion-label>
+      <ion-note slot='end'> {{ (user | async)?.userInfo.hypertension }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>High blood lipids</ion-label>
+      <ion-note slot='end'> {{ (user | async)?.userInfo.lipids }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Sleep apnea</ion-label>
+      <ion-note slot='end'> {{ (user | async)?.userInfo.apnea }}</ion-note>
     </ion-item>
 
   </ion-list>
