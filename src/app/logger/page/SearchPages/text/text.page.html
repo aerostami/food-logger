@@ -12,13 +12,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="width: 94%;left:3%;">
+<ion-content>
         <ion-list>
           <ion-item *ngFor="let item of outdata">
             <div class="img_wrp">
+                <ion-avatar slot="start">
               <img style="display: block; margin: auto" [src]="item.photo.thumb" alt=""/>
-              <p>{{item.food_name}}</p>
+                </ion-avatar>
+                <ion-label slot="end">
+                    <h2>{{item.food_name}}</h2>
+                </ion-label>
+
             </div>
+              <ion-badge id="F" slot="end" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14;margin-inline: 2px">F:{{12}}</ion-badge>
+              <ion-badge id="P" slot="end" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14;margin-inline: 2px">P:{{12}}</ion-badge>
+              <ion-badge id="C" slot="end" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14;margin-inline: 2px">C:{{12}}</ion-badge>
+              <ion-badge id="S" slot="end" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14;margin-inline: 2px">S:{{12}}</ion-badge>
+              <ion-badge id="Cal" slot="end" color="danger" style="margin-left: 1px;;margin-bottom: 1px;font-size: 14;margin-inline: 2px">Cal:{{12}}</ion-badge>
           </ion-item>
         </ion-list>
         <ion-item>

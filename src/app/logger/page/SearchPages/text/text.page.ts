@@ -65,6 +65,7 @@ export class TextPage implements OnInit {
   }
   selectedItem(item){
       this.addItem(item.item.food_name);
+      console.log('added item:', item.item);
   }
   search = (text$: Observable<string>) =>
       text$.pipe(

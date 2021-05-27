@@ -1,0 +1,59 @@
+.dropdown-item{
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+ion-avatar{
+  width: 68px;
+  height: 68px;
+}
+
+
+.mr-1, .mx-1{
+  object-fit: contain;
+  height: 50px;
+  width:auto ;
+}
+
+.my-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 20;
+  top: 0;
+  left: 0;
+}
+
+.hint-img {
+  right: 310%;
+  position: relative;
+  width: 400%;
+  max-width: 500%;
+}
+
+.hint-img-tag{
+  margin: auto;
+  position: absolute;
+  width: 500%;
+  bottom: -14%;
+  right: 50%;
+  max-width: 400%
+}
+
+ion-content{
+
+  --ion-background-color: rgba(179, 168, 142, 0.08);
+}
+
+ion-badge{
+  background: rgba(125, 149, 113, 0.91);
+}
+
+ion-badge#totalCal{
+  background: rgba(205, 158, 80, 0.99);
+}
+
+ion-button{
+  --background: #0a74ab;
+}

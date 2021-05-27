@@ -1,0 +1,65 @@
+.my-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 20;
+  top: 0;
+  left: 0;
+}
+
+.hint-img {
+  right: 310%;
+  position: relative;
+  width: 400%;
+  max-width: 500%;
+}
+
+.hint-img-tag{
+  margin: auto;
+  position: absolute;
+  width: 500%;
+  bottom: -14%;
+  right: 50%;
+  max-width: 400%
+}
+
+ion-content{
+
+  --ion-background-color: rgba(179, 168, 142, 0.08);
+}
+
+/*
+ion-content{
+
+  // --ion-background-color: rgba(179, 168, 142, 0.08);
+  --ion-background-color: rgba(150, 143, 125, 0.28);
+
+  background-image: url("../../../../../assets/wood.jpg");
+
+  //"../../../../assets/hungry.png"
+}
+ion-content:before{
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  background: rgba(217, 180, 146,0.7);
+}
+ */
+
+ion-badge{
+  background: rgba(125, 149, 113, 0.91);
+}
+
+ion-badge#totalCal{
+  background: rgba(205, 158, 80, 0.99);
+}
+
+ion-fab-button{
+  --background: #0a74ab;
+}
+
+button{
+  --background-checked: rgba(22, 122, 159, 0.2);
+}

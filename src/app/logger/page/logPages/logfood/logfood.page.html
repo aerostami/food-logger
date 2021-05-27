@@ -67,6 +67,9 @@
         <ion-label>Start Time</ion-label>
         <ion-datetime [(ngModel)]="food.date" display-format="h:mm A" picker-format="h:mm A"></ion-datetime>
       </ion-item>
+      <ion-item>
+        <canvas id = "barChart" style="margin: 1vh auto 1vh; width: 1vh;"></canvas>
+      </ion-item>
     </ion-list>
 
     <ion-button class="add-btn" style="display: none;" (click)="logFood(food, food.amount, food.rating)" expand="block" full >Add</ion-button>

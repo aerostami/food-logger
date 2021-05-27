@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
-import { User } from '../../types/User.interface'
+import { User } from '../../types/User.interface';
 import {formatDate} from '@angular/common';
 import { map, timestamp } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
@@ -77,11 +77,11 @@ export class FsService {
     return this.myDate;
   }
   public getMinute() {
-    var minute = this.currentDate.getMinutes();
+    let minute = this.currentDate.getMinutes();
     return minute;
   }
   public getHour() {
-    var hour = this.currentDate.getHours();
+    let hour = this.currentDate.getHours();
     return hour;
   }
 
@@ -91,8 +91,8 @@ export class FsService {
 
   private updateDate(){
     this.currentDate = new Date();
-    this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en')
-    this.foodDataCollection = this.afs.collection<User>('users/'+ this.userId + this.foodPath + this.myDate);
+    this.myDate = formatDate(new Date(), 'yyyyMMdd', 'en');
+    this.foodDataCollection = this.afs.collection<User>('users/' + this.userId + this.foodPath + this.myDate);
     this.foods = this.foodDataCollection.valueChanges(['added']);
   }
 
@@ -114,29 +114,29 @@ export class FsService {
   }
 
   public getMonthFoods() {
-    var days = endOfMonth(this.currentDate);
-    
-    for (var i=1; i <= days.getDate();i++ ) {
-      var date = formatDate(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i), 'yyyyMMdd', 'en');
-      this.afs.collection<any>('users/'+ this.userId + this.foodPath + date)
+    let days = endOfMonth(this.currentDate);
+
+    for (let i = 1; i <= days.getDate(); i++ ) {
+      let date = formatDate(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), i), 'yyyyMMdd', 'en');
+      this.afs.collection<any>('users/' + this.userId + this.foodPath + date)
       .stateChanges(['added', 'removed']).pipe(
         map(actions => actions.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;
           const type = a.type;
 
-          return {'data':data, 'type':type};
+          return {data: data, type: type};
         }))
       ).subscribe(item => item.forEach((data) => {
-        if (data.type=="added") {
+        if (data.type == 'added') {
           this.AddFoodStream.next({...data.data});
-        } else if (data.type=="removed") {
+        } else if (data.type == 'removed') {
           this.DeleteFoodStream.next({...data.data});
         }
-            
+
         })
       );
-      
+
 
     }
 
@@ -145,20 +145,20 @@ export class FsService {
 
   public deleteItem(id: any, date: Date) {
     const date_s = formatDate(date, 'yyyyMMdd', 'en');
-    const itemDoc = this.afs.doc('users/'+ this.userId + this.foodPath + date_s + '/' + id);
+    const itemDoc = this.afs.doc('users/' + this.userId + this.foodPath + date_s + '/' + id);
     itemDoc.delete();
   }
 
   public deleteItemEvent(id: any, date: Date) {
     const date_s = formatDate(date, 'yyyyMMdd', 'en');
-    const itemDoc = this.afs.doc('users/'+ this.userId + this.eventPath + date_s + '/' + id);
+    const itemDoc = this.afs.doc('users/' + this.userId + this.eventPath + date_s + '/' + id);
     itemDoc.delete();
   }
- 
+
 
   public updateItem(oldid: any, data: any, oldDate: Date, newDate: Date) {
     const date_s = formatDate(oldDate, 'yyyyMMdd', 'en');
-    const itemDoc = this.afs.doc('users/'+ this.userId + this.foodPath + date_s + '/' + oldid);
+    const itemDoc = this.afs.doc('users/' + this.userId + this.foodPath + date_s + '/' + oldid);
 
     itemDoc.delete();
     this.logfood(data, newDate);
@@ -166,36 +166,36 @@ export class FsService {
   }
 
   public logfood(data: any, date: Date) {
-    var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/'+ this.userId + this.foodPath + date_s);
-    var id = this.afs.createId();
+    let date_s = formatDate(date, 'yyyyMMdd', 'en');
+    let dateCollection = this.afs.collection<User>('users/' + this.userId + this.foodPath + date_s);
+    let id = this.afs.createId();
 
-    var item = { ...data, 'id': id };
+    let item = { ...data, id: id };
     dateCollection.doc(id).set(item);
   }
 
   public logEvent(data: any, date: Date) {
-    var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + date_s);
-    var id = this.afs.createId();
+    let date_s = formatDate(date, 'yyyyMMdd', 'en');
+    let dateCollection = this.afs.collection<User>('users/' + this.userId + this.eventPath + date_s);
+    let id = this.afs.createId();
 
-    var item = { ...data, 'id': id };
+    let item = { ...data, id: id };
     dateCollection.doc(id).set(item);
   }
 
   public logAntiInflammatory(data: any, date: Date) {
-    var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.antiInflammatoryPath + date_s);
-    var id = this.afs.createId();
-    var item = { ...data, 'id': id };
+    let date_s = formatDate(date, 'yyyyMMdd', 'en');
+    let dateCollection = this.afs.collection<User>('users/' + this.userId + this.antiInflammatoryPath + date_s);
+    let id = this.afs.createId();
+    let item = { ...data, id: id };
     dateCollection.doc(id).set(item);
   }
 
   public logAlleviatingMeds(data: any, date: Date) {
-    var date_s = formatDate(date, 'yyyyMMdd', 'en');
-    var dateCollection = this.afs.collection<User>('users/' + this.userId + this.alleviatingPath + date_s);
-    var id = this.afs.createId();
-    var item = { ...data, 'id': id };
+    let date_s = formatDate(date, 'yyyyMMdd', 'en');
+    let dateCollection = this.afs.collection<User>('users/' + this.userId + this.alleviatingPath + date_s);
+    let id = this.afs.createId();
+    let item = { ...data, id: id };
     dateCollection.doc(id).set(item);
   }
 
@@ -212,7 +212,7 @@ export class FsService {
 
 
   public createNewRecipeList(data) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}` + this.recipePath);
     userRef.set(data, {
       merge: true
     });
@@ -220,44 +220,45 @@ export class FsService {
   }
 
   public getRecipes() {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}`+this.recipePath);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.userId}` + this.recipePath);
     return userRef.valueChanges();
   }
 
   public addRecipeToFood(recipe) {
-    var calorie = 0;
-    var protein = 0;
-    var sugar = 0;
-    var carb = 0;
-    var fat = 0;
+    console.log('recipe: ', recipe);
+    let calorie = 0;
+    let protein = 0;
+    let sugar = 0;
+    let carb = 0;
+    let fat = 0;
     recipe.intergredients.forEach((element) => {
-      calorie += element.amount * element.intergredient.nf_calories
-      protein += element.amount * element.intergredient.nf_protein
-      sugar += element.amount * element.intergredient.nf_sugars
-      carb += element.amount * element.intergredient.nf_total_carbohydrate
-      fat += element.amount * element.intergredient.nf_total_fat
+      calorie += element.amount * element.intergredient.nf_calories;
+      protein += element.amount * element.intergredient.nf_protein;
+      sugar += element.amount * element.intergredient.nf_sugars;
+      carb += element.amount * element.intergredient.nf_total_carbohydrate;
+      fat += element.amount * element.intergredient.nf_total_fat;
     });
-    if (recipe.photo != undefined) {
-      var photo = recipe.photo
+    let photo = null;
+    if (recipe.photo !== undefined) {
+      photo = recipe.photo;
     } else{
-      var photo = recipe.intergredients[0].intergredient.photo
+      photo = recipe.intergredients[0].intergredient.photo;
     }
-    var food = {...recipe, 
-    'isRecipe':true,
-    'nf_calories':calorie,
-    'nf_protein':protein,
-    'nf_sugars':sugar,
-    'nf_total_carbohydrate':carb,
-    'nf_total_fat':fat,
-    'photo':photo,
-    }
+    const food = {...recipe,
+    isRecipe : true,
+    nf_calories: calorie,
+    nf_protein: protein,
+    nf_sugars: sugar,
+    nf_total_carbohydrate: carb,
+    nf_total_fat: fat,
+    photo,
+    };
 
-    var food_list = []
-    food_list.push(food)
-    localStorage.setItem("recipe_food", JSON.stringify(food_list))
-    this.router.navigate(["/","logger","logfood"]);
+    const foodList = [food];
+    localStorage.setItem('recipe_food', JSON.stringify(foodList));
+    this.router.navigate(['/', 'logger', 'logfood']);
   }
 
- 
+
 
 }
