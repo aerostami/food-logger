@@ -159,7 +159,7 @@ export class LogfoodPage implements OnInit {
     // tslint:disable-next-line:prefer-const
     let barsFound = document.getElementById('barChart');
 
-    if (1){
+    if (barsFound){
         const bar = barsFound;
         console.log('bar', bar);
         this.bars = new Chart(bar, {
