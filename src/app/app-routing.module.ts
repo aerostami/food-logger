@@ -37,6 +37,10 @@ const routes: Routes = [
     loadChildren: () => import('./logger/page/SearchPages/barcode/barcode.module').then( m => m.BarcodePageModule)
   },
   {
+    path: 'logger/camera',
+    loadChildren: () => import('./logger/page/SearchPages/camera/camera.module').then( m => m.CameraPageModule)
+  },
+  {
     path: 'food-edit',
     loadChildren: () => import('./logger/page/logPages/food-edit/food-edit.module').then( m => m.FoodEditPageModule)
   },
@@ -79,6 +83,10 @@ const routes: Routes = [
   {
     path: 'SurveyLogger/survey-log',
     loadChildren: () => import('./SurveyLogger/survey-log/survey-log.module').then( m => m.SurveyLogPageModule)
+  },
+  {
+    path: 'camera',
+    loadChildren: () => import('./logger/page/SearchPages/camera/camera.module').then( m => m.CameraPageModule)
   },
 
   
