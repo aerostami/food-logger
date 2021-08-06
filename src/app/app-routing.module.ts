@@ -88,6 +88,10 @@ const routes: Routes = [
     path: 'camera',
     loadChildren: () => import('./logger/page/SearchPages/camera/camera.module').then( m => m.CameraPageModule)
   },
+  {
+    path: 'showresult',
+    loadChildren: () => import('./logger/page/SearchPages/showresult/showresult.module').then( m => m.ShowresultPageModule)
+  },
 
   
 
