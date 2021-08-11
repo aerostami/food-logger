@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding-top ion-padding-bottom">
 
   <img [src]="'data:image/jpeg;base64,'+image" class="picture" />
 
@@ -18,53 +18,110 @@
   </ion-list>
 
   <ion-grid>
-    <ion-row *ngIf="feature != 'FACE_DETECTION'">
-      <ion-col size="12" *ngFor="let item of result">
-        <ion-list *ngIf="feature == 'LABEL_DETECTION' && item.description">
-
-          <ion-item lines="none" *ngIf="item.description == result[0].description" class="ion-text-center">
-            <ion-label>You are looking at a / an</ion-label>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>{{ selected }}</ion-label>
+        <ion-radio-group (ionChange)="radioGroupChange($event)">
+          <ion-item *ngIf="result[0]">
+            <ion-label>{{ result[0].description }}</ion-label>
+            <ion-radio value=0 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[1]">
+            <ion-label>{{ result[1].description }}</ion-label>
+            <ion-radio value=1 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[2]">
+            <ion-label>{{ result[2].description }}</ion-label>
+            <ion-radio value=2 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[3]">
+            <ion-label>{{ result[3].description }}</ion-label>
+            <ion-radio value=3 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[4]">
+            <ion-label>{{ result[4].description }}</ion-label>
+            <ion-radio value=4 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[5]">
+            <ion-label>{{ result[5].description }}</ion-label>
+            <ion-radio value=5 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[6]">
+            <ion-label>{{ result[6].description }}</ion-label>
+            <ion-radio value=6 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[7]">
+            <ion-label>{{ result[7].description }}</ion-label>
+            <ion-radio value=7 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[8]">
+            <ion-label>{{ result[8].description }}</ion-label>
+            <ion-radio value=8 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[9]">
+            <ion-label>{{ result[9].description }}</ion-label>
+            <ion-radio value=9 ></ion-radio>
           </ion-item>
 
-          <ion-item lines="none" *ngIf="item.description == result[0].description" class="ion-text-center">
-            <ion-label>
-              <div class="ion-text-uppercase">
-                <p style="font-weight: bold; font-size: 20px; color: black;" absolute-drag>
-                  {{item.description}}</p>
-              </div>
-            </ion-label>
-          </ion-item>
+        </ion-radio-group>
 
-          <ion-item lines="none" *ngIf="item.description == result[0].description">
-            <div class="itemSection">I can say this with
-              <p style="font-weight: bold; font-size: 15px; padding-left:5px; padding-right:5px">
-                {{item.score * 100| number:'.2-2'}} %</p>confidence</div>
-          </ion-item>
 
-          <ion-item lines="full" *ngIf="result[1] && item.description == result[1].description">
-            <ion-label class="ion-text-center">
-              <div>
-                <p style="font-weight: bold; font-size: 15px;" absolute-drag>Here are some of my other
-                  predictions:</p>
-              </div>
-            </ion-label>
-          </ion-item>
+        <ion-button (click)="next()">Confirm</ion-button>
 
-          <ion-item lines="none" *ngIf="result[1] && item.description == result[1].description">
-          </ion-item>
-
-          <ion-item *ngIf="item.description != result[0].description">
-            <ion-label>Label</ion-label>{{item.description}}
-          </ion-item>
-
-          <ion-item lines="none" *ngIf="item.description != result[0].description">
-            <ion-label>Score</ion-label>{{item.score}}
-          </ion-item>
-
-        </ion-list>
       </ion-col>
+
     </ion-row>
   </ion-grid>
+
+<!--  -->
+<!--  <ion-grid>-->
+<!--    <ion-row *ngIf="feature != 'FACE_DETECTION'">-->
+<!--      <ion-col size="12" *ngFor="let item of result">-->
+<!--        <ion-list *ngIf="feature == 'LABEL_DETECTION' && item.description">-->
+
+<!--          <ion-item lines="none" *ngIf="item.description == result[0].description" class="ion-text-center">-->
+<!--            <ion-label>You are looking at a / an</ion-label>-->
+<!--          </ion-item>-->
+
+<!--          <ion-item lines="none" *ngIf="item.description == result[0].description" class="ion-text-center">-->
+<!--            <ion-label>-->
+<!--              <div class="ion-text-uppercase">-->
+<!--                <p style="font-weight: bold; font-size: 20px; color: black;" absolute-drag>-->
+<!--                  {{item.description}}</p>-->
+<!--              </div>-->
+<!--            </ion-label>-->
+<!--          </ion-item>-->
+
+<!--          <ion-item lines="none" *ngIf="item.description == result[0].description">-->
+<!--            <div class="itemSection">I can say this with-->
+<!--              <p style="font-weight: bold; font-size: 15px; padding-left:5px; padding-right:5px">-->
+<!--                {{item.score * 100| number:'.2-2'}} %</p>confidence</div>-->
+<!--          </ion-item>-->
+
+<!--          <ion-item lines="full" *ngIf="result[1] && item.description == result[1].description">-->
+<!--            <ion-label class="ion-text-center">-->
+<!--              <div>-->
+<!--                <p style="font-weight: bold; font-size: 15px;" absolute-drag>Here are some of my other-->
+<!--                  predictions:</p>-->
+<!--              </div>-->
+<!--            </ion-label>-->
+<!--          </ion-item>-->
+
+<!--          <ion-item lines="none" *ngIf="result[1] && item.description == result[1].description">-->
+<!--          </ion-item>-->
+
+<!--          <ion-item *ngIf="item.description != result[0].description">-->
+<!--            <ion-label>Label</ion-label>{{item.description}}-->
+<!--          </ion-item>-->
+
+<!--          <ion-item lines="none" *ngIf="item.description != result[0].description">-->
+<!--            <ion-label>Score</ion-label>{{item.score}}-->
+<!--          </ion-item>-->
+
+<!--        </ion-list>-->
+<!--      </ion-col>-->
+<!--    </ion-row>-->
+<!--  </ion-grid>-->
 
 
 </ion-content>

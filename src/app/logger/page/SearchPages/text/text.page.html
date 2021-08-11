@@ -26,11 +26,13 @@
         </ion-item>
         <div class="form-group">
 
-          <input (selectItem)="selectedItem($event)" [(ngModel)]="inputVar" placeholder="Search" id="typeahead-template" #newitem type="text" class="form-control" [ngbTypeahead]="search"
-                 [resultTemplate]="rt" [inputFormatter]="formatter" />
+            <input (selectItem)="selectedItem($event)" [(ngModel)]="inputVar" placeholder="Search" id="typeahead-template" type="text" class="form-control" [ngbTypeahead]="search"
+                   [resultTemplate]="rt" [inputFormatter]="formatter"/>
+            <input [(ngModel)]="inputVar"/>
                  
 
         </div>
+        <p>{{ inputVar }}</p>
 
 
       <ion-button (click)="next()" expand="block" full>Next</ion-button>

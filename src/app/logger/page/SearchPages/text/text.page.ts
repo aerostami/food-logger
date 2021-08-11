@@ -3,7 +3,8 @@ import { FsService } from '../../../service/fs.service';
 import {Observable, of} from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
 import { HttpRestService } from '../../../service/http-rest.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
 @Component({
   selector: 'app-text',
   templateUrl: './text.page.html',
@@ -20,20 +21,25 @@ export class TextPage implements OnInit {
   items = ["z", "zz", "zzz"];
   public selectedFood = [];
   public outdata = [];
-  public inputVar;
+  public inputVar = '';
 
 
   constructor(
     private fsService: FsService,
     private rest: HttpRestService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) {
+      this.route.queryParams.subscribe(params => {
+          if (params && params.image) {
+              this.inputVar = JSON.parse(params.image);
+              console.log(this.inputVar);
+          }});
 
   }
 
 
-  ngOnInit(): void {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.mode = localStorage.getItem('mode');
@@ -49,12 +55,11 @@ export class TextPage implements OnInit {
                     } else if (this.mode == 'recipe') {
                       this.outdata.push({...this.data})
                     }
-                    this.inputVar = ""
-                    
+                    this.inputVar = '';
                 });
 
   }
-  public next () {
+  public next() {
     if (this.mode == 'food') {
       localStorage.setItem('foods', JSON.stringify(this.outdata));
       this.router.navigate(["/","logger","logfood"]);

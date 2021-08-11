@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {HttpRestService} from '../../../service/http-rest.service';
 
 
 @Component({
@@ -9,10 +10,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ShowresultPage implements OnInit {
 
+  public selectIndex = 0;
+  public selected = 'Hello';
+
   image: any;
   result: any;
   feature: any;
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private rest: HttpRestService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -29,5 +33,24 @@ export class ShowresultPage implements OnInit {
       console.log(this.result);
     });
   }
+
+  radioGroupChange(event) {
+    this.selectIndex = parseInt(event.detail.value, 10);
+    this.selected = this.result[this.selectIndex].description;
+  }
+
+
+  public next() {
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        image: JSON.stringify(this.selected)
+      }
+    };
+
+    this.router.navigate(['logger/text'], navigationExtras);
+  }
+
+
 
 }
