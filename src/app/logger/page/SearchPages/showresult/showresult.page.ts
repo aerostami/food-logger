@@ -41,18 +41,6 @@ export class ShowresultPage implements OnInit {
     this.selected = this.result[this.selectIndex].description;
   }
 
-
-  // public next() {
-  //
-  //   const navigationExtras: NavigationExtras = {
-  //     queryParams: {
-  //       image: JSON.stringify(this.selected)
-  //     }
-  //   };
-  //
-  //   this.router.navigate(['logger/text'], navigationExtras);
-  // }
-
   next() {
     this.rest.getRestNutritionix().all('/v2/natural/').one('nutrients').post('', {
       query: this.selected
