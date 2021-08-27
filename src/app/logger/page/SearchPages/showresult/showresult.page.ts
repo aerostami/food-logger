@@ -13,6 +13,8 @@ export class ShowresultPage implements OnInit {
   public selectIndex = 0;
   public selected = 'Hello';
 
+  foods: any;
+
   image: any;
   result: any;
   feature: any;
@@ -40,15 +42,29 @@ export class ShowresultPage implements OnInit {
   }
 
 
-  public next() {
+  // public next() {
+  //
+  //   const navigationExtras: NavigationExtras = {
+  //     queryParams: {
+  //       image: JSON.stringify(this.selected)
+  //     }
+  //   };
+  //
+  //   this.router.navigate(['logger/text'], navigationExtras);
+  // }
 
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        image: JSON.stringify(this.selected)
+  next() {
+    this.rest.getRestNutritionix().all('/v2/natural/').one('nutrients').post('', {
+      query: this.selected
+    }).subscribe(response => {
+      this.foods = response.foods;
+        this.foods.forEach(food => {
+          this.router.navigate(["/","logger","logfood"]);
+        });
+        localStorage.setItem('foods', JSON.stringify(this.foods));
       }
-    };
+    );
 
-    this.router.navigate(['logger/text'], navigationExtras);
   }
 
 
