@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <access origin="*" />
+  
+  <feature name="Camera">
+    <param name="ios-package" value="CDVCamera"/>
+  </feature>
+
+  <feature name="Geolocation">
+    <param name="ios-package" value="CDVLocation"/>
+  </feature>
+
+  <feature name="GooglePlus">
+    <param name="ios-package" value="GooglePlus"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="NativeGeocoder">
+    <param name="ios-package" value="NativeGeocoder"/>
+  </feature>
+
+  <feature name="SpeechRecognition">
+    <param name="ios-package" value="SpeechRecognition"/>
+  </feature>
+
+  <feature name="BarcodeScanner">
+    <param name="ios-package" value="CDVBarcodeScanner"/>
+  </feature>
+
+  <feature name="Device">
+    <param name="ios-package" value="CDVDevice"/>
+  </feature>
+
+  
+</widget>
