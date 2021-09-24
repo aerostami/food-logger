@@ -25,7 +25,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
-
+import { Health } from '@ionic-native/health/ngx';
 
 
 @NgModule({
@@ -56,6 +56,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     BarcodeScanner,
     NativeGeocoder,
     Camera,
+    Health,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

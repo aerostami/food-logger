@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Need to update health data</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>Need to access health records</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Need to access health data</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>need to access microphone for food logging</string>
 	<key>NSMicrophoneUsageDescription</key>

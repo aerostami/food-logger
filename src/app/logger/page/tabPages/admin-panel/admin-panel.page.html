@@ -20,11 +20,11 @@
     </ion-item>
     <ion-item>
       <ion-label> Height</ion-label>
-      <ion-note slot='end' > {{ (user | async)?.userInfo.height  }}</ion-note>
+      <ion-note slot='end' > {{ heightResult ? heightResult : ((user | async)?.userInfo.height) }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label> Weight</ion-label>
-      <ion-note slot='end' > {{ (user | async)?.userInfo.weight  }}</ion-note>
+      <ion-note slot='end' > {{ weightResult ? weightResult : ((user | async)?.userInfo.weight) }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-label> Age</ion-label>
