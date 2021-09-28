@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PassioCamera} from '../../../../../../../../passio-plugin-test';
+// import { PassioCamera} from '../../../../../../../../passio-plugin-test';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router, NavigationExtras } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
