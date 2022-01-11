@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="camera"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Show Results</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top ion-padding-bottom">
+
+  <img [src]="'data:image/jpeg;base64,'+image" class="picture" />
+
+  <ion-list *ngIf="!result">
+    <ion-item lines="none">
+      <ion-label class="ion-text-center">Didn't find any related data</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-label>Please select a recognition result</ion-label>
+        <ion-radio-group (ionChange)="radioGroupChange($event)">
+          <ion-item *ngIf="result[0]">
+            <ion-label>{{ result[0].description }}</ion-label>
+            <ion-radio value=0 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[1]">
+            <ion-label>{{ result[1].description }}</ion-label>
+            <ion-radio value=1 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[2]">
+            <ion-label>{{ result[2].description }}</ion-label>
+            <ion-radio value=2 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[3]">
+            <ion-label>{{ result[3].description }}</ion-label>
+            <ion-radio value=3 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[4]">
+            <ion-label>{{ result[4].description }}</ion-label>
+            <ion-radio value=4 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[5]">
+            <ion-label>{{ result[5].description }}</ion-label>
+            <ion-radio value=5 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[6]">
+            <ion-label>{{ result[6].description }}</ion-label>
+            <ion-radio value=6 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[7]">
+            <ion-label>{{ result[7].description }}</ion-label>
+            <ion-radio value=7 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[8]">
+            <ion-label>{{ result[8].description }}</ion-label>
+            <ion-radio value=8 ></ion-radio>
+          </ion-item>
+          <ion-item *ngIf="result[9]">
+            <ion-label>{{ result[9].description }}</ion-label>
+            <ion-radio value=9 ></ion-radio>
+          </ion-item>
+
+        </ion-radio-group>
+
+
+        <ion-button (click)="next()">Confirm</ion-button>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

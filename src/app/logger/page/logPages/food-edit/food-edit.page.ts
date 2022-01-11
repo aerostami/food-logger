@@ -147,13 +147,13 @@ export class FoodEditPage implements OnInit {
   }
 
   public removePhoto(food){
-    this.photoService.deletePhoto(food.localPhoto);
+    this.photoService.deletePicture(food.localPhoto);
     food.localPhoto = "";
   }
 
   public takePicture(food: any){
     if(food.localPhoto){
-      this.photoService.deletePhoto(food.localPhoto);
+      this.photoService.deletePicture(food.localPhoto);
     }
     let photoname = this.photoService.addNewToGallery(food.tag_id);
     photoname.then( res => { food.localPhoto = res; console.log(food); } );

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/logger/home"></ion-back-button>
+    </ion-buttons>
+      <ion-title>camera</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list-header>
+    <ion-label>
+      {{ 'Camera page is only for IOS/Android user!' }}
+    </ion-label>
+  </ion-list-header>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="presentAlertConfirm()">
+      <ion-icon name="camera">
+      </ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-progress-bar type="indeterminate" reversed="true"></ion-progress-bar>
+</ion-content>
+
+
+
+
