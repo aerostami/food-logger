@@ -10,9 +10,5 @@
 	{
 		"pkg": "@capacitor/storage",
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
-	},
-	{
-		"pkg": "passio-plugin-test",
-		"classpath": "com.mycompany.plugins.passiotest.PassioCameraPlugin"
 	}
 ]

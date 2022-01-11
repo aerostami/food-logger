@@ -10,6 +10,3 @@ project(':capacitor-filesystem').projectDir = new File('../node_modules/@capacit
 
 include ':capacitor-storage'
 project(':capacitor-storage').projectDir = new File('../node_modules/@capacitor/storage/android')
-
-include ':passio-plugin-test'
-project(':passio-plugin-test').projectDir = new File('../../../passio-plugin-test/android')

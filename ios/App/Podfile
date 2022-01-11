@@ -9,10 +9,9 @@ install! 'cocoapods', :disable_input_output_paths => true
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
-  pod 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
-  pod 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
-  pod 'CapacitorStorage', :path => '../../node_modules/@capacitor/storage'
-  pod 'PassioPluginTest', :path => '../../../../passio-plugin-test'
+  pod 'CapacitorCamera', :path => '..\..\node_modules\@capacitor\camera'
+  pod 'CapacitorFilesystem', :path => '..\..\node_modules\@capacitor\filesystem'
+  pod 'CapacitorStorage', :path => '..\..\node_modules\@capacitor\storage'
   pod 'CordovaPlugins', :path => '../capacitor-cordova-ios-plugins'
   pod 'CordovaPluginsStatic', :path => '../capacitor-cordova-ios-plugins'
   pod 'CordovaPluginsResources', :path => '../capacitor-cordova-ios-plugins'

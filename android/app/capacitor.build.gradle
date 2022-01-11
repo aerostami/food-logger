@@ -12,8 +12,7 @@ dependencies {
     implementation project(':capacitor-camera')
     implementation project(':capacitor-filesystem')
     implementation project(':capacitor-storage')
-    implementation project(':passio-plugin-test')
-    implementation "com.android.support:support-v4:27.+"
+    implementation "androidx.core:core:1.6.+"
     implementation "com.google.android.gms:play-services-auth:15.0.1"
     implementation "com.google.android.gms:play-services-identity:15.0.1"
     implementation "com.google.android.gms:play-services-fitness:20.0.0"

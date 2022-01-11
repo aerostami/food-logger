@@ -1,13 +1,12 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyDwucONTRE7dMFwnuB_e4VKSuo9WFGcxDY",
-    authDomain: "food-logger-uci.firebaseapp.com",
-    databaseURL: "https://food-logger-uci.firebaseio.com",
-    projectId: "food-logger-uci",
-    storageBucket: "food-logger-uci.appspot.com",
-    messagingSenderId: "1055247824931",
-    appId: "1:1055247824931:web:19d981bc51c31630b95996",
-    measurementId: "G-4QSGBR4F37"
+      apiKey: "AIzaSyCe7HDdV6t09TyFIg1jONGcYdMjzjqEsQs",
+      authDomain: "cs-personicle-jain-1642.firebaseapp.com",
+      projectId: "cs-personicle-jain-1642",
+      storageBucket: "cs-personicle-jain-1642.appspot.com",
+      messagingSenderId: "710509254572",
+      appId: "1:710509254572:web:5d9197ebcdd2f5283d4c09",
+      measurementId: "G-KQ6TSBLW1Q"
   }
 };

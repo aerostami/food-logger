@@ -91,7 +91,11 @@ const routes: Routes = [
   {
     path: 'showresult',
     loadChildren: () => import('./logger/page/SearchPages/showresult/showresult.module').then( m => m.ShowresultPageModule)
+  },  {
+    path: 'health',
+    loadChildren: () => import('./logger/page/tabPages/health/health.module').then( m => m.HealthPageModule)
   },
+
 
   
 
