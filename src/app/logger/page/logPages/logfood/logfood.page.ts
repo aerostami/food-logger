@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import { FsService } from '../../../service/fs.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
 import {HomePage} from 'src/app/logger/page/tabPages/home/home.page';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-logfood',
@@ -47,7 +48,9 @@ export class LogfoodPage implements OnInit {
   private dateDate;
   private justSelectedAddress = true;
   public photos = this.photoService.photos;
-  
+  @ViewChild('barChart') barChart;
+  bars: any;
+
   constructor(
     private fsService: FsService,
     private router: Router,
@@ -116,10 +119,13 @@ export class LogfoodPage implements OnInit {
   }
 
   ngOnInit() {
-    this.mode = localStorage.getItem("mode")
-    if (this.mode == "food"){
+    this.mode = localStorage.getItem('mode');
+    // this.mode = console.log('mode*: ', this.mode);
+    console.log('mode: ', this.mode);
+    if (this.mode === "food"){
       this.foods = JSON.parse(localStorage.getItem("foods"));
-    } else if (this.mode = "recipe") {
+      // console.log('foods: ', this.foods);
+    } else if (this.mode === "recipe") {
       this.foods = JSON.parse(localStorage.getItem("recipe_food"));
     }
     this.myToastController = this.toastController;
@@ -139,12 +145,47 @@ export class LogfoodPage implements OnInit {
       this.logfoods[i].ratingEmoji = this.ratingEmoji;
       this.logfoods[i].ratingColor = this.ratingColor;
     }
+    this.createBarChart();
   }
 
   public removePhoto(food){
     this.photoService.deletePicture(food.localPhoto);
     food.localPhoto = "";
   }
+
+
+  createBarChart() {
+
+    // tslint:disable-next-line:prefer-const
+    let barsFound = document.getElementById('barChart');
+
+    if (barsFound){
+        const bar = barsFound;
+        console.log('bar', bar);
+        this.bars = new Chart(bar, {
+          type: 'pie',
+          data: {
+            labels: ['protein', 'sugar', 'carb', 'fat'],
+            datasets: [{
+              label: 'g',
+              data: [25, 20, 40, 15], // this.nutData,
+              backgroundColor: [
+                'rgb(212,77,57)',
+                'rgb(239,215,180)',
+                'rgb(230,174,122)', // (237,174,123), (231,123,77), 234,143,100
+                'rgb(57,123,151)'
+              ],
+            }]
+          },
+          options: {
+            legend: {
+              position: 'left',
+            }
+          }
+        });
+    }
+  }
+
 
   public takePicture(food: any){
     if(food.localPhoto){

@@ -22,7 +22,7 @@ export class RecipePage implements OnInit {
   ngOnInit() {
   }
   ionViewWillEnter() {
-    localStorage.setItem('mode', 'recipe')
+    localStorage.setItem('mode', 'recipe');
     var mode = localStorage.getItem('mode')
 
     this.recipes = this.fsService.getRecipes();
@@ -58,6 +58,7 @@ export class RecipePage implements OnInit {
       });
   }
   public async openAddRecipeToFoodModal(recipe){
+    console.log(recipe);
     const modal = await this.modalController.create({
       component: AddRecipeToFoodPage,
       componentProps: {
@@ -75,6 +76,7 @@ export class RecipePage implements OnInit {
     
   }
   public deleteRecipe(recipe_name){
+
     var recipe_list = JSON.parse(localStorage.getItem("recipes"));
     var i = 0;
     var remove_index = -1;
@@ -87,10 +89,12 @@ export class RecipePage implements OnInit {
     if (remove_index>-1){
       recipe_list.splice(remove_index, 1)
     }
-    this.fsService.createNewRecipeList({'recipes':recipe_list})
+    this.fsService.createNewRecipeList({'recipes':recipe_list});
   }
 
   public addRecipeToFood(recipe) {
+    localStorage.setItem('mode', 'recipe');
+    console.log('mode+: ', localStorage.getItem('mode'));
     this.fsService.addRecipeToFood(recipe);
   }
   

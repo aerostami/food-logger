@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>recipe</ion-title>
+    <ion-title>Recipes</ion-title>
     
   </ion-toolbar>
   <ion-toolbar>
@@ -10,13 +10,19 @@
 
 <ion-content>
 
-  
-
+  <ion-card>
+    <ion-list-header>
+      Your Recipes
+    </ion-list-header>
     <ion-list id="list">
       <ion-item-sliding *ngFor="let recipe of (recipes | async)?.recipes " style="margin-top: 20px;">
-  
+
+
           <ion-item >
-            <h3 (click)="openAddRecipeToFoodModal(recipe)">{{ recipe.food_name}}</h3>
+            <ion-label>
+              <span (click)="openAddRecipeToFoodModal(recipe)">{{ recipe.food_name}}</span>
+              <h3 *ngFor="let ing of recipe.intergredients">{{ing.intergredient.food_name}} </h3>
+            </ion-label>
             <ion-button slot="end" (click)="addRecipeToFood(recipe)">Add</ion-button>
           </ion-item>
           
@@ -36,9 +42,8 @@
         
       </ion-item-sliding>
       
-  
-      </ion-list>
-      
+    </ion-list>
+  </ion-card>
         <div *ngIf="recipeNum==0">
           <img style="display: block; margin: auto; width: 50%; padding-top: 40%;opacity: 95%;" src="../../../../assets/cookbook.png" alt=""/>
           <ion-label style="text-align: center;padding-top: 12px;display: block">

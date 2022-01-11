@@ -55,12 +55,13 @@ export class HomePage implements OnInit {
 
   public foodNum: number = 0;
   public eventNum: number;
+  private triedRefresh = 0;
   constructor(
       private fsService: FsService,
       private as: AuthService,
       private openModalService: OpenModalService,
   ) {
-    this.drawCharts();
+    // this.drawCharts();
     /*
     this.foods = this.fsService.getTodayFood();
     this.events = this.fsService.getTodayEvent();
@@ -85,9 +86,10 @@ export class HomePage implements OnInit {
   }
 
   async  addChartsDelayed(){
-    await new Promise(resolve => setTimeout(() => resolve(), 100000)).then( () => this.drawCharts());
+    await new Promise(resolve => setTimeout(() => resolve(), 1000)).then( () => this.drawCharts());
   }
   ngOnInit() {
+    this.triedRefresh = 0;
     this.drawCharts();
     // this.addChartsDelayed();
     // this.makeChart();
@@ -104,7 +106,12 @@ export class HomePage implements OnInit {
     // console.log(document.getElementById('barChart'));
 
     this.makeChart();
+    if (!document.getElementById('barChart') && (this.triedRefresh < 3 && (this.triedRefresh < 2 || this.foodNum !== 0))){
 
+      // console.log('trying....', document.getElementById('barChart').getBoundingClientRect().width);
+      this.triedRefresh += 1;
+      this.addChartsDelayed();
+    }
 
 
     // this.fsService.getUserInfo().subscribe((result)=>{
@@ -115,15 +122,32 @@ export class HomePage implements OnInit {
   }
   drawAlleMeds(){
     this.lastAlleviatingMedsService.subscribe(event => {
-      console.log('AlleMeds: ', event);
+      let mostRecent = null;
+      let mostRecentDate = 0;
       for ( let i = 0; i < event.length; i++) {
-        //this.lastAlleviatingMedsVal = event[i].level;
+        const theTime = this.fsService.convertTimeStampToDate(event[i].date).getHours() + this.fsService.convertTimeStampToDate(event[i].date).getMinutes() / 60 + this.fsService.convertTimeStampToDate(event[i].date).getSeconds() / (60 * 60);
+        if (theTime > mostRecentDate){
+          mostRecentDate = theTime;
+          mostRecent = event[i];
+
+        }
+        this.alleviatingMedsVal = mostRecent.level;
       }
 
     });
   }
   drawAntiflam(){
     this.lastAntiInflammatoryService.subscribe(event => {
+      let mostRecent = null;
+      let mostRecentDate = 0;
+      for ( let i = 0; i < event.length; i++) {
+        const theTime = this.fsService.convertTimeStampToDate(event[i].date).getHours() + this.fsService.convertTimeStampToDate(event[i].date).getMinutes() / 60 + this.fsService.convertTimeStampToDate(event[i].date).getSeconds() / (60 * 60);
+        if (theTime > mostRecentDate){
+          mostRecentDate = theTime;
+          mostRecent = event[i];
+        }
+        this.antiInflammatoryVal = mostRecent.level;
+      }
       this.drawAlleMeds();
     });
   }
