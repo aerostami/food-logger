@@ -1,9 +1,59 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>health</ion-title>
+    <ion-title>Health</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  Salam
+  <ion-item>
+    <ion-label stacked>Set Height</ion-label>
+    <ion-input type="text" [(ngModel)]="height" placeholder="My Height(cm):"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Current Height</ion-label>
+    <ion-input type="text" [(ngModel)]="CurrentHeight" readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Steps Last 24h</ion-label>
+    <ion-input type="text" [(ngModel)]="stepCount" readonly></ion-input>
+  </ion-item>
+
+  <ion-row>
+    <ion-col >
+      <ion-button expand="block" (click)="saveHeight()">
+        <ion-label>Set Height</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col >
+      <ion-button expand="block" (click)="saveWorkout()">
+        <ion-label>Set a Workout</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-list>
+    <ion-card *ngFor="let workout of workouts">
+      <ion-card-header> {{workout.calories}} </ion-card-header>
+      <ion-card-content>
+        <p> Activity: {{workout.activityType}}</p>
+        <p> Duration: {{workout.duration / 60}} min</p>
+        <p> Date: {{workout.startDate | date:'short'}}</p>
+        <p> Distance: {{workout.miles}} miles</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-row style="height: 10vh">
+    <ion-col>
+      <canvas id = "doughnutChart"></canvas>
+      <ion-text>
+        Steps
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
 </ion-content>

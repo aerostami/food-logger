@@ -8,7 +8,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 
 import java.util.ArrayList;
 
-import com.mycompany.plugins.passiotest.PassioCameraPlugin;
+// import com.mycompany.plugins.passiotest.PassioCameraPlugin;
 
 
 public class MainActivity extends BridgeActivity {
@@ -16,6 +16,6 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    registerPlugin(PassioCameraPlugin.class);
+//    registerPlugin(PassioCameraPlugin.class);
   }
 }

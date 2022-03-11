@@ -106,11 +106,12 @@ export class HomePage implements OnInit {
     // console.log(document.getElementById('barChart'));
 
     this.makeChart();
-    if (!document.getElementById('barChart') && (this.triedRefresh < 3 && (this.triedRefresh < 2 || this.foodNum !== 0))){
+    if (!document.getElementById('barChart') && (this.triedRefresh < 2 && (this.triedRefresh < 1 || this.foodNum !== 0))){
 
       // console.log('trying....', document.getElementById('barChart').getBoundingClientRect().width);
       this.triedRefresh += 1;
       this.addChartsDelayed();
+
     }
 
 
@@ -228,6 +229,7 @@ export class HomePage implements OnInit {
 
   }
   public makeChart() {
+
     this.foods.subscribe(event => {
       let times = [];
       this.foodNum = event.length;
@@ -715,7 +717,6 @@ export class HomePage implements OnInit {
 
 
   createBarChart() {
-
     var bar = document.getElementById('barChart');
     this.bars = new Chart(bar, {
       type: 'pie',

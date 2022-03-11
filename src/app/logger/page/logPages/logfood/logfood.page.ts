@@ -12,6 +12,7 @@ import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@io
 import { MapboxServiceService, Feature } from '../../../../services/mapbox-service.service';
 import {HomePage} from 'src/app/logger/page/tabPages/home/home.page';
 import { Chart } from 'chart.js';
+// import { IonAccordionGroup } from '@ionic/angular';
 
 @Component({
   selector: 'app-logfood',
@@ -20,7 +21,7 @@ import { Chart } from 'chart.js';
   providers: [HomePage],
 })
 export class LogfoodPage implements OnInit {
-
+  // @ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
   public amount: number = 2;
   public enjoyment: number = 3;
   public ratingEmoji: string;
@@ -145,7 +146,7 @@ export class LogfoodPage implements OnInit {
       this.logfoods[i].ratingEmoji = this.ratingEmoji;
       this.logfoods[i].ratingColor = this.ratingColor;
     }
-    this.createBarChart();
+    // this.createBarChart();
   }
 
   public removePhoto(food){
@@ -252,7 +253,6 @@ export class LogfoodPage implements OnInit {
       f.ratingEmoji="heart";
       f.ratingColor="#00bd09";
     }
-
   }
 
   async startToast(){

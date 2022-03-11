@@ -28,3 +28,29 @@
 @import "~bootstrap/scss/bootstrap";
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+@font-face {
+  font-family: 'Larsseit';
+  font-style: normal;
+  font-weight: normal;
+  src: url('assets/fonts/Larsseit/Larsseit.ttf');
+}
+@font-face {
+  font-family: 'Larsseit';
+  font-style: normal;
+  font-weight: bold;
+  src: url('assets/fonts/Larsseit/Larsseit-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Larsseit';
+  font-style: italic;
+  font-weight: normal;
+  src: url('assets/fonts/Larsseit/Larsseit-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'Larsseit';
+  font-style: italic;
+  font-weight: bold;
+  src: url('assets/fonts/Larsseit/Larsseit-BoldItalic.ttf');
+}
